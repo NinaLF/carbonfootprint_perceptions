@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+<meta name="date" content="2023-11-29" />
+
+<title>Policy scale</title>
+
+<script src="site_libs/header-attrs-2.21/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/lumen.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Documentation of pilot test analysis</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">index</a>
+</li>
+<li>
+  <a href="carbon-footprint-analysis.html">carbon footprint analysis</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Policy scale</h1>
+<h4 class="date">2023-11-29</h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#policy-support" id="toc-policy-support">Policy support</a>
+<ul>
+<li><a href="#alpha" id="toc-alpha">Alpha</a></li>
+<li><a href="#omega" id="toc-omega">Omega</a></li>
+<li><a href="#correlation-plot" id="toc-correlation-plot">Correlation
+plot</a></li>
+<li><a href="#efa" id="toc-efa">EFA</a></li>
+<li><a href="#cfa" id="toc-cfa">CFA</a></li>
+</ul></li>
+</ul>
+</div>
+
+<div id="policy-support" class="section level2">
+<h2>Policy support</h2>
+<p><img src="Policy-scale-info_files/figure-html/plot.policy-1.png" width="1536" style="display: block; margin: auto;" /><img src="Policy-scale-info_files/figure-html/plot.policy-2.png" width="1536" style="display: block; margin: auto;" /></p>
+<pre><code>## $x
+## [1] &quot;policies&quot;
+## 
+## $y
+## [1] &quot;Mean support&quot;
+## 
+## $fill
+## NULL
+## 
+## attr(,&quot;class&quot;)
+## [1] &quot;labels&quot;</code></pre>
+<div id="alpha" class="section level3">
+<h3>Alpha</h3>
+<pre><code>## 
+## Reliability analysis   
+## Call: psych::alpha(x = data[c(&quot;policy_item1&quot;, &quot;policy_item11&quot;, &quot;policy_item3&quot;, 
+##     &quot;policy_item5&quot;, &quot;policy_item8&quot;, &quot;policy_item12&quot;, &quot;policy_item2&quot;, 
+##     &quot;policy_item4&quot;, &quot;policy_item6&quot;, &quot;policy_item7&quot;)])
+## 
+##   raw_alpha std.alpha G6(smc) average_r S/N   ase mean  sd median_r
+##       0.87      0.86    0.89      0.39 6.3 0.013  4.3 1.2     0.36
+## 
+##     95% confidence boundaries 
+##          lower alpha upper
+## Feldt     0.84  0.87  0.89
+## Duhachek  0.84  0.87  0.89
+## 
+##  Reliability if an item is dropped:
+##               raw_alpha std.alpha G6(smc) average_r S/N alpha se var.r med.r
+## policy_item1       0.87      0.87    0.89      0.42 6.6    0.013 0.021  0.40
+## policy_item11      0.86      0.86    0.88      0.41 6.2    0.014 0.022  0.38
+## policy_item3       0.85      0.85    0.87      0.38 5.5    0.015 0.027  0.35
+## policy_item5       0.86      0.85    0.88      0.39 5.7    0.014 0.026  0.36
+## policy_item8       0.86      0.85    0.87      0.39 5.7    0.014 0.026  0.36
+## policy_item12      0.84      0.84    0.86      0.37 5.3    0.016 0.021  0.36
+## policy_item2       0.85      0.84    0.87      0.38 5.4    0.016 0.023  0.36
+## policy_item4       0.85      0.85    0.87      0.38 5.5    0.016 0.021  0.36
+## policy_item6       0.86      0.85    0.87      0.40 5.9    0.015 0.020  0.36
+## policy_item7       0.84      0.84    0.87      0.37 5.3    0.016 0.020  0.36
+## 
+##  Item statistics 
+##                 n raw.r std.r r.cor r.drop mean  sd
+## policy_item1  200  0.44  0.49  0.39   0.35  6.0 1.2
+## policy_item11 200  0.54  0.57  0.52   0.44  5.5 1.4
+## policy_item3  200  0.70  0.71  0.67   0.61  4.6 1.7
+## policy_item5  200  0.64  0.67  0.62   0.56  5.7 1.5
+## policy_item8  200  0.65  0.66  0.63   0.55  4.9 1.9
+## policy_item12 200  0.78  0.75  0.74   0.70  3.8 2.0
+## policy_item2  200  0.75  0.74  0.71   0.67  3.4 1.9
+## policy_item4  200  0.74  0.72  0.69   0.65  3.6 2.0
+## policy_item6  200  0.65  0.63  0.59   0.55  2.5 1.7
+## policy_item7  200  0.80  0.77  0.76   0.72  3.0 2.0
+## 
+## Non missing response frequency for each item
+##                  1    2    3    4    5    6    7 miss
+## policy_item1  0.00 0.00 0.04 0.09 0.14 0.25 0.47    0
+## policy_item11 0.02 0.03 0.04 0.13 0.20 0.26 0.32    0
+## policy_item3  0.07 0.06 0.06 0.20 0.28 0.20 0.12    0
+## policy_item5  0.02 0.04 0.04 0.07 0.18 0.28 0.37    0
+## policy_item8  0.09 0.07 0.06 0.12 0.20 0.23 0.23    0
+## policy_item12 0.20 0.11 0.14 0.18 0.15 0.12 0.10    0
+## policy_item2  0.23 0.14 0.16 0.16 0.16 0.08 0.07    0
+## policy_item4  0.21 0.16 0.12 0.15 0.17 0.09 0.11    0
+## policy_item6  0.42 0.16 0.12 0.16 0.08 0.04 0.03    0
+## policy_item7  0.36 0.16 0.11 0.10 0.13 0.05 0.09    0</code></pre>
+</div>
+<div id="omega" class="section level3">
+<h3>Omega</h3>
+<pre><code>## Omega_h for 1 factor is not meaningful, just omega_t</code></pre>
+<pre><code>## Omega 
+## Call: omegah(m = m, nfactors = nfactors, fm = fm, key = key, flip = flip, 
+##     digits = digits, title = title, sl = sl, labels = labels, 
+##     plot = plot, n.obs = n.obs, rotate = rotate, Phi = Phi, option = option, 
+##     covar = covar)
+## Alpha:                 0.86 
+## G.6:                   0.89 
+## Omega Hierarchical:    0.86 
+## Omega H asymptotic:    1 
+## Omega Total            0.87 
+## 
+## Schmid Leiman Factor loadings greater than  0.2 
+##                               g  F1*   h2   u2 p2
+## expand.public_transport    0.37      0.14 0.86  1
+## ban.conv_cars              0.73      0.53 0.47  1
+## subsidy.flying_alternative 0.66      0.43 0.57  1
+## taxes.flying               0.71      0.51 0.49  1
+## subsidy.renwable_energy    0.59      0.35 0.65  1
+## cost.electricity_peak      0.60      0.36 0.64  1
+## taxes.meat                 0.78      0.61 0.39  1
+## subsidy.low_emission_food  0.58      0.34 0.66  1
+## subsidy.regional_food      0.46      0.22 0.78  1
+## taxes.non_regional_food    0.76      0.57 0.43  1
+## 
+## With Sums of squares  of:
+##   g F1* 
+##   4   0 
+## 
+## general/max  2.423738e+16   max/min =   1
+## mean percent general =  1    with sd =  0 and cv of  0 
+## Explained Common Variance of the general factor =  1 
+## 
+## The degrees of freedom are 35  and the fit is  1.27 
+## The number of observations was  200  with Chi Square =  246.32  with prob &lt;  1.4e-33
+## The root mean square of the residuals is  0.11 
+## The df corrected root mean square of the residuals is  0.13
+## RMSEA index =  0.174  and the 10 % confidence intervals are  0.154 0.195
+## BIC =  60.88
+## 
+## Compare this with the adequacy of just a general factor and no group factors
+## The degrees of freedom for just the general factor are 35  and the fit is  1.27 
+## The number of observations was  200  with Chi Square =  246.32  with prob &lt;  1.4e-33
+## The root mean square of the residuals is  0.11 
+## The df corrected root mean square of the residuals is  0.13 
+## 
+## RMSEA index =  0.174  and the 10 % confidence intervals are  0.154 0.195
+## BIC =  60.88 
+## 
+## Measures of factor score adequacy             
+##                                                  g F1*
+## Correlation of scores with factors            0.94   0
+## Multiple R square of scores with factors      0.89   0
+## Minimum correlation of factor score estimates 0.77  -1
+## 
+##  Total, General and Subset omega for each subset
+##                                                  g  F1*
+## Omega total for total scores and subscales    0.87 0.86
+## Omega general for total scores and subscales  0.86 0.86
+## Omega group for total scores and subscales    0.00 0.00</code></pre>
+<pre><code>## 
+## Three factors are required for identification -- general factor loadings set to be equal. 
+## Proceed with caution. 
+## Think about redoing the analysis with alternative values of the &#39;option&#39; setting.</code></pre>
+<p><img src="Policy-scale-info_files/figure-html/omega-1.png" width="1536" style="display: block; margin: auto;" /></p>
+<pre><code>## Omega 
+## Call: omegah(m = m, nfactors = nfactors, fm = fm, key = key, flip = flip, 
+##     digits = digits, title = title, sl = sl, labels = labels, 
+##     plot = plot, n.obs = n.obs, rotate = rotate, Phi = Phi, option = option, 
+##     covar = covar)
+## Alpha:                 0.86 
+## G.6:                   0.89 
+## Omega Hierarchical:    0.62 
+## Omega H asymptotic:    0.7 
+## Omega Total            0.89 
+## 
+## Schmid Leiman Factor loadings greater than  0.2 
+##                               g   F1*   F2*   h2   u2   p2
+## expand.public_transport    0.33        0.29 0.19 0.81 0.57
+## ban.conv_cars              0.58  0.47       0.56 0.44 0.59
+## subsidy.flying_alternative 0.57        0.36 0.48 0.52 0.67
+## taxes.flying               0.57  0.46       0.53 0.47 0.60
+## subsidy.renwable_energy    0.54        0.46 0.51 0.49 0.58
+## cost.electricity_peak      0.47  0.52       0.50 0.50 0.44
+## taxes.meat                 0.62  0.58       0.72 0.28 0.54
+## subsidy.low_emission_food  0.54        0.48 0.53 0.47 0.56
+## subsidy.regional_food      0.46        0.50 0.47 0.53 0.45
+## taxes.non_regional_food    0.60  0.53       0.64 0.36 0.56
+## 
+## With Sums of squares  of:
+##    g  F1*  F2* 
+## 2.86 1.36 0.92 
+## 
+## general/max  2.1   max/min =   1.47
+## mean percent general =  0.56    with sd =  0.07 and cv of  0.12 
+## Explained Common Variance of the general factor =  0.56 
+## 
+## The degrees of freedom are 26  and the fit is  0.57 
+## The number of observations was  200  with Chi Square =  110.14  with prob &lt;  2.5e-12
+## The root mean square of the residuals is  0.05 
+## The df corrected root mean square of the residuals is  0.07
+## RMSEA index =  0.127  and the 10 % confidence intervals are  0.103 0.153
+## BIC =  -27.61
+## 
+## Compare this with the adequacy of just a general factor and no group factors
+## The degrees of freedom for just the general factor are 35  and the fit is  1.59 
+## The number of observations was  200  with Chi Square =  309.18  with prob &lt;  1.3e-45
+## The root mean square of the residuals is  0.16 
+## The df corrected root mean square of the residuals is  0.19 
+## 
+## RMSEA index =  0.198  and the 10 % confidence intervals are  0.178 0.219
+## BIC =  123.74 
+## 
+## Measures of factor score adequacy             
+##                                                  g  F1*   F2*
+## Correlation of scores with factors            0.79 0.71  0.67
+## Multiple R square of scores with factors      0.63 0.51  0.45
+## Minimum correlation of factor score estimates 0.26 0.01 -0.09
+## 
+##  Total, General and Subset omega for each subset
+##                                                  g  F1*  F2*
+## Omega total for total scores and subscales    0.89 0.88 0.78
+## Omega general for total scores and subscales  0.62 0.48 0.45
+## Omega group for total scores and subscales    0.24 0.39 0.33</code></pre>
+</div>
+<div id="correlation-plot" class="section level3">
+<h3>Correlation plot</h3>
+<p><img src="Policy-scale-info_files/figure-html/cor-1.png" width="1536" style="display: block; margin: auto;" /></p>
+</div>
+<div id="efa" class="section level3">
+<h3>EFA</h3>
+<p><img src="Policy-scale-info_files/figure-html/unnamed-chunk-1-1.png" width="1536" style="display: block; margin: auto;" /></p>
+<pre><code>## 
+## Call:
+## factanal(x = corr, factors = Nfacs, rotation = &quot;varimax&quot;)
+## 
+## Uniquenesses:
+##    expand.public_transport              ban.conv_cars 
+##                       0.81                       0.45 
+## subsidy.flying_alternative               taxes.flying 
+##                       0.53                       0.45 
+##    subsidy.renwable_energy      cost.electricity_peak 
+##                       0.51                       0.48 
+##                 taxes.meat  subsidy.low_emission_food 
+##                       0.28                       0.45 
+##      subsidy.regional_food    taxes.non_regional_food 
+##                       0.52                       0.36 
+## 
+## Loadings:
+##                            Factor1 Factor2
+## ban.conv_cars              0.69           
+## taxes.flying               0.68           
+## cost.electricity_peak      0.72           
+## taxes.meat                 0.81           
+## taxes.non_regional_food    0.75           
+## subsidy.flying_alternative 0.38    0.57   
+## subsidy.renwable_energy            0.66   
+## subsidy.low_emission_food          0.70   
+## subsidy.regional_food              0.69   
+## expand.public_transport            0.41   
+## 
+##                Factor1 Factor2
+## SS loadings       2.94    2.20
+## Proportion Var    0.29    0.22
+## Cumulative Var    0.29    0.51
+## 
+## Test of the hypothesis that 2 factors are sufficient.
+## The chi square statistic is 109.64 on 26 degrees of freedom.
+## The p-value is 3.04e-12</code></pre>
+<p><img src="Policy-scale-info_files/figure-html/unnamed-chunk-1-2.png" width="1536" style="display: block; margin: auto;" /></p>
+</div>
+<div id="cfa" class="section level3">
+<h3>CFA</h3>
+<pre><code>##                            expand.public_transport ban.conv_cars
+## expand.public_transport                  1.5275377     0.6977889
+## ban.conv_cars                            0.6977889     3.6232161
+## subsidy.flying_alternative               0.7301005     1.4750251
+## taxes.flying                             0.3126131     2.0752261
+## subsidy.renwable_energy                  0.6350754     1.1842211
+## cost.electricity_peak                    0.3872362     1.7056281
+## taxes.meat                               0.5627136     2.4013065
+## subsidy.low_emission_food                0.5566834     1.0575879
+## subsidy.regional_food                    0.5581407     0.5275879
+## taxes.non_regional_food                  0.4146734     2.1187940
+##                            subsidy.flying_alternative taxes.flying
+## expand.public_transport                     0.7301005    0.3126131
+## ban.conv_cars                               1.4750251    2.0752261
+## subsidy.flying_alternative                  2.7627889    1.6882161
+## taxes.flying                                1.6882161    4.0090201
+## subsidy.renwable_energy                     1.3517085    0.9322111
+## cost.electricity_peak                       0.7519095    1.3360302
+## taxes.meat                                  1.4235678    2.5588442
+## subsidy.low_emission_food                   1.3476884    1.3583417
+## subsidy.regional_food                       0.8592211    0.7450503
+## taxes.non_regional_food                     1.3113568    2.5730653
+##                            subsidy.renwable_energy cost.electricity_peak
+## expand.public_transport                  0.6350754             0.3872362
+## ban.conv_cars                            1.1842211             1.7056281
+## subsidy.flying_alternative               1.3517085             0.7519095
+## taxes.flying                             0.9322111             1.3360302
+## subsidy.renwable_energy                  2.1446231             0.5721608
+## cost.electricity_peak                    0.5721608             2.8232161
+## taxes.meat                               1.0270352             2.1661307
+## subsidy.low_emission_food                1.4280402             0.9480402
+## subsidy.regional_food                    0.8501005             0.1974372
+## taxes.non_regional_food                  0.9352764             1.9368844
+##                            taxes.meat subsidy.low_emission_food
+## expand.public_transport     0.5627136                 0.5566834
+## ban.conv_cars               2.4013065                 1.0575879
+## subsidy.flying_alternative  1.4235678                 1.3476884
+## taxes.flying                2.5588442                 1.3583417
+## subsidy.renwable_energy     1.0270352                 1.4280402
+## cost.electricity_peak       2.1661307                 0.9480402
+## taxes.meat                  4.1305528                 1.4210050
+## subsidy.low_emission_food   1.4210050                 3.5556784
+## subsidy.regional_food       0.7742211                 1.6269849
+## taxes.non_regional_food     2.6106533                 1.2448241
+##                            subsidy.regional_food taxes.non_regional_food
+## expand.public_transport                0.5581407               0.4146734
+## ban.conv_cars                          0.5275879               2.1187940
+## subsidy.flying_alternative             0.8592211               1.3113568
+## taxes.flying                           0.7450503               2.5730653
+## subsidy.renwable_energy                0.8501005               0.9352764
+## cost.electricity_peak                  0.1974372               1.9368844
+## taxes.meat                             0.7742211               2.6106533
+## subsidy.low_emission_food              1.6269849               1.2448241
+## subsidy.regional_food                  2.0992714               1.0084422
+## taxes.non_regional_food                1.0084422               3.8416080</code></pre>
+<pre><code>## 
+## Model Test User Model:
+## 
+##   Test statistic                                52.257
+##   Degrees of freedom                                34
+##   P-value                                        0.023
+## 
+## User Model versus Baseline Model:
+## 
+##   Comparative Fit Index (CFI)                    0.987
+##   Bentler-Bonett Normed Fit Index (NFI)          0.965
+## 
+## Root Mean Square Error of Approximation:
+## 
+##   RMSEA                                          0.052</code></pre>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
