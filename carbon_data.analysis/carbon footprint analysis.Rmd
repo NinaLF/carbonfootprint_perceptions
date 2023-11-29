@@ -685,7 +685,8 @@ plot_models(model.weight.flying, model.weight.diet, model.weight.elec, model.wei
 
 
 
-## H4 Impact perceptions (=regression weights) predicting policy {.tabset}
+## H4 Impact perceptions (=regression weights) predicting policy  {.tabset}
+
 *We expect that climate policy support for specific consumer behaviors is influenced by the perceived impact of those behaviors on the size of carbon footprints. Specifically, we expect that individuals with higher (versus lower) impact perceptions of a behavior are more supportive of policies targeting that behavior. *
 
 ### Policy affecting air traffic
@@ -867,7 +868,7 @@ model.policy.recycle.2 <- lm(policy.recycle ~ weight   + behavior +
 tab_model(model.policy.recycle.2)
 ```
 
-## Plot
+### Plot
 ```{r,  echo=FALSE, message=FALSE, fig.width=20, fig.height=16}
 plot_models(model.policy.meat.2, model.policy.flying.2, model.policy.elec.2, model.policy.car.2 ,dot.size = 5, line.size=1.2, show.p = TRUE, p.shape=TRUE, p.threshold = c(0.05, 0.01) )  +
   scale_color_viridis_d() + theme_minimal()+
