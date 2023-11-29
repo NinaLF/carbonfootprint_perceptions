@@ -118,7 +118,7 @@ data.perceptions.total$recycling <- factor(data.perceptions.total$recycling,
 
 
 ### Climate change concern
-```{r plot.ccc, echo=FALSE, message=FALSE}
+```{r plot.ccc,   message=FALSE}
 
 ## cc concern
 
@@ -144,7 +144,7 @@ tapply(data$cc_concern.mean, data$conservative_liberal.binary, mean)
 
 ### Policy support
 Alpha= 0.87
-```{r plot.policy, echo=FALSE, message=FALSE}
+```{r plot.policy,   message=FALSE}
 ## visualizing
 data.policies.long2 <- data.policies.long %>% filter(!policy2=="expand recycling") %>% filter(!policy2=="taxes non-recylabes")
 ggplot(data.policies.long2,aes( x=policy2, fill=support.f), group=type) +
@@ -586,7 +586,7 @@ model.behavior.accuracy1.reg <- lm(footprint.regional ~  cc_concern.mean+ conser
 ```
 
 **Overall plot**
-```{r   echo=FALSE, message=FALSE, fig.width=25, fig.height=16}
+```{r     message=FALSE, fig.width=25, fig.height=16}
 plot_models( model.behavior.accuracy1.car, model.behavior.accuracy1.fly, model.behavior.accuracy1.diet,model.behavior.accuracy1.elec , model.behavior.accuracy1.reg, dot.size = 5, line.size=1.2, show.p = TRUE, p.shape=TRUE, p.threshold = c(0.05, 0.05/6), rm.terms=c("income [18.000£ to 23.000£, 23.001£ to 30.500£, 0.501£ to 45.000£]","education [Further education, Higher education (Bachelor, Master, PhD)]") ) +
   scale_color_viridis_d() + theme_minimal()+
    theme(plot.caption = element_text(hjust = 0),
@@ -742,7 +742,7 @@ model.weight.recycle <- lm(recycling.weight ~footprint +
 ```
 
 **Overview plot**
-```{r plot.weights,  echo=FALSE, message=FALSE, fig.width=25, fig.height=16}
+```{r plot.weights,    message=FALSE, fig.width=25, fig.height=16}
 
 
 plot_models(model.weight.flying, model.weight.diet, model.weight.elec, model.weight.transport,  model.weight.regional ,dot.size = 5, line.size=1.2, show.p = TRUE, p.shape=TRUE, p.threshold = c(0.05, 0.05/6) ) +
@@ -846,7 +846,7 @@ model.policy.recycle<- lm(policy.recycle ~ weight +
 **Overview plot**
 
 
-```{r p1,  echo=FALSE, message=FALSE, fig.width=25, fig.height=16}
+```{r p1,    message=FALSE, fig.width=25, fig.height=16}
 plot_models(model.policy.meat, model.policy.flying, model.policy.elec, model.policy.car,  model.policy.recycle, model.policy.regional ,dot.size = 5, line.size=1.2, show.p = TRUE, p.shape=TRUE, p.threshold = c(0.05, 0.05/6) )  +
   scale_color_viridis_d() +  theme_minimal()+
    theme(plot.caption = element_text(hjust = 0),
@@ -947,7 +947,7 @@ model.policy.recycle.2 <- lm(policy.recycle ~ weight   + behavior +
 **Overview plot**  
 
 
-```{r p2,  echo=FALSE, message=FALSE, fig.width=20, fig.height=16}
+```{r p2,    message=FALSE, fig.width=20, fig.height=16}
 plot_models(model.policy.meat.2, model.policy.flying.2, model.policy.elec.2, model.policy.car.2 ,dot.size = 5, line.size=1.2, show.p = TRUE, p.shape=TRUE, p.threshold = c(0.05, 0.01) )  +
   scale_color_viridis_d() + theme_minimal()+
    theme(plot.caption = element_text(hjust = 0),
