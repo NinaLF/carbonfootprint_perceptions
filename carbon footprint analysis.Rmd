@@ -572,31 +572,31 @@ plot_models( model.behavior.accuracy1.car, model.behavior.accuracy1.fly, model.b
 ```
 
 
-#### car
+### car
 ```{r}
 tab_model(model.behavior.accuracy1.car)
 
 ```
 
-#### flying
+### flying
 ```{r}
 tab_model(model.behavior.accuracy1.fly)
 
 ```
 
-#### diet
+### diet
 ```{r}
 tab_model(model.behavior.accuracy1.diet)
 
 ```
 
-#### electricity
+### electricity
 ```{r}
 tab_model(model.behavior.accuracy1.elec)
 
 ```
 
-#### regional
+### regional
 ```{r}
 tab_model(model.behavior.accuracy1.reg)
 
@@ -646,10 +646,10 @@ tab_model(model.weight.diet.fact)
 
 ### Electricity
 ```{r}
-model.weight.diet.fact <- lm(electricity.weight ~  footprint.electricity_fact +
+model.weight.elec.fact <- lm(electricity.weight ~  footprint.electricity_fact +
                          gender + age + income + education + cc_concern.mean,
                        data=data.regression.weights)
-tab_model(model.weight.diet.fact)
+tab_model(model.weight.elec.fact)
 ```
 
 ### Regional
