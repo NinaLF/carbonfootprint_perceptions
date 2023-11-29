@@ -225,7 +225,9 @@ model.matrix(~0+., data=corr.behaviors.fact) %>%
   ggcorrplot(show.diag=FALSE, type="lower", lab=TRUE, lab_size=2)
 
 ```
+
 ### Perceived impact
+
 ```{r}
 data.regression.weights.long <-  pivot_longer(data.regression.weights,flying.weight:recycling.weight, names_to = "behavior", values_to = "regression.weight" )
 
@@ -273,9 +275,6 @@ and have a conventional electricity supply (or dont know): `r paste0(data.behavi
 *We will explore the accuracy of perceptions of the impact of different behaviors and domains on carbon footprints. Specifically, we expect that individuals will underestimate the effect of higher impact behavior (flying, diet, electricity supply) and underestimate the effect of relatively less impactful behaviors (recycling, public transport, imported foods) *
 *We assume that the impact of behaviors and their domain has an impact on participants’ estimations of the size of carbon footprints. We specifically expect that high impact behaviors have a stronger weight on impact estimations compared to low impact behaviors. *
 
-**Effect of high versus low impact behaviors ** 
-
-
 ```{r}
 data.perceptions.total.long <- data.perceptions.total
 data.perceptions.total.long$diet <-(as.numeric(data.perceptions.total.long$diet)-1)
@@ -312,19 +311,21 @@ model.perceptions.long.impact2 <- lmer(rating ~   high.impact + low.impact+  #ho
                           data=data.perceptions.total.long1)
 ```
 
-### Model
+### Effect of high versus low impact behaviors 
+=>**The amount of low imoact carbon-intensive behaviors** more strongly affects the perceived size of carbon footprints than the amount of **high impact** carbon-intensive behaviors
+
 ```{r}
 tab_model(model.perceptions.long.impact)
 
 ```
 
-### Model 2
+### Effect of high versus low impact behaviors  2
 ```{r}
 tab_model(model.perceptions.long.impact2)
 
 ```
 
-### Plot
+### Effect of high versus low impact behaviors Plot
 ```{r, message=FALSE, echo=FALSE}
 p1 <- plot_model(model.perceptions.long.impact, type="emm" , terms=c("high.impact")) + ylim(1,10)
 p2 <- plot_model(model.perceptions.long.impact, type="emm" , terms=c("low.impact")) + ylim(1,10)
@@ -332,14 +333,14 @@ p1 + p2
 ```
 
 ### Plot2
+=> For high impact behaviors: if two or three (out of three) high impact behaviors are carbon intensive, this is associated with higher carbon footprint perceptions than when none of the high impact behaviors are carbon intensive   
+=> For low impact behaviors: For increasing amount of low impact behaviors that are carbon intensive the perception of the size of carbon footprint increases (and most so when all 3 low impact behaviors are the more carbon intensive one)  
+=> The number of low impact bheaviors that are carbon intensive seems to drive the the perception of the size of carbon footprint more than the number of high impact behaviors that are carbon intensive.  
+
 ```{r, message=FALSE, echo=FALSE}
 plot_model(model.perceptions.long.impact2, terms=c("high.impact [1,2,all]", "low.impact [1,2,all]" ), show.values =TRUE, vline.color = "black")
 
 ```
-
-=> For high impact behaviors: if two or three (out of three) high impact behaviors are carbon intensive, this is associated with higher carbon footprint perceptions than when none of the high impact behaviors are carbon intensive   
-=> For low impact behaviors: For increasing amount of low impact behaviors that are carbon intensive the perception of the size of carbon footprint increases (and most so when all 3 low impact behaviors are the more carbon intensive one)  
-=> The number of low impact bheaviors that are carbon intensive seems to drive the the perception of the size of carbon footprint more than the number of high impact behaviors that are carbon intensive.  
 
 
 ```{r, include=FALSE}
@@ -351,9 +352,8 @@ model.perceptions.long.domain <- lmer(rating ~  high.impact +low.impact + food +
 tab_model(model.perceptions.long.domain)
 
 ```
-**Effect of different behaviors **
 
-### Model
+### Effect of different behaviors
 ```{r}
 # order of impact in the choice task behaviors : vacation, diet, household, regional, commute, recylcing
 model.perceptions1 <- lmer(rating ~ recycling + commute + regional + electricity +diet + flying +   
@@ -363,7 +363,9 @@ model.perceptions1 <- lmer(rating ~ recycling + commute + regional + electricity
 tab_model(model.perceptions1)
 
 ```
-### Plot
+### Plot Effect of different behaviors
+=> **Flying** accurately receives the highest impact weight, which is followed by **recyling** (actually least impactful #6), **diet** (#2), **regionality** (#4), **electricity supply** (#3) and **commuting** (#5)
+
 ```{r}
 
 plot_model(model.perceptions1, show.values =TRUE, vline.color = "black")
@@ -371,11 +373,12 @@ plot_model(model.perceptions1, show.values =TRUE, vline.color = "black")
 
 ```
 
-=> **Flying** accurately receives the highest impact weight, which is followed by **recyling** (actually least impactful #6), **diet** (#2), **regionality** (#4), **electricity supply** (#3) and **commuting** (#5)
 
-## H1b Compensatory Beliefs
+## H1b Compensatory Beliefs 
+### {.tabset}
 *We expect that perceptions of the size of carbon footprints are influenced by interactions between behaviors. Specifically, we will investigate the interactions between: diet and regionality, diet and electricity supply, diet and flying, flying and commuting*
 
+#### Overview
 ```{r comp}
 #diet and regionality, diet and electricity supply, diet and flying, flying and commuting
 model.perceptions.comp <- lmer(rating ~ diet*flying + diet*electricity + diet*regional + commute  + recycling +
@@ -386,7 +389,7 @@ model.perceptions.comp <- lmer(rating ~ diet*flying + diet*electricity + diet*re
 tab_model(model.perceptions.comp)
 ```
 
-### Diet and flying
+#### Diet and flying
 ```{r comp1}
 #diet and regionality, diet and electricity supply, diet and flying, flying and commuting
 model.perceptions.comp1 <- lmer(rating ~ diet*flying+electricity +regional + commute  + recycling +
@@ -395,6 +398,11 @@ model.perceptions.comp1 <- lmer(rating ~ diet*flying+electricity +regional + com
                           data=data.perceptions.total)
 
 tab_model(model.perceptions.comp1)
+
+```
+
+#### Plot  Diet and flying
+```{r}
 plot_model(model.perceptions.comp1, type="pred", terms=c("diet", "flying"))
 
 ```
@@ -450,14 +458,16 @@ model.accuracy2 <- lm(cor.tau ~ age + gender + education + income +
                        cc_concern.mean + conservative_liberal + total_co2,
                      data=data.accuracy.score.tau)
 tab_model(model.accuracy2)
+
+```
+### Distribution accuracy by cc concern
+```{r}
 ggplot(data.accuracy.score.tau, aes(x=cor.tau, fill=rel_cc_concern.mean.f, alpha=.3)) +
   geom_density() +
   theme_minimal() +
   scale_fill_manual(values=c(  "#a50000", "#ff8c00", "#F6BE00"))
-
-
-
 ```
+
 
 ### Policy support predicted by accuracy
 ```{r}
@@ -466,10 +476,6 @@ model.support.accuracy2 <- lm(policy.support.total ~ cor.tau+
                                cc_concern.mean ,
                              data=data.accuracy.score.tau)
 tab_model(model.support.accuracy2)
-ggplot(data.accuracy.score.tau, aes(x=policy.support.total, fill=rel_cor.tau.f, alpha=.3)) +
-  geom_density() +
-  theme_minimal() +
-  scale_fill_manual(values=c(  "#a50000", "#ff8c00", "#F6BE00"))
 
 model.support.accuracy2.mod <- lm(policy.support.total ~ cor.tau*cc_concern.mean+
                                age + gender + education + income ,
@@ -479,9 +485,18 @@ model.support.accuracy2.mod <- lm(policy.support.total ~ cor.tau*cc_concern.mean
 
 ```
 
+### Distribution policy support by accuracy
+
+```{r}
+ggplot(data.accuracy.score.tau, aes(x=policy.support.total, fill=rel_cor.tau.f, alpha=.3)) +
+  geom_density() +
+  theme_minimal() +
+  scale_fill_manual(values=c(  "#a50000", "#ff8c00", "#F6BE00"))
+
+```
 
 
-### Carbon footprint predicted by accuracy  {.tabset}
+### Carbon footprint predicted by accuracy 
 ```{r}
 
 model.behavior.accuracy2 <- lm(total_co2 ~ cor.tau + cc_concern.mean+ conservative_liberal +
@@ -492,12 +507,20 @@ tab_model(model.behavior.accuracy2)
 # cc concern also looses significance interaction
 
 
+```
+### Distribution carbon footprint by accuracy
+
+```{r}
 ggplot(data.accuracy.score.tau, aes(x=total_co2, fill=rel_cc_concern.mean.f, alpha=.3)) +
   geom_density() +
   theme_minimal() +
   scale_fill_manual(values=c(  "#a50000", "#ff8c00", "#F6BE00"))
 
 
+```
+
+## Per behavior {.tabset}
+```{r}
 # alpha/6 is 0.008333333
 ## for footprint.flying not significant (p ~0.86)
 ## for footprint.diet not significant when controlling for multiple tests (p  0.028)
@@ -531,6 +554,7 @@ model.behavior.accuracy1.reg <- lm(footprint.regional ~  cc_concern.mean+ conser
 
 ```
 
+**Overall plot**
 ```{r   echo=FALSE, message=FALSE, fig.width=25, fig.height=16}
 plot_models( model.behavior.accuracy1.car, model.behavior.accuracy1.fly, model.behavior.accuracy1.diet,model.behavior.accuracy1.elec , model.behavior.accuracy1.reg, dot.size = 5, line.size=1.2, show.p = TRUE, p.shape=TRUE, p.threshold = c(0.05, 0.05/6), rm.terms=c("income [18.000£ to 23.000£, 23.001£ to 30.500£, 0.501£ to 45.000£]","education [Further education, Higher education (Bachelor, Master, PhD)]") ) +
   scale_color_viridis_d() + theme_minimal()+
@@ -593,7 +617,7 @@ corrplot(coef.reg.weights$r, type="upper", order="hclust",
 
 *We expect that the perceived impact of behaviors on the size of carbon footprints is influenced by self-reported climate relevant behavior. Specifically, we expect that individuals exhibit motivated reasoning such that the more a person engages in a given climate-unfriendly behavior, the lower they estimate the behavior to have an impact on the size of carbon footprints.*
 
-## as factors {.tabset}
+## Behaviors as factors {.tabset}
 
 ### Flying
 ```{r}
@@ -638,75 +662,41 @@ tab_model(model.weight.diet.fact)
 
 
 
-##  "numerical" {.tabset}
+##  Behaviors as numerical values {.tabset}
 
-
-### Flying
 ```{r}
 data.regression.weights.f <- data.regression.weights %>% rename(footprint=footprint.flying)
-
 model.weight.flying <- lm(flying.weight ~ footprint +
                             gender + age + income + education + cc_concern.mean,
                           data=data.regression.weights.f)
-tab_model(model.weight.flying)
 
-```
-
-### Diet
-```{r}
 data.regression.weights.d <- data.regression.weights %>% rename(footprint=footprint.diet)
-
 model.weight.diet<- lm(diet.weight ~  footprint + 
                          gender + age + income + education + cc_concern.mean,
                        data=data.regression.weights.d)
-tab_model(model.weight.diet)
-```
 
-### Electricity
-```{r}
 data.regression.weights.e <- data.regression.weights %>% rename(footprint=footprint.electricity)
-
 model.weight.elec<- lm(electricity.weight ~  footprint +
                          gender + age + income + education + cc_concern.mean,
                        data=data.regression.weights.e)
-tab_model(model.weight.elec)
-```
 
-
-### Transport
-```{r}
 data.regression.weights.t <- data.regression.weights %>% rename(footprint=footprint.public.transport)
-
 model.weight.transport<- lm(commute.weight ~ footprint +
                               gender + age + income + education + cc_concern.mean,
                             data=data.regression.weights.t)
-tab_model(model.weight.transport)
 
-```
-
-### Regional   
-
-    
-```{r}
 data.regression.weights.reg <- data.regression.weights %>% rename(footprint=footprint.regional)
-
 model.weight.regional<- lm(regional.weight ~footprint +
                        gender + age + income + education + cc_concern.mean,
                      data=data.regression.weights.reg)
-tab_model(model.weight.regional)
-```
 
-### Recycling
-```{r}
 data.regression.weights.rec <- data.regression.weights %>% rename(footprint=footprint.recycling)
-
 model.weight.recycle <- lm(recycling.weight ~footprint +
                        gender + age + income + education + cc_concern.mean,
                      data=data.regression.weights.rec)
-tab_model(model.weight.recycle)
 ```
 
-## Plot
+**Overview plot**
 ```{r plot.weights,  echo=FALSE, message=FALSE, fig.width=25, fig.height=16}
 
 
@@ -728,87 +718,87 @@ plot_models(model.weight.flying, model.weight.diet, model.weight.elec, model.wei
 
 ```
 
-
-
-## H4 Impact perceptions (=regression weights) predicting policy  {.tabset}
-
-*We expect that climate policy support for specific consumer behaviors is influenced by the perceived impact of those behaviors on the size of carbon footprints. Specifically, we expect that individuals with higher (versus lower) impact perceptions of a behavior are more supportive of policies targeting that behavior. *
-
-### Policy affecting air traffic
-
+### Flying
 ```{r}
-### policy
-
-data.regression.weights1 <- data.regression.weights %>% rename(weight=flying.weight)
-
-model.policy.flying <- lm(policy.flying ~  weight +
-                            cc_concern.mean+ conservative_liberal +
-                            gender + age + income + education ,
-                           data=data.regression.weights1)
-tab_model(model.policy.flying)
-
-
-```
-
-### Policy affecting car use
-```{r}
-data.regression.weights2 <- data.regression.weights %>% rename(weight=commute.weight)
-
-model.policy.car<- lm(policy.car ~  weight +
-                            cc_concern.mean+ conservative_liberal +
-                            gender + age + income + education ,
-                          data=data.regression.weights2)
-tab_model(model.policy.car)
-
+tab_model(model.weight.flying)
 
 ```
 
 ### Diet
 ```{r}
-data.regression.weights3 <- data.regression.weights %>% rename(weight=diet.weight)
+tab_model(model.weight.diet)
+```
 
+### Electricity
+```{r}
+
+tab_model(model.weight.elec)
+```
+
+
+### Transport
+```{r}
+tab_model(model.weight.transport)
+
+```
+
+### Regional   
+
+    
+```{r}
+tab_model(model.weight.regional)
+```
+
+### Recycling
+```{r}
+tab_model(model.weight.recycle)
+```
+
+
+
+
+## H4 Impact perceptions (=regression weights) predicting policy  {.tabset}
+
+*We expect that climate policy support for specific consumer behaviors is influenced by the perceived impact of those behaviors on the size of carbon footprints. Specifically, we expect that individuals with higher (versus lower) impact perceptions of a behavior are more supportive of policies targeting that behavior. *
+```{r}
+data.regression.weights1 <- data.regression.weights %>% rename(weight=flying.weight)
+model.policy.flying <- lm(policy.flying ~  weight +
+                            cc_concern.mean+ conservative_liberal +
+                            gender + age + income + education ,
+                           data=data.regression.weights1)
+
+data.regression.weights2 <- data.regression.weights %>% rename(weight=commute.weight)
+model.policy.car<- lm(policy.car ~  weight +
+                            cc_concern.mean+ conservative_liberal +
+                            gender + age + income + education ,
+                          data=data.regression.weights2)
+
+data.regression.weights3 <- data.regression.weights %>% rename(weight=diet.weight)
 model.policy.meat<- lm(policy.meat ~ weight +
                             cc_concern.mean+ conservative_liberal +
                             gender + age + income + education ,
                       data=data.regression.weights3)
-tab_model(model.policy.meat)
 
-```
-
-### Policy electricity
-```{r}
 data.regression.weights4 <- data.regression.weights %>% rename(weight=electricity.weight)
-
 model.policy.elec<- lm(policy.RE ~  weight +
                             cc_concern.mean+ conservative_liberal +
                             gender + age + income + education ,
                       data=data.regression.weights4)
-tab_model(model.policy.elec)
-```
 
-### Policy regional
-```{r}
 data.regression.weights5 <- data.regression.weights %>% rename(weight=regional.weight)
-
 model.policy.regional<- lm(policy.regional_food ~ weight +
                             cc_concern.mean+ conservative_liberal +
                             gender + age + income + education ,
                       data=data.regression.weights5)
-tab_model(model.policy.regional)
-```
 
-### Policy recycling
-```{r}
 data.regression.weights6 <- data.regression.weights %>% rename(weight=recycling.weight)
-
 model.policy.recycle<- lm(policy.recycle ~ weight +
                             cc_concern.mean+ conservative_liberal +
                             gender + age + income + education ,
                           data=data.regression.weights6)
-tab_model(model.policy.recycle)
 ```
 
-## Plot
+**Overview plot**
 ```{r,  echo=FALSE, message=FALSE, fig.width=25, fig.height=16}
 plot_models(model.policy.meat, model.policy.flying, model.policy.elec, model.policy.car,  model.policy.recycle, model.policy.regional ,dot.size = 5, line.size=1.2, show.p = TRUE, p.shape=TRUE, p.threshold = c(0.05, 0.05/6) )  +
   scale_color_viridis_d() +  theme_minimal()+
@@ -828,29 +818,50 @@ plot_models(model.policy.meat, model.policy.flying, model.policy.elec, model.pol
 
 ```
 
-
-## regression weights and behavior predicting policy {.tabset}
-
-
 ### Policy affecting air traffic
 
 ```{r}
-### policy
-
-data.regression.weights1.1 <- data.regression.weights %>% rename(weight=flying.weight,
-                                                                 behavior = footprint.flying)
-
-model.policy.flying.2 <- lm(policy.flying ~weight   + behavior +
-                        gender + age + income + education  + 
-                          cc_concern.mean + conservative_liberal,
-                           data=data.regression.weights1.1)
-tab_model(model.policy.flying.2)
-
+tab_model(model.policy.flying)
 
 ```
 
 ### Policy affecting car use
 ```{r}
+tab_model(model.policy.car)
+
+```
+
+### Diet
+```{r}
+tab_model(model.policy.meat)
+
+```
+
+### Policy electricity
+```{r}
+tab_model(model.policy.elec)
+```
+
+### Policy regional
+```{r}
+tab_model(model.policy.regional)
+```
+
+### Policy recycling
+```{r}
+tab_model(model.policy.recycle)
+```
+
+
+
+## regression weights and behavior predicting policy {.tabset}
+```{r}
+data.regression.weights1.1 <- data.regression.weights %>% rename(weight=flying.weight,
+                                                                 behavior = footprint.flying)
+model.policy.flying.2 <- lm(policy.flying ~weight   + behavior +
+                        gender + age + income + education  + 
+                          cc_concern.mean + conservative_liberal,
+                           data=data.regression.weights1.1)
 data.regression.weights2.1 <- data.regression.weights %>% rename(weight=commute.weight,
                                                                    behavior = footprint.travel.car)
 
@@ -858,61 +869,35 @@ model.policy.car.2 <- lm(policy.car ~ weight   + behavior +
                         gender + age + income + education  + 
                           cc_concern.mean + conservative_liberal,
                           data=data.regression.weights2.1)
-tab_model(model.policy.car.2)
-
-
-```
-
-### Diet
-```{r}
 data.regression.weights3.1 <- data.regression.weights %>% rename(weight=diet.weight,
                                                                  behavior = footprint.diet)
-
 model.policy.meat.2 <- lm(policy.meat ~ weight   + behavior +
                         gender + age + income + education  + 
                           cc_concern.mean + conservative_liberal,
                       data=data.regression.weights3.1)
-tab_model(model.policy.meat.2)
 
-```
-
-### Policy electricity
-```{r}
 data.regression.weights4.1 <- data.regression.weights %>% rename(weight=electricity.weight,
                                                                  behavior = footprint.electricity)
-
 model.policy.elec.2 <- lm(policy.RE ~ weight   + behavior +
                         gender + age + income + education  + 
                           cc_concern.mean + conservative_liberal,
                       data=data.regression.weights4.1)
-tab_model(model.policy.elec.2)
-```
-
-
-### Policy regional
-```{r}
 data.regression.weights5.1 <- data.regression.weights %>% rename(weight=regional.weight,
                                                                  behavior= footprint.regional)
-
 model.policy.regional.2 <- lm(policy.regional_food ~ weight   + behavior +
                         gender + age + income + education  + 
                           cc_concern.mean + conservative_liberal,
                       data=data.regression.weights5.1)
-tab_model(model.policy.regional.2)
-```
-
-### Policy recycling
-```{r}
 data.regression.weights6.1 <- data.regression.weights %>% rename(weight=recycling.weight,
                                                                behavior = footprint.recycling)
-
 model.policy.recycle.2 <- lm(policy.recycle ~ weight   + behavior +
                         gender + age + income + education  + 
                           cc_concern.mean + conservative_liberal,
                       data=data.regression.weights6.1)
-tab_model(model.policy.recycle.2)
+
 ```
 
+**Overview plot**
 ### Plot
 ```{r,  echo=FALSE, message=FALSE, fig.width=20, fig.height=16}
 plot_models(model.policy.meat.2, model.policy.flying.2, model.policy.elec.2, model.policy.car.2 ,dot.size = 5, line.size=1.2, show.p = TRUE, p.shape=TRUE, p.threshold = c(0.05, 0.01) )  +
@@ -932,6 +917,42 @@ plot_models(model.policy.meat.2, model.policy.flying.2, model.policy.elec.2, mod
 
 
 ```
+
+### Policy affecting air traffic
+
+```{r}
+### policy
+tab_model(model.policy.flying.2)
+```
+
+### Policy affecting car use
+```{r}
+tab_model(model.policy.car.2)
+
+```
+
+### Diet
+```{r}
+tab_model(model.policy.meat.2)
+
+```
+
+### Policy electricity
+```{r}
+tab_model(model.policy.elec.2)
+```
+
+
+### Policy regional
+```{r}
+tab_model(model.policy.regional.2)
+```
+
+### Policy recycling
+```{r}
+tab_model(model.policy.recycle.2)
+```
+
 
 
 
