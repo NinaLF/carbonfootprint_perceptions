@@ -116,7 +116,7 @@ data.perceptions.total$recycling <- factor(data.perceptions.total$recycling,
 ## Overview and descriptives
 
 
-### cc concern
+### Climate change concern
 ```{r plot.ccc, echo=FALSE, message=FALSE}
 
 ## cc concern
@@ -130,10 +130,10 @@ data.cc_concern.long$cc.concern.f <- factor(data.cc_concern.long$cc.concern)
 ggplot(data.cc_concern.long,aes( x=item, fill=cc.concern.f), group=item) +
   geom_bar( position="dodge") + facet_grid(conservative_liberal.binary ~.) +
   theme_minimal() +
-  theme(axis.title  = element_text(size = 14), 
-        axis.text.y = element_text(size = 14),
-        axis.text.x = element_text(size=14, angle=90 ),
-        strip.text = element_text(size=14))  +
+  theme(axis.title  = element_text(size = 18), 
+        axis.text.y = element_text(size = 18),
+        axis.text.x = element_text(size=18, angle=90 ),
+        strip.text = element_text(size=18))  +
   scale_fill_viridis_d()
 
 tapply(data$cc_concern.mean, data$conservative_liberal.binary, mean)
@@ -149,10 +149,10 @@ data.policies.long2 <- data.policies.long %>% filter(!policy2=="expand recycling
 ggplot(data.policies.long2,aes( x=policy2, fill=support.f), group=type) +
   geom_bar( position="dodge") + 
   theme_minimal() +
-  theme(axis.title  = element_text(size = 14), 
-        axis.text.y = element_text(size = 14),
-        axis.text.x = element_text(size=14, angle=90 ),
-        strip.text = element_text(size=14))  +
+  theme(axis.title  = element_text(size = 18), 
+        axis.text.y = element_text(size = 18),
+        axis.text.x = element_text(size=18, angle=90 ),
+        strip.text = element_text(size=18))  +
   scale_fill_viridis_d()
 
 
@@ -165,12 +165,12 @@ ggplot(data.policy.means,aes( x=policy2, y=Mean, fill=policy2) )+
   facet_grid(conservative_liberal.binary ~.) +
   geom_errorbar(aes(ymin=Trad.lower, ymax=Trad.upper), position=position_dodge(0.9), width=0.1) +
   theme_minimal() +
-  theme(axis.title  = element_text(size = 14), 
-        axis.text.y = element_text(size = 14),
-        axis.text.x = element_text(size=14, angle=90 ),
-        strip.text = element_text(size=14))  +
+  theme(axis.title  = element_text(size = 18), 
+        axis.text.y = element_text(size = 18),
+        axis.text.x = element_text(size=18, angle=90 ),
+        strip.text = element_text(size=18))  +
   scale_fill_viridis_d() + ylim(0,7.5) + 
-  geom_abline(slope=0, intercept=4,linetype="dashed" )
+  geom_abline(slope=0, intercept=4,linetype="dashed" ) +
   labs(x="policies", y="Mean support", fill=NULL)
 
 ```
@@ -190,8 +190,8 @@ psych::alpha(data[c("policy_item1" ,"policy_item11" ,  "policy_item3", "policy_i
 
 ```
 
-### Behaviors 
-
+### Reported Behaviors 
+Correlation between reported behaviors
 ```{r}
 corr.behaviors <- data.regression.weights %>% select(footprint.diet, footprint.regional, footprint.electricity, footprint.recycling, 
                                                      footprint.travel.car, footprint.flying, footprint.public.transport)
@@ -225,7 +225,7 @@ model.matrix(~0+., data=corr.behaviors.fact) %>%
   ggcorrplot(show.diag=FALSE, type="lower", lab=TRUE, lab_size=2)
 
 ```
-
+### Perceived impact
 ```{r}
 data.regression.weights.long <-  pivot_longer(data.regression.weights,flying.weight:recycling.weight, names_to = "behavior", values_to = "regression.weight" )
 
@@ -234,16 +234,17 @@ data.regression.weights.long$behavior.label <- factor(data.regression.weights.lo
                                                 labels=c("train vs. flying 2/year", "diet vegetarian vs. omnivore", "100% RE vs. mixed",
                                                          "regional only vs imported food", "commute by bus vs. bike", "recycling vs. not")) 
 
-ggplot(data.regression.weights.long, aes(x=reorder(behavior.label,-regression.weight), y=regression.weight, color=behavior.label)) +
+ggplot(data.regression.weights.long, aes(x=behavior.label, y=regression.weight, color=behavior.label)) +
   geom_boxplot() + 
   # facet_grid(conservative_liberal.binary~.) +
   theme_minimal() +
-  theme(axis.title  = element_text(size = 14), 
-        axis.text.y = element_text(size = 14),
-        axis.text.x = element_text(size=14, angle=90 ),
-        strip.text = element_text(size=14),
+  theme(axis.title  = element_text(size = 18), 
+        axis.text.y = element_text(size = 18),
+        axis.text.x = element_text(size=18, angle=90 ),
+        strip.text = element_text(size=18),
         legend.position = "none")  +
-  scale_color_viridis_d() + labs(fill=NULL)
+  scale_color_viridis_d() +
+  labs(fill=NULL, x="behaviors in judgment task", y="perceived impact(regression weight)")
 ```
 
 
@@ -267,12 +268,14 @@ and have a conventional electricity supply (or dont know): `r paste0(data.behavi
     
     
   
-## Hypothesis 1, 1a
+## Hypothesis 1, 1a {.tabset}
 
 *We will explore the accuracy of perceptions of the impact of different behaviors and domains on carbon footprints. Specifically, we expect that individuals will underestimate the effect of higher impact behavior (flying, diet, electricity supply) and underestimate the effect of relatively less impactful behaviors (recycling, public transport, imported foods) *
 *We assume that the impact of behaviors and their domain has an impact on participants’ estimations of the size of carbon footprints. We specifically expect that high impact behaviors have a stronger weight on impact estimations compared to low impact behaviors. *
 
-**Effect of high versus low impact behaviors **
+**Effect of high versus low impact behaviors ** 
+
+
 ```{r}
 data.perceptions.total.long <- data.perceptions.total
 data.perceptions.total.long$diet <-(as.numeric(data.perceptions.total.long$diet)-1)
@@ -283,22 +286,60 @@ data.perceptions.total.long$recycling <- (as.numeric(data.perceptions.total.long
 data.perceptions.total.long$electricity <- (as.numeric(data.perceptions.total.long$electricity)-1)
 
 data.perceptions.total.long1 <- data.perceptions.total.long%>% rowwise() %>% 
+    mutate(high.impact= sum(commute, regional, recycling),
+           low.impact = sum(flying, diet,   electricity)  ,
+           household = sum( electricity, recycling), 
+           food =  sum( diet,   regional)  ,
+           transport = sum(flying, commute)  )
+
+model.perceptions.long.impact <- lmer(rating ~   high.impact+low.impact+  #household + food + transport +
+                                   age + gender + income + education +
+
+                            (1|participant.label) , #+ (1|vignette),
+                          data=data.perceptions.total.long1)
+
+data.perceptions.total.long1 <- data.perceptions.total.long%>% rowwise() %>% 
   mutate(high.impact= factor(sum(commute, regional, recycling), levels=c(0,1,2,3), labels=c("none", "1", "2", "all") )  ,
           low.impact = factor(sum(flying, diet,   electricity), levels=c(0,1,2,3), labels=c("none", "1", "2", "all") )  ,
          household = factor(sum( electricity, recycling), levels=c(0,1,2), labels=c("none", "1", "both") )   ,
          food =  factor(sum( diet,   regional), levels=c(0,1,2), labels=c("none", "1", "both") )   ,
          transport = factor(sum(flying, commute), levels=c(0,1,2), labels=c("none", "1", "both") )   )
 
-model.perceptions.long.impact <- lmer(rating ~   high.impact + low.impact+  #household + food + transport +
+model.perceptions.long.impact2 <- lmer(rating ~   high.impact + low.impact+  #household + food + transport +
                                    age + gender + income + education +
 
                             (1|participant.label) , #+ (1|vignette),
                           data=data.perceptions.total.long1)
-tab_model(model.perceptions.long.impact)
-plot_model(model.perceptions.long.impact, terms=c("high.impact [1,2,all]", "low.impact [1,2,all]" ))
+```
 
+### Model
+```{r}
+tab_model(model.perceptions.long.impact)
 
 ```
+
+### Model 2
+```{r}
+tab_model(model.perceptions.long.impact2)
+
+```
+
+### Plot
+```{r, message=FALSE, echo=FALSE}
+p1 <- plot_model(model.perceptions.long.impact, type="emm" , terms=c("high.impact")) + ylim(1,10)
+p2 <- plot_model(model.perceptions.long.impact, type="emm" , terms=c("low.impact")) + ylim(1,10)
+p1 + p2
+```
+
+### Plot2
+```{r, message=FALSE, echo=FALSE}
+plot_model(model.perceptions.long.impact2, terms=c("high.impact [1,2,all]", "low.impact [1,2,all]" ), show.values =TRUE, vline.color = "black")
+
+```
+
+=> For high impact behaviors: if two or three (out of three) high impact behaviors are carbon intensive, this is associated with higher carbon footprint perceptions than when none of the high impact behaviors are carbon intensive   
+=> For low impact behaviors: For increasing amount of low impact behaviors that are carbon intensive the perception of the size of carbon footprint increases (and most so when all 3 low impact behaviors are the more carbon intensive one)  
+=> The number of low impact bheaviors that are carbon intensive seems to drive the the perception of the size of carbon footprint more than the number of high impact behaviors that are carbon intensive.  
 
 
 ```{r, include=FALSE}
@@ -308,12 +349,11 @@ model.perceptions.long.domain <- lmer(rating ~  high.impact +low.impact + food +
                             (1|participant.label) + (1|vignette),
                           data=data.perceptions.total.long1)
 tab_model(model.perceptions.long.domain)
-plot_model(model.perceptions.long.domain, terms=c("household [1,both]", "transport [1,both]", "food [1,both]" ))
-
 
 ```
-
 **Effect of different behaviors **
+
+### Model
 ```{r}
 # order of impact in the choice task behaviors : vacation, diet, household, regional, commute, recylcing
 model.perceptions1 <- lmer(rating ~ recycling + commute + regional + electricity +diet + flying +   
@@ -321,12 +361,17 @@ model.perceptions1 <- lmer(rating ~ recycling + commute + regional + electricity
                             (1|participant.label) + (1|vignette),
                           data=data.perceptions.total)
 tab_model(model.perceptions1)
-plot_model(model.perceptions1)
 
+```
+### Plot
+```{r}
+
+plot_model(model.perceptions1, show.values =TRUE, vline.color = "black")
 
 
 ```
 
+=> **Flying** accurately receives the highest impact weight, which is followed by **recyling** (actually least impactful #6), **diet** (#2), **regionality** (#4), **electricity supply** (#3) and **commuting** (#5)
 
 ## H1b Compensatory Beliefs
 *We expect that perceptions of the size of carbon footprints are influenced by interactions between behaviors. Specifically, we will investigate the interactions between: diet and regionality, diet and electricity supply, diet and flying, flying and commuting*
