@@ -1,0 +1,203 @@
+---
+title: "Policy scale"
+
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    theme: lumen
+    toc: yes
+    toc_depth: 4
+    number_sections: no
+
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(class.source = "CSSoutput",
+                      eval = TRUE, echo = FALSE, include = TRUE,warning=FALSE,
+                      fig.align='center', fig.show='asis', fig.width = 16, fig.height = 10,
+                      size='footnotesize')
+
+```
+
+```{r packages, include=FALSE}
+getwd()
+
+library(tidyverse)
+library(sjPlot)
+library(rcompanion)
+library(rstatix)
+library(lmerTest); library(lme4)
+library(sjlabelled)
+library(sjmisc)
+library(emmeans)
+library("rmcorr")
+library(psych)
+library(patchwork)
+library(afex)
+library(ClinSigMeasures)
+library(prettydoc)
+library(ggeffects)
+library(reghelper) # for simple slopes
+library(interactions)# for simple slopes
+
+library("rmcorr")
+library(Hmisc)
+library(corrplot)
+library(ggcorrplot)
+library(GPArotation)
+library(ircor)
+library(lavaan)
+library(GPArotation)
+set_theme(base=theme_classic())
+# so plot_model plots look nice
+set_theme(base=theme_classic())
+```
+
+
+
+```{r data, include=FALSE}
+data <- read.csv("data/data.all_variables.csv")
+data <- na.omit(data)
+data.policies.long <- read.csv("data/data.policies.long.csv")
+data.policies.long$support.f <- factor(data.policies.long$support.f)
+data.policies.long$type <- factor(data.policies.long$type)
+data.policies.long$policy2 <- factor(data.policies.long$policy,
+                                    levels=c("subsidies alternative flying", "expand public transport", "subsidies RE projects", "subsidies low emission foods","subsidies regional food", "expand recycling",   
+                                             "taxes air travel","ban diesel&petrol cars",  "electricity price peak times", "taxes red meat", "taxes imported food",   "taxes non-recylabes"))
+
+
+```
+
+
+## Policy support
+```{r plot.policy, echo=FALSE, message=FALSE}
+## visualizing
+data.policies.long2 <- data.policies.long %>% filter(!policy2=="expand recycling") %>% filter(!policy2=="taxes non-recylabes")
+ggplot(data.policies.long2,aes( x=policy2, fill=support.f), group=type) +
+  geom_bar( position="dodge") + 
+  theme_minimal() +
+  theme(axis.title  = element_text(size = 14), 
+        axis.text.y = element_text(size = 14),
+        axis.text.x = element_text(size=14, angle=90 ),
+        strip.text = element_text(size=14))  +
+  scale_fill_viridis_d()
+
+
+## means
+data.policy.means <- groupwiseMean(support ~ policy2 + conservative_liberal.binary,
+                                   data=data.policies.long2)
+# midpoint would be 4
+ggplot(data.policy.means,aes( x=policy2, y=Mean, fill=policy2) )+
+  geom_bar( position="dodge", stat="identity") + 
+  facet_grid(conservative_liberal.binary ~.) +
+  geom_errorbar(aes(ymin=Trad.lower, ymax=Trad.upper), position=position_dodge(0.9), width=0.1) +
+  theme_minimal() +
+  theme(axis.title  = element_text(size = 14), 
+        axis.text.y = element_text(size = 14),
+        axis.text.x = element_text(size=14, angle=90 ),
+        strip.text = element_text(size=14))  +
+  scale_fill_viridis_d() + ylim(0,7.5) + 
+  geom_abline(slope=0, intercept=4,linetype="dashed" )
+  labs(x="policies", y="Mean support", fill=NULL)
+
+```
+
+```{r corr, include=FALSE}
+
+corr <- data %>% select(starts_with("policy_item")) %>% select(!c(policy_item10,policy_item9)) %>%
+  rename(expand.public_transport=policy_item1,
+ #        expand.recycling =policy_item10,
+         subsidy.regional_food = policy_item11,
+         taxes.non_regional_food = policy_item12,
+         ban.conv_cars = policy_item2,
+         subsidy.flying_alternative = policy_item3,
+         taxes.flying = policy_item4,
+         subsidy.renwable_energy = policy_item5,
+         cost.electricity_peak = policy_item6,
+         taxes.meat =policy_item7,
+         subsidy.low_emission_food = policy_item8,
+   #      taxes.non_recyclables = policy_item9
+         ) 
+
+coef2 <- rcorr(as.matrix(corr))
+
+
+```
+
+### Alpha
+```{r alpha}
+
+## basics, reliability etc
+psych::alpha(data[c("policy_item1" ,"policy_item11" ,  "policy_item3", "policy_item5" , "policy_item8", 
+                             "policy_item12",  "policy_item2", "policy_item4" , "policy_item6",  "policy_item7" )])
+
+# alpha = 0.88
+#item 10 (expand recyling) , item9 taxes on non-recyclables
+# "subscaling" subsidies = 0.79
+#psych::alpha(data[c("policy_item1" ,"policy_item11" ,  "policy_item3", "policy_item5" , "policy_item8")])
+# "subscaling" taxes = 0.89
+#psych::alpha(data[c( "policy_item12",  "policy_item2", "policy_item4" , "policy_item6",  "policy_item7" )])
+
+```
+
+### Omega
+```{r omega}
+
+omega(corr,n.obs=200,title = "Omega", nfactors = 1)
+omega(corr,n.obs=200,title = "Omega", nfactors = 2)
+```
+
+### Correlation plot
+```{r cor}
+
+corrplot(coef2$r, type="upper", order="hclust", 
+         p.mat = NULL, sig.level = 0.05, insig = "blank")
+
+
+
+
+```
+
+### EFA
+```{r}
+### efa
+Nfacs <- 2  # This is for four factors. You can change this as needed.
+fit <- factanal(corr, Nfacs, rotation="varimax")
+
+load <- fit$loadings[,1:2]
+plot(load,type="n") # set up plot
+text(load,labels=names(corr),cex=.7)
+
+loads <- fit$loadings
+
+
+
+
+print(fit, digits=2, cutoff=0.3, sort=TRUE)
+
+fa.diagram(loads)
+```
+
+
+### CFA
+```{r}
+## covariance matrix
+study1_cov <- cov(corr )
+study1_cov
+
+##cfa 2 factors
+study1_model2  <- '
+policy.support.subsidy =~ subsidy.flying_alternative +subsidy.renwable_energy + subsidy.low_emission_food  + subsidy.regional_food
+policy.support.costs =~ expand.public_transport + ban.conv_cars +taxes.flying + cost.electricity_peak + taxes.meat  + taxes.non_regional_food
+'
+# analyze model
+fit_study1.2 <- cfa(model=study1_model2, data=corr, sample.cov=study1_cov, sample.nobs= nrow(corr), estimator="wlsmv")
+
+#show results
+#summary(fit_study1.3, fit.measures=TRUE, standardized=TRUE)
+print(fitMeasures(fit_study1.2, c("chisq", "df", "pvalue", "cfi", "rmsea", "nfi"),
+                  output = "text"), add.h0 = TRUE)
+
+```
+
