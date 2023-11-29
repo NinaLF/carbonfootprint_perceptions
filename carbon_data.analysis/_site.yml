@@ -1,0 +1,9 @@
+name: "Carbon footprint perceptions"
+output_dir: "docs"
+navbar:
+  title: "Documentation of pilot test analysis"
+  left:
+    - text: "carbon footprint analysis"
+      href: carbon-footprint-analysis.html
+
+ 
