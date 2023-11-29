@@ -268,7 +268,37 @@ Most participants: `r paste0(data.behaviors.diet$perc[data.behaviors.diet$footpr
 and have a conventional electricity supply (or dont know): `r paste0(data.behaviors.elec$perc[data.behaviors.elec$footprint.electricity_fact=="have a conventional supply / dont know" ] , "%" ) `, whereas `r paste0(data.behaviors.elec$perc[data.behaviors.elec$footprint.electricity_fact=="have a renwable electricity supply"], "%") ` have a renewable electricity supply, and only `r paste0(data.behaviors.diet$perc[data.behaviors.diet$footprint.diet_fact=="vegetarian" ] + data.behaviors.diet$perc[data.behaviors.diet$footprint.diet_fact=="vegan" ], "%" )` are vegan or vegetarian    
   
     
-    
+## Hypotheses
+**Quick overview**  
+  
+  
+H1: We assume that the impact of behaviors has an impact on participants’ estimations of the size of carbon footprints. We specifically expect that high impact behaviors have a stronger weight on impact estimations compared to low impact behaviors.  
+
++ **Yes**.  
++ Certain misperceptions on behavior level but this basically only recycling  
+
+H1b: We expect that perceptions of the size of carbon footprints are influenced by interactions between behaviors. Specifically, we will investigate the interactions between: diet and regionality, diet and electricity supply, diet and flying, flying and commuting  
+
++ **Yes/No** , no compensatory beliefs identified except for diet x flying  
+
+H2: We expect to find an association between the accuracy of carbon footprint estimations and individuals' climate change concern, political orientation, carbon footprints based on reported behavior, and policy support. Specifically, we expect that individuals with more accurate perceptions are more likely to have lower carbon footprints and report higher policy support.  
+We moreover expect that individuals with higher levels of climate change concern have more accurate perceptions. Additionally, we will explore whether the association between accuracy and behavior or accuracy and policy support is moderated by climate change concern and political orientation  
+
++ **Yes**, Accuracy is predicted by climate change concern  
++ **Yes**, Policy is predicted by accuracy (more accuracy = more policy support).  
++ **No**, Carbon footprint not associated with accuracy (as long as controlling for income) - only for diet is it related: more accuracy=lower dietary carbon footprint.  
++ **No** moderation of accuracy and policy/behavior by cc concern.  
+
+H3: We expect that the perceived impact of behaviors on the size of carbon footprints is influenced by self-reported climate relevant behavior. Specifically, we expect that individuals exhibit motivated reasoning such that the more a person engages in a given climate-unfriendly behavior, the lower they estimate the behavior to have an impact on the size of carbon footprints.   
+
++ **No**, only for diet barely an association (Higher footprint = lower perception) but not significant when adjusting the p-level  
++ As factors for diet highest level (=no pork versus vegan sign. Smaller impact perception).  
+
+H4: We expect that climate policy support for specific consumer behaviors is influenced by the perceived impact of those behaviors on the size of carbon footprints. Specifically, we expect that individuals with higher (versus lower) impact perceptions of a behavior are more supportive of policies targeting that behavior. 
+
++ **No** (only for flying but that not significant when adjusting p-values)  
+  
+   
   
 ## Hypothesis 1, 1a {.tabset}
 
