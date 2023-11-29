@@ -652,14 +652,28 @@ model.weight.diet.fact <- lm(electricity.weight ~  footprint.electricity_fact +
 tab_model(model.weight.diet.fact)
 ```
 
-### Commute
+### Regional
 ```{r}
-model.weight.diet.fact <- lm(commute.weight ~  footprint.public.transport_fact +
+model.weight.reg.fact <- lm(regional.weight ~  footprint.regional_fact +
                          gender + age + income + education + cc_concern.mean,
                        data=data.regression.weights)
-tab_model(model.weight.diet.fact)
+tab_model(model.weight.reg.fact)
 ```
 
+### Commute
+```{r}
+model.weight.commute.fact <- lm(commute.weight ~  footprint.travel.car_fact +
+                         gender + age + income + education + cc_concern.mean,
+                       data=data.regression.weights)
+tab_model(model.weight.commute.fact)
+```
+### Recycling
+```{r}
+model.weight.recycle.fact <- lm(recycling.weight ~  footprint.recycling_fact +
+                         gender + age + income + education + cc_concern.mean,
+                       data=data.regression.weights)
+tab_model(model.weight.recycle.fact)
+```
 
 
 ##  Behaviors as numerical values {.tabset}
@@ -680,7 +694,7 @@ model.weight.elec<- lm(electricity.weight ~  footprint +
                          gender + age + income + education + cc_concern.mean,
                        data=data.regression.weights.e)
 
-data.regression.weights.t <- data.regression.weights %>% rename(footprint=footprint.public.transport)
+data.regression.weights.t <- data.regression.weights %>% rename(footprint=footprint.travel.car_fact)
 model.weight.transport<- lm(commute.weight ~ footprint +
                               gender + age + income + education + cc_concern.mean,
                             data=data.regression.weights.t)
