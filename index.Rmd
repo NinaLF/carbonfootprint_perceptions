@@ -1,11 +1,3 @@
 ---
-title: "index"
-output: html_document
-date: "2023-11-29"
+pagetitle: "index"
 ---
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
-Documentation of the pre-reg hypotheses
