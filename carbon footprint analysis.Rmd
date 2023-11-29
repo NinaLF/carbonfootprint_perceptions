@@ -533,22 +533,22 @@ ggplot(data.accuracy.score.tau, aes(x=total_co2, fill=rel_cc_concern.mean.f, alp
 #data.accuracy.score.tau4 <- data.accuracy.score.tau %>% rename(policy = policy.RE)
 #data.accuracy.score.tau5 <- data.accuracy.score.tau %>% rename(policy = policy.regional_food)
 
-model.behavior.accuracy1.car <- lm(footprint.travel.car ~   cc_concern.mean+ conservative_liberal  + # policy+
+model.behavior.accuracy1.car <- lm(footprint.travel.car ~   cc_concern.mean+ conservative_liberal + cor.tau + # policy+
                                 age + gender + education + income ,
                               data=data.accuracy.score.tau)
-model.behavior.accuracy1.fly <- lm(footprint.flying ~   cc_concern.mean+ conservative_liberal  + # policy+
-                                age + gender + education + income ,
-                              data=data.accuracy.score.tau)
-
-model.behavior.accuracy1.diet <- lm(footprint.diet ~    cc_concern.mean+  conservative_liberal +  # policy+
+model.behavior.accuracy1.fly <- lm(footprint.flying ~   cc_concern.mean+ conservative_liberal  + cor.tau + # policy+
                                 age + gender + education + income ,
                               data=data.accuracy.score.tau)
 
-model.behavior.accuracy1.elec <- lm(footprint.electricity ~  +cc_concern.mean+ conservative_liberal +  # policy+
+model.behavior.accuracy1.diet <- lm(footprint.diet ~    cc_concern.mean+  conservative_liberal  + cor.tau +  # policy+
                                 age + gender + education + income ,
                               data=data.accuracy.score.tau)
 
-model.behavior.accuracy1.reg <- lm(footprint.regional ~  cc_concern.mean+ conservative_liberal +  # policy+
+model.behavior.accuracy1.elec <- lm(footprint.electricity ~  +cc_concern.mean+ conservative_liberal  + cor.tau +  # policy+
+                                age + gender + education + income ,
+                              data=data.accuracy.score.tau)
+
+model.behavior.accuracy1.reg <- lm(footprint.regional ~  cc_concern.mean+ conservative_liberal  + cor.tau +  # policy+
                                 age + gender + education + income ,
                               data=data.accuracy.score.tau)
 
