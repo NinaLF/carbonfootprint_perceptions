@@ -8,6 +8,7 @@ output:
     toc: yes
     toc_depth: 4
     number_sections: no
+    keep_md: yes
 
 ---
 
@@ -843,7 +844,9 @@ model.policy.recycle<- lm(policy.recycle ~ weight +
 ```
 
 **Overview plot**
-```{r,  echo=FALSE, message=FALSE, fig.width=25, fig.height=16}
+
+
+```{r p1,  echo=FALSE, message=FALSE, fig.width=25, fig.height=16}
 plot_models(model.policy.meat, model.policy.flying, model.policy.elec, model.policy.car,  model.policy.recycle, model.policy.regional ,dot.size = 5, line.size=1.2, show.p = TRUE, p.shape=TRUE, p.threshold = c(0.05, 0.05/6) )  +
   scale_color_viridis_d() +  theme_minimal()+
    theme(plot.caption = element_text(hjust = 0),
@@ -943,8 +946,8 @@ model.policy.recycle.2 <- lm(policy.recycle ~ weight   + behavior +
 
 **Overview plot**  
 
-### Plot
-```{r,  echo=FALSE, message=FALSE, fig.width=20, fig.height=16}
+
+```{r p2,  echo=FALSE, message=FALSE, fig.width=20, fig.height=16}
 plot_models(model.policy.meat.2, model.policy.flying.2, model.policy.elec.2, model.policy.car.2 ,dot.size = 5, line.size=1.2, show.p = TRUE, p.shape=TRUE, p.threshold = c(0.05, 0.01) )  +
   scale_color_viridis_d() + theme_minimal()+
    theme(plot.caption = element_text(hjust = 0),
