@@ -149,14 +149,17 @@ data.regression.weights.excl  <- merge(data.regression.weights, data.perceptions
 ```{r}
 t.gender <- table(data$gender)
 t.income <- table(data$income)
-
 ```
 
 Sample:  
 N=196, (excluded n=3 out of 199 because of inconsistent response (age and year of birth do not match +-1)).  
 Age: Mean: `r round( mean(data$age),1) `, range: `r range(data$age)`.  
 gender: female: `r t.gender[[1]] ` ; male: `r t.gender[[2]] `  
-income: `r t.income`  
+income: 
+```{r}
+knitr::kable(t.income, align = "l")
+```
+
   
   
 ### Climate change concern

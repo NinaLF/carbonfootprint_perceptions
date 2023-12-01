@@ -31,7 +31,16 @@ Sample:
 N=196, (excluded n=3 out of 199 because of inconsistent response (age and year of birth do not match +-1)).  
 Age: Mean: 44, range: 19, 73.  
 gender: female: 100 ; male: 99  
-income: 70, 36, 20, 38, 36  
+income: 
+
+|Var1               |Freq |
+|:------------------|:----|
+|< 18.000£          |70   |
+|> 45.001£          |36   |
+|18.000£ to 23.000£ |20   |
+|23.001£ to 30.500£ |38   |
+|30.501£ to 45.000£ |36   |
+
   
   
 ### Climate change concern
@@ -51,13 +60,13 @@ Alpha= 0.87
 
 ### Reported Behaviors 
 Correlation between reported behaviors
-<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" />
-
 <img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
+
+<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" />
 
 ### Perceived impact
 
-<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" />
+<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" />
   
 Quality check:  
 Only 8 individuals show a reduced variance in their impact ratings, such that they  only use 3 or less of the scale points from 1-10. Excluding these people has virtually no impact on results.
@@ -353,14 +362,14 @@ H4: We expect that climate policy support for specific consumer behaviors is inf
 </table>
 
 ### Effect of high versus low impact behaviors Plot
-<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" />
+<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
 
 ### Plot2
 => For high impact behaviors: if two or three (out of three) high impact behaviors are carbon intensive, this is associated with higher carbon footprint perceptions than when none of the high impact behaviors are carbon intensive   
 => For low impact behaviors: For increasing amount of low impact behaviors that are carbon intensive the perception of the size of carbon footprint increases (and most so when all 3 low impact behaviors are the more carbon intensive one)  
 => The number of low impact bheaviors that are carbon intensive seems to drive the the perception of the size of carbon footprint more than the number of high impact behaviors that are carbon intensive.  
 
-<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
+<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" />
 
 
 
@@ -508,7 +517,7 @@ H4: We expect that climate policy support for specific consumer behaviors is inf
 ### Plot Effect of different behaviors
 => **Flying** accurately receives the highest impact weight, which is followed by **recyling** (actually least impactful #6), **diet** (#2), **regionality** (#4), **electricity supply** (#3) and **commuting** (#5)
 
-<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-15-1.png" style="display: block; margin: auto;" />
+<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-16-1.png" style="display: block; margin: auto;" />
 
 
 ## H1b Compensatory Beliefs 
@@ -883,7 +892,7 @@ H4: We expect that climate policy support for specific consumer behaviors is inf
 </table>
 
 #### Plot  Diet and flying
-<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-16-1.png" style="display: block; margin: auto;" />
+<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-17-1.png" style="display: block; margin: auto;" />
 
 ### For other interactions no evidence of compensatory beliefs {.tabset}
 
@@ -1258,7 +1267,7 @@ H4: We expect that climate policy support for specific consumer behaviors is inf
 </tr>
 
 </table>
-<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-17-1.png" style="display: block; margin: auto;" />
+<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-18-1.png" style="display: block; margin: auto;" />
 
 
 ## H2 accuracy  {.tabset}
@@ -1359,7 +1368,7 @@ H4: We expect that climate policy support for specific consumer behaviors is inf
 
 </table>
 ### Distribution accuracy by cc concern
-<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-19-1.png" style="display: block; margin: auto;" />
+<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-20-1.png" style="display: block; margin: auto;" />
 
 
 ### Policy support predicted by accuracy
@@ -1453,7 +1462,7 @@ H4: We expect that climate policy support for specific consumer behaviors is inf
 
 ### Distribution policy support by accuracy
 
-<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-21-1.png" style="display: block; margin: auto;" />
+<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-22-1.png" style="display: block; margin: auto;" />
 
 
 ### Carbon footprint predicted by accuracy 
@@ -1552,13 +1561,13 @@ H4: We expect that climate policy support for specific consumer behaviors is inf
 </table>
 ### Distribution carbon footprint by accuracy
 
-<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-23-1.png" style="display: block; margin: auto;" />
+<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-24-1.png" style="display: block; margin: auto;" />
 
 ## Per behavior {.tabset}
 
 
 **Overall plot**
-<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-25-1.png" style="display: block; margin: auto;" />
+<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-26-1.png" style="display: block; margin: auto;" />
 
 
 ### car
@@ -2039,7 +2048,7 @@ H4: We expect that climate policy support for specific consumer behaviors is inf
 ## H3 Impact perceptions (=Regression weights) predicted by reported behavior?
 
 ### Correlations between regression weights
-<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-31-1.png" style="display: block; margin: auto;" />
+<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-32-1.png" style="display: block; margin: auto;" />
 
 *We expect that the perceived impact of behaviors on the size of carbon footprints is influenced by self-reported climate relevant behavior. Specifically, we expect that individuals exhibit motivated reasoning such that the more a person engages in a given climate-unfriendly behavior, the lower they estimate the behavior to have an impact on the size of carbon footprints.*
 
