@@ -101,7 +101,7 @@ We moreover expect that individuals with higher levels of climate change concern
 
 H3: We expect that the perceived impact of behaviors on the size of carbon footprints is influenced by self-reported climate relevant behavior. Specifically, we expect that individuals exhibit motivated reasoning such that the more a person engages in a given climate-unfriendly behavior, the lower they estimate the behavior to have an impact on the size of carbon footprints.   
 
-+ **No**, only for commute barely an association (Higher car footprint = lower impact perception) but not significant when adjusting the p-level  
++ **No**
 + As factors for diet highest level (=no pork versus vegan sign. Smaller impact perception).  
 
 H4: We expect that climate policy support for specific consumer behaviors is influenced by the perceived impact of those behaviors on the size of carbon footprints. Specifically, we expect that individuals with higher (versus lower) impact perceptions of a behavior are more supportive of policies targeting that behavior. 
