@@ -78,10 +78,24 @@ data.policies.long$income <- factor(data.policies.long$income, levels=c("< 18.00
 
 data.regression.weights <- read.csv("data/data.regression.weights.csv")
 data.regression.weights <- data.regression.weights[!c(data.regression.weights$participant.label %in% data.excl$participant.label), ] 
+
 data.regression.weights$income <- factor(data.regression.weights$income, levels=c("< 18.000£", "18.000£ to 23.000£", "23.001£ to 30.500£", "30.501£ to 45.000£", "> 45.001£"))
+## factors
+data.regression.weights <- data.regression.weights %>%
+  mutate_at(vars(starts_with("footprint")), list(fact = function(x){ factor(x )  })) %>% 
+  mutate(across(ends_with("fact"), as.factor) )
+
+data.regression.weights$footprint.diet_fact <- factor(data.regression.weights$footprint.diet_fact, levels=c(0.955, 1.053 ,1.234 ,1.431, 2.282,  3.16),
+                                                      labels=c("vegan", "vegetarian", "no red meat", "pescetarian", "meat-based", "no pork") )
+data.regression.weights$footprint.flying_fact <- factor(data.regression.weights$footprint.flying_fact, levels=c( 0  ,0.36,   0.9  ,2.07,  3.59,  6.74, 13.48 ),
+                                                      labels=c("did not fly", "flew less than 2 hours", "flew less than 8 hours", "flew less than 15 hours", "flew less than 25 hours", "flew less than 50 hours", "flew more than 50 hours") )
+
+data.regression.weights$footprint.electricity_fact <- factor(data.regression.weights$footprint.electricity_fact, levels=c( 0.1031, 0.6988837 , 1.294697  ),
+                                                      labels=c("have a renwable electricity supply", "have a mixed electricity supply", "have a conventional supply / dont know") )
 
 data.accuracy.score.tau <- read.csv("data/data.accuracy.score.tau.csv")
 data.accuracy.score.tau <- data.accuracy.score.tau[!c(data.accuracy.score.tau$participant.label %in% data.excl$participant.label), ] 
+
 data.accuracy.score.tau$income <- factor(data.accuracy.score.tau$income, levels=c("< 18.000£", "18.000£ to 23.000£", "23.001£ to 30.500£", "30.501£ to 45.000£", "> 45.001£"))
 data.accuracy.score.tau$rel_cc_concern.mean.f <- factor(data.accuracy.score.tau$rel_cc_concern.mean.f)
 data.accuracy.score.tau$rel_cor.tau.f <- factor(data.accuracy.score.tau$rel_cor.tau.f)
@@ -112,11 +126,39 @@ data.perceptions.total$recycling <- factor(data.perceptions.total$recycling,
 
 ```
 
+```{r}
+## same response pattern??
+
+data.perceptions.test <- pivot_wider(data.perceptions.total, id_cols = "participant.label" ,names_from ="vignette", values_from= "rating")
+                                     
+
+data.perceptions.test$same <- apply(data.perceptions.test[,c(2:17)], 1, function(x) length(unique(x)) <= 3)
+#table(data.perceptions.test$same )
+## only 8 people use only 3 of the scale points from 1-10, excluding these people has virtually no impact on results
+data.perceptions.excl <- data.perceptions.test %>% filter(same=="FALSE" ) %>% select(participant.label)
+
+data.perceptions.total.excl <- merge(data.perceptions.total, data.perceptions.excl, by="participant.label")
+
+
+data.regression.weights.excl  <- merge(data.regression.weights, data.perceptions.excl, by="participant.label")
+
+```
 
 
 ## Overview and descriptives
+```{r}
+t.gender <- table(data$gender)
+t.income <- table(data$income)
 
+```
 
+Sample:  
+N=196, (excluded n=3 out of 199 because of inconsistent response (age and year of birth do not match +-1)).  
+Age: Mean: `r round( mean(data$age),1) `, range: `r range(data$age)`.  
+gender: female: `r t.gender[[1]] ` ; male: `r t.gender[[2]] `  
+income: `r t.income`  
+  
+  
 ### Climate change concern
 ```{r plot.ccc,   message=FALSE}
 
@@ -206,18 +248,6 @@ corrplot(coef.behaviors$r, type="upper", order="hclust",
 ```{r}
 ## factors
 
-data.regression.weights <- data.regression.weights %>%
-  mutate_at(vars(starts_with("footprint")), list(fact = function(x){ factor(x )  })) %>% 
-  mutate(across(ends_with("fact"), as.factor) )
-
-data.regression.weights$footprint.diet_fact <- factor(data.regression.weights$footprint.diet_fact, levels=c(0.955, 1.053 ,1.234 ,1.431, 2.282,  3.16),
-                                                      labels=c("vegan", "vegetarian", "no red meat", "pescetarian", "meat-based", "no pork") )
-data.regression.weights$footprint.flying_fact <- factor(data.regression.weights$footprint.flying_fact, levels=c( 0  ,0.36,   0.9  ,2.07,  3.59,  6.74, 13.48 ),
-                                                      labels=c("did not fly", "flew less than 2 hours", "flew less than 8 hours", "flew less than 15 hours", "flew less than 25 hours", "flew less than 50 hours", "flew more than 50 hours") )
-
-data.regression.weights$footprint.electricity_fact <- factor(data.regression.weights$footprint.electricity_fact, levels=c( 0.1031, 0.6988837 , 1.294697  ),
-                                                      labels=c("have a renwable electricity supply", "have a mixed electricity supply", "have a conventional supply / dont know") )
-
 
 corr.behaviors.fact <-data.regression.weights %>% select(ends_with("_fact")) %>% select(!footprint.public.transport_fact)
 
@@ -249,6 +279,9 @@ ggplot(data.regression.weights.long, aes(x=behavior.label, y=regression.weight, 
   scale_color_viridis_d() +
   labs(fill=NULL, x="behaviors in judgment task", y="perceived impact(regression weight)")
 ```
+  
+Quality check:  
+Only 8 individuals show a reduced variance in their impact ratings, such that they  only use 3 or less of the scale points from 1-10. Excluding these people has virtually no impact on results.
 
 
 ### Description of typical participant
@@ -393,6 +426,7 @@ model.perceptions1 <- lmer(rating ~ recycling + commute + regional + electricity
                           data=data.perceptions.total)
 tab_model(model.perceptions1)
 
+#data.perceptions.total.excl
 ```
 ### Plot Effect of different behaviors
 => **Flying** accurately receives the highest impact weight, which is followed by **recyling** (actually least impactful #6), **diet** (#2), **regionality** (#4), **electricity supply** (#3) and **commuting** (#5)
@@ -418,6 +452,13 @@ model.perceptions.comp <- lmer(rating ~ diet*flying + diet*electricity + diet*re
                           data=data.perceptions.total)
 
 tab_model(model.perceptions.comp)
+
+model.perceptions.comp.excl <- lmer(rating ~ diet*flying + diet*electricity + diet*regional + commute  + recycling +
+                                   age + gender + education +
+                                   (1|participant.label),
+                               data=data.perceptions.total.excl)
+
+tab_model(model.perceptions.comp.excl)
 ```
 
 #### Diet and flying
@@ -660,7 +701,11 @@ model.weight.flying.fact <- lm(flying.weight ~ footprint.flying_fact    +
                           data=data.regression.weights)
 tab_model(model.weight.flying.fact)
 
-
+model.weight.flying.fact.excl <- lm(flying.weight ~ footprint.flying_fact    + 
+                            gender + age + income + education + cc_concern.mean,
+                          data=data.regression.weights.excl)
+#tab_model(model.weight.flying.fact.excl)
+# p-value now 0.005
 ```
 
 ### Diet
@@ -673,6 +718,11 @@ model.weight.diet.fact <- lm(diet.weight ~  footprint.diet_fact +
                        data=data.regression.weights)
 tab_model(model.weight.diet.fact)
 
+model.weight.diet.fact.excl <- lm(diet.weight ~  footprint.diet_fact +
+                         gender + age + income + education + cc_concern.mean,
+                       data=data.regression.weights.excl)
+#tab_model(model.weight.diet.fact.excl)
+# no difference really
 ```
 
 ### Electricity
