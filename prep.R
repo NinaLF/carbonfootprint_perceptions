@@ -330,7 +330,7 @@ write.csv(data.perceptions.total, "data/data.perceptions.total.csv")
 
 ## beta weights
 model.perceptions.weights <- lmer(rating ~ flying + diet + electricity + commute + regional + recycling +
-                            (1 + flying + diet + electricity + commute + regional + recycling | participant.label),
+                            (1 + flying + diet + electricity + commute + regional + recycling | participant.label)  + (1|vignette),
                           data=data.perceptions.total)
 tab_model(model.perceptions.weights)
 AgentsModelH1 <- coef(model.perceptions.weights)$participant.label
