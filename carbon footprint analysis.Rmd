@@ -229,8 +229,8 @@ ggplot(data.policy.means,aes( x=policy2, y=Mean, fill=policy2) )+
 ```{r, include=FALSE}
 
 ## basics, reliability etc
-psych::alpha(data[c("policy_item1" ,"policy_item11" ,  "policy_item3", "policy_item5" , "policy_item8", 
-                             "policy_item12",  "policy_item2", "policy_item4" , "policy_item6",  "policy_item7" )])
+#psych::alpha(data[c("policy_item1" ,"policy_item11" ,  "policy_item3", "policy_item5" , "policy_item8", 
+ #                            "policy_item12",  "policy_item2", "policy_item4" , "policy_item6",  "policy_item7" )])
 
 # alpha = 0.87
 #item 10 (expand recyling) , item9 taxes on non-recyclables
@@ -884,37 +884,37 @@ Again excluding participants with negative regression weights.
 *We expect that climate policy support for specific consumer behaviors is influenced by the perceived impact of those behaviors on the size of carbon footprints. Specifically, we expect that individuals with higher (versus lower) impact perceptions of a behavior are more supportive of policies targeting that behavior. *
 ```{r}
 data.regression.weights1 <- data.regression.weights.excl %>% rename(weight=flying.weight)
-model.policy.flying <- lm(policy.flying ~  weight +
+model.policy.flying <- lm(policy.flying.tax ~  weight +
                             cc_concern.mean+ conservative_liberal +
                             gender + age + income + education ,
                            data=data.regression.weights1)
 
 data.regression.weights2 <- data.regression.weights.excl %>% rename(weight=commute.weight)
-model.policy.car<- lm(policy.car ~  weight +
+model.policy.car<- lm(policy.car.tax ~  weight +
                             cc_concern.mean+ conservative_liberal +
                             gender + age + income + education ,
                           data=data.regression.weights2)
 
 data.regression.weights3 <- data.regression.weights.excl %>% rename(weight=diet.weight)
-model.policy.meat<- lm(policy.meat ~ weight +
+model.policy.meat<- lm(policy.meat.tax ~ weight +
                             cc_concern.mean+ conservative_liberal +
                             gender + age + income + education ,
                       data=data.regression.weights3)
 
 data.regression.weights4 <- data.regression.weights.excl %>% rename(weight=electricity.weight)
-model.policy.elec<- lm(policy.RE ~  weight +
+model.policy.elec<- lm(policy.RE.tax ~  weight +
                             cc_concern.mean+ conservative_liberal +
                             gender + age + income + education ,
                       data=data.regression.weights4)
 
 data.regression.weights5 <- data.regression.weights.excl %>% rename(weight=regional.weight)
-model.policy.regional<- lm(policy.regional_food ~ weight +
+model.policy.regional<- lm(policy.regional_food.tax ~ weight +
                             cc_concern.mean+ conservative_liberal +
                             gender + age + income + education ,
                       data=data.regression.weights5)
 
 data.regression.weights6 <- data.regression.weights.excl %>% rename(weight=recycling.weight)
-model.policy.recycle<- lm(policy.recycle ~ weight +
+model.policy.recycle<- lm(policy.recycle.tax ~ weight +
                             cc_concern.mean+ conservative_liberal +
                             gender + age + income + education ,
                           data=data.regression.weights6)
@@ -922,6 +922,9 @@ model.policy.recycle<- lm(policy.recycle ~ weight +
 
 **Overview plot**
 
+Note: this is using the policy support for the tax version of the policy (when using the mean of the tax plus subsidy policy the results are slightly different: the meat.policy is not significant at all).  
+  
+  
 
 ```{r p1,    message=FALSE, fig.width=25, fig.height=16}
 plot_models(model.policy.meat, model.policy.flying, model.policy.elec, model.policy.car,  model.policy.recycle, model.policy.regional ,dot.size = 5, line.size=1.2, show.p = TRUE, p.shape=TRUE, p.threshold = c(0.05, 0.05/6) )  +

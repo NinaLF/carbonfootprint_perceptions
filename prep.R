@@ -113,7 +113,21 @@ data2 <- data %>%
           footprint.travel.train=footprint_6,
           footprint.flying=footprint_7,
           footprint.electricity=footprint_8,
-          ) 
+          ) %>%
+  rename(policy.car.sub = policy_item1,
+         policy.car.tax = policy_item2,
+         policy.flying.sub = policy_item3,
+         policy.flying.tax = policy_item4,
+         policy.RE.sub = policy_item5,
+         policy.RE.tax = policy_item6,
+         policy.meat.tax = policy_item7,
+         policy.meat.sub = policy_item8,
+         policy.recycle.sub =policy_item10,
+         policy.recycle.tax = policy_item9,
+         policy.regional_food.sub = policy_item11,
+         policy.regional_food.tax = policy_item12
+         
+  )
 
 
 # prepping reported behavior
@@ -344,7 +358,7 @@ Model_H1Agents.waves <- Model_H1Agents.waves %>%
 
 data.id <- data2 %>% 
   select(participant.label, gender, age, income, education, cc_concern.mean, total_co2, conservative_liberal.binary, conservative_liberal ,starts_with("footptint"),
-         policy.car, policy.flying, policy.recycle, policy.RE, policy.meat, policy.regional_food,
+        starts_with("policy.") ,
          footprint.electricity, footprint.regional, footprint.recycling, footprint.diet, footprint.travel.car, footprint.travel.bus, footprint.travel.train, footprint.flying
          )  %>%
   mutate(footprint.public.transport = rowMeans(cbind(footprint.travel.train, footprint.travel.bus) ))
