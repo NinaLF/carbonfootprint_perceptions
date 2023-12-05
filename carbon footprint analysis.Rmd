@@ -41,6 +41,7 @@ library(prettydoc)
 library(ggeffects)
 library(reghelper) # for simple slopes
 library(interactions)# for simple slopes
+library(lmtest)
 
 library("rmcorr")
 library(Hmisc)
@@ -1146,5 +1147,15 @@ tab_model(model.policy.recycle.2)
 ```
 
 
+## Other
+
+```{r}
+## homoscedasticity
+
+# weighted regression mostly makes it worse or not better
+
+
+
+```
 
 

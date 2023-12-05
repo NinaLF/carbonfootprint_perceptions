@@ -380,9 +380,6 @@ write.csv(data.regression.weights, "data/data.regression.weights.new.csv")
 
 
 
-
-
-
 ### regression weights visually
 data.regression.weights.long <-  pivot_longer(data.regression.weights,flying2:recycling2, names_to = "behavior", values_to = "regression.weight" )
 
