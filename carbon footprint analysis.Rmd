@@ -76,7 +76,7 @@ data.policies.long$policy2 <- factor(data.policies.long$policy,
 data.policies.long <- data.policies.long[!c(data.policies.long$participant.label %in% data.excl$participant.label), ] 
 data.policies.long$income <- factor(data.policies.long$income, levels=c("< 18.000£", "18.000£ to 23.000£", "23.001£ to 30.500£", "30.501£ to 45.000£", "> 45.001£"))
 
-data.regression.weights <- read.csv("data/data.regression.weights.csv")
+data.regression.weights <- read.csv("data/data.regression.weights.new.csv")
 data.regression.weights <- data.regression.weights[!c(data.regression.weights$participant.label %in% data.excl$participant.label), ] 
 
 data.regression.weights$income <- factor(data.regression.weights$income, levels=c("< 18.000£", "18.000£ to 23.000£", "23.001£ to 30.500£", "30.501£ to 45.000£", "> 45.001£"))
@@ -298,14 +298,14 @@ Only 8 individuals show a reduced variance in their impact ratings, such that th
 ```{r}
 
 data.behaviors.diet <- data.regression.weights %>% select(participant.label, footprint.diet_fact) %>% group_by(footprint.diet_fact) %>% tally()
-data.behaviors.diet$perc <- round(data.behaviors.diet$n/199*100,1)
+data.behaviors.diet$perc <- round(data.behaviors.diet$n/196*100,1)
 
 
 data.behaviors.flying <- data.regression.weights %>% select(participant.label, footprint.flying_fact) %>% group_by(footprint.flying_fact) %>% tally()
-data.behaviors.flying$perc <- round(data.behaviors.flying$n/199*100,1)
+data.behaviors.flying$perc <- round(data.behaviors.flying$n/196*100,1)
 
 data.behaviors.elec <- data.regression.weights %>% select(participant.label, footprint.electricity_fact) %>% group_by(footprint.electricity_fact) %>% tally()
-data.behaviors.elec$perc <- round(data.behaviors.elec$n/199*100,1)
+data.behaviors.elec$perc <- round(data.behaviors.elec$n/196*100,1)
 
 ```
 Most participants: `r paste0(data.behaviors.diet$perc[data.behaviors.diet$footprint.diet_fact=="meat-based" ] , "%") ` follow a meat-based diet, `r paste0(data.behaviors.flying$perc[data.behaviors.flying$footprint.flying_fact=="did not fly" ] , "%") ` did not fly , 
@@ -733,7 +733,7 @@ model.weight.flying.fact.excl <- lm(flying.weight ~ footprint.flying_fact    +
                             gender + age + income + education + cc_concern.mean,
                           data=data.regression.weights.excl)
 #tab_model(model.weight.flying.fact.excl)
-# p-value now 0.005
+# p-value now 0.007
 ```
 
 ### Diet

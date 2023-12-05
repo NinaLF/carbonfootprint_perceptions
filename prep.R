@@ -343,7 +343,7 @@ write.csv(data.perceptions.total, "data/data.perceptions.total.csv")
 #### individual regression weights
 
 ## beta weights
-model.perceptions.weights <- lmer(rating ~ flying + diet + electricity + commute + regional + recycling +
+model.perceptions.weights <- lmer(rating ~ flying + diet + electricity + commute + regional + recycling + (1|participant.label) +
                             (1 + flying + diet + electricity + commute + regional + recycling | participant.label)  + (1|vignette),
                           data=data.perceptions.total)
 tab_model(model.perceptions.weights)
@@ -375,7 +375,7 @@ data.regression.weights <- data.regression.weights %>%
 
 
 #save
-write.csv(data.regression.weights, "data/data.regression.weights.csv")
+write.csv(data.regression.weights, "data/data.regression.weights.new.csv")
 
 
 
