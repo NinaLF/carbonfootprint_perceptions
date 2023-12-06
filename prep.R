@@ -375,10 +375,41 @@ data.regression.weights <- data.regression.weights %>%
 
 
 #save
-write.csv(data.regression.weights, "data/data.regression.weights.new.csv")
+write.csv(data.regression.weights, "data/data.regression.weights.csv")
+
+
+## radiant.multivariate
+model.conjoint <- conjoint(data.perceptions.total, rvar = "rating", by ="participant.label",
+         evar = c("flying" , "diet" , "electricity" , "commute" , "regional" , "recycling"))
+
+summary(model.conjoint)
+plot(model.conjoint)
+plot(model.conjoint, plots="iw", custom = TRUE)+  scale_fill_viridis_d()+ 
+  theme_minimal() 
+
+data.importance.weights <- model.conjoint$IW
+data.importance.weights <- merge(data.importance.weights, data.id, by=c("participant.label")) 
+
+
+write.csv(data.importance.weights, "data/data.importance.weights.csv")
+
+## part worths
+data.part.worths <- model.conjoint$PW
+data.part.worths <- merge(data.part.worths, data.id, by=c("participant.label")) 
+
+data.part.worths <- data.part.worths %>%
+  rename(flying.weight = 'flying_flies2year',
+         diet.weight = 'diet_meatbased',
+         electricity.weight= 'electricity_mixedenergysupply' ,
+         commute.weight = 'commute_takesthebus',
+         recycling.weight='recycling_doesnotrecycle',
+         regional.weight = 'regional_regionalandimported')
+
+write.csv(data.part.worths, "data/data.part.worths.csv")
 
 
 
+# per person importance weight
 
 ### regression weights visually
 data.regression.weights.long <-  pivot_longer(data.regression.weights,flying2:recycling2, names_to = "behavior", values_to = "regression.weight" )

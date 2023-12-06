@@ -125,6 +125,13 @@ data.perceptions.total$recycling <- factor(data.perceptions.total$recycling,
 
 data.perceptions.total$rel.cc.concern <- scale(data.perceptions.total$cc_concern.mean)[,1]
 
+data.importance.weights <- read.csv("data/data.importance.weights.csv")
+data.importance.weights <- data.importance.weights[!c(data.importance.weights$participant.label %in% data.excl$participant.label), ] 
+data.importance.weights$income <- factor(data.importance.weights$income, levels=c("< 18.000£", "18.000£ to 23.000£", "23.001£ to 30.500£", "30.501£ to 45.000£", "> 45.001£"))
+
+data.part.worths <- read.csv("data/data.part.worths.csv")
+data.part.worths <- data.part.worths[!c(data.part.worths$participant.label %in% data.excl$participant.label), ] 
+data.part.worths$income <- factor(data.part.worths$income, levels=c("< 18.000£", "18.000£ to 23.000£", "23.001£ to 30.500£", "30.501£ to 45.000£", "> 45.001£"))
 
 
 ```
@@ -293,6 +300,53 @@ ggplot(data.regression.weights.long, aes(x=behavior.label, y=regression.weight, 
   
 Quality check:  
 Only 8 individuals show a reduced variance in their impact ratings, such that they  only use 3 or less of the scale points from 1-10. Excluding these people has virtually no impact on results.
+
+### Importance weights and part worths
+
+```{r}
+data.importance.weights.long <-  pivot_longer(data.importance.weights,flying:recycling, names_to = "behavior", values_to = "importance.weight" )
+
+data.importance.weights.long$behavior.label <- factor(data.importance.weights.long$behavior, 
+                                                levels=c("flying", "diet", "electricity" ,"regional", "commute","recycling" ) ,
+                                                labels=c("train vs. flying 2/year", "diet vegetarian vs. omnivore", "100% RE vs. mixed",
+                                                         "regional only vs imported food", "commute by bus vs. bike", "recycling vs. not")) 
+
+plot.IW <- ggplot(data.importance.weights.long, aes(x=behavior.label, y=importance.weight, color=behavior.label)) +
+  geom_boxplot() + 
+  # facet_grid(conservative_liberal.binary~.) +
+  theme_minimal() +
+  theme(axis.title  = element_text(size = 18), 
+        axis.text.y = element_text(size = 18),
+        axis.text.x = element_text(size=18, angle=90 ),
+        strip.text = element_text(size=18),
+        legend.position = "none")  +
+  scale_color_viridis_d() +
+  labs(fill=NULL, x="behaviors in judgment task", y="Importance weight", title="Importance weights")
+
+```
+
+```{r, fig.width=25, fig.height=18}
+data.part.worths.long <-  pivot_longer(data.part.worths,flying.weight:recycling.weight, names_to = "behavior", values_to = "part.worths" )
+
+data.part.worths.long$behavior.label <- factor(data.part.worths.long$behavior, 
+                                                levels=c("flying.weight", "diet.weight", "electricity.weight" ,"regional.weight", "commute.weight","recycling.weight" ) ,
+                                                labels=c("train vs. flying 2/year", "diet vegetarian vs. omnivore", "100% RE vs. mixed",
+                                                         "regional only vs imported food", "commute by bus vs. bike", "recycling vs. not")) 
+
+plot.PW <- ggplot(data.part.worths.long, aes(x=behavior.label, y=part.worths, color=behavior.label)) +
+  geom_boxplot() + 
+  # facet_grid(conservative_liberal.binary~.) +
+  theme_minimal() +
+  theme(axis.title  = element_text(size = 18), 
+        axis.text.y = element_text(size = 18),
+        axis.text.x = element_text(size=18, angle=90 ),
+        strip.text = element_text(size=18),
+        legend.position = "none")  +
+  scale_color_viridis_d() +
+  labs(fill=NULL, x="behaviors in judgment task", y="Part worths", title="Part worths")
+
+plot.IW | plot.PW
+```
 
 
 ### Description of typical participant
@@ -827,6 +881,9 @@ model.weight.recycle <- lm(recycling.weight ~footprint +
                      data=data.regression.weights.rec)
 ```
 
+
+
+
 **Overview plot**
 ```{r plot.weights,    message=FALSE, fig.width=25, fig.height=16}
 
@@ -1147,15 +1204,310 @@ tab_model(model.policy.recycle.2)
 ```
 
 
-## Other
+## With Importance weights footprint
 
 ```{r}
-## homoscedasticity
 
-# weighted regression mostly makes it worse or not better
+## with conjoint importance weights
+
+## Using impact weights per high versus low behavior => so regression weights for low versus high also no effect, but here the variance also much smaller than for the individual behaviors
+
+data.importance.weights.f <- data.importance.weights %>% rename(footprint=footprint.flying)
+model.weight.flying.iw <- lm(flying ~ footprint +
+                            gender + age + income + education + cc_concern.mean,
+                          data=data.importance.weights.f)
+
+data.importance.weights.d <- data.importance.weights %>% rename(footprint=footprint.diet)
+model.weight.diet.iw <- lm(diet ~  footprint + 
+                         gender + age + income + education + cc_concern.mean,
+                       data=data.importance.weights.d)
+
+data.importance.weights.e <- data.importance.weights %>% rename(footprint=footprint.electricity)
+model.weight.elec.iw <- lm(electricity ~  footprint +
+                         gender + age + income + education + cc_concern.mean,
+                       data=data.importance.weights.e)
+
+data.importance.weights.t <- data.importance.weights %>% rename(footprint=footprint.travel.car)
+model.weight.transport.iw <- lm(commute ~ footprint +
+                              gender + age + income + education + cc_concern.mean,
+                            data=data.importance.weights.t)
+
+data.importance.weights.reg <- data.importance.weights %>% rename(footprint=footprint.regional)
+model.weight.regional.iw <- lm(regional ~footprint +
+                       gender + age + income + education + cc_concern.mean,
+                     data=data.importance.weights.reg)
+
+data.importance.weights.rec <- data.importance.weights %>% rename(footprint=footprint.recycling)
+model.weight.recycle.iw <- lm(recycling ~footprint +
+                       gender + age + income + education + cc_concern.mean,
+                     data=data.importance.weights.rec)
+```
+
+**Overview plot**
+```{r plot.weights.iw,    message=FALSE, fig.width=25, fig.height=16}
+
+
+plot_models(model.weight.flying.iw, model.weight.diet.iw, model.weight.elec.iw, model.weight.transport.iw,  model.weight.regional.iw ,dot.size = 5, line.size=1.2, show.p = TRUE, p.shape=TRUE, p.threshold = c(0.05, 0.05/6) ) +
+  scale_color_viridis_d() + theme_minimal()+
+   theme(plot.caption = element_text(hjust = 0),
+          plot.title.position = "plot",
+          plot.caption.position =  "plot",
+          plot.title = element_text(size = 25, face = "bold",family = 'Arial', color="black"),
+          axis.title  = element_text(size = 25, family = 'Arial', color="black"),
+          axis.text = element_text(size = 23, family = 'Arial', color="black"),
+          axis.text.y = element_text(size = 23, family = 'Arial', color="black"),
+          axis.text.x = element_text(size = 23, family = 'Arial', color="black"),
+          legend.title = element_text(size = 22, face="plain",family = 'Arial', color="black"),
+          strip.text = element_text(size = 22, face="plain",family = 'Arial', color="black"),
+          legend.text = element_text(size = 22,family = 'Arial', color="black")) 
 
 
 
 ```
+
+### Flying
+```{r}
+tab_model(model.weight.flying.iw)
+
+```
+
+### Diet
+```{r}
+tab_model(model.weight.diet.iw)
+```
+
+### Electricity
+```{r}
+
+tab_model(model.weight.elec.iw)
+```
+
+
+### Transport
+```{r}
+tab_model(model.weight.transport.iw)
+
+```
+
+### Regional   
+
+    
+```{r}
+tab_model(model.weight.regional.iw)
+```
+
+### Recycling
+```{r}
+tab_model(model.weight.recycle.iw)
+```
+
+## Part worths and behavior
+
+
+```{r}
+
+#Interaction with rel.cc.concern not helpful
+
+## Using impact weights per high versus low behavior => so regression weights for low versus high also no effect, but here the variance also much smaller than for the individual behaviors
+
+data.part.worths.f <- data.part.worths %>% rename(footprint=footprint.flying)
+model.weight.flying.pw <- lm(flying.weight ~ footprint +
+                            gender + age + income + education + cc_concern.mean,
+                          data=data.part.worths.f)
+
+data.part.worths.d <- data.part.worths %>% rename(footprint=footprint.diet)
+model.weight.diet.pw <- lm(diet.weight ~  footprint + 
+                         gender + age + income + education + cc_concern.mean,
+                       data=data.part.worths.d)
+
+data.part.worths.e <- data.part.worths %>% rename(footprint=footprint.electricity)
+model.weight.elec.pw <- lm(electricity.weight ~  footprint +
+                         gender + age + income + education + cc_concern.mean,
+                       data=data.part.worths.e)
+
+data.part.worths.t <- data.part.worths %>% rename(footprint=footprint.travel.car)
+model.weight.transport.pw <- lm(commute.weight ~ footprint +
+                              gender + age + income + education + cc_concern.mean,
+                            data=data.part.worths.t)
+
+data.part.worths.reg <- data.part.worths %>% rename(footprint=footprint.regional)
+model.weight.regional.pw <- lm(regional.weight ~footprint +
+                       gender + age + income + education + cc_concern.mean,
+                     data=data.part.worths.reg)
+
+data.part.worths.rec <- data.part.worths %>% rename(footprint=footprint.recycling)
+model.weight.recycle.pw <- lm(recycling.weight ~footprint +
+                       gender + age + income + education + cc_concern.mean,
+                     data=data.part.worths.rec)
+```
+
+
+
+
+**Overview plot**
+```{r plot.weights.pw,    message=FALSE, fig.width=25, fig.height=16}
+
+
+plot_models(model.weight.flying.pw, model.weight.diet.pw, model.weight.elec.pw, model.weight.transport.pw,  model.weight.regional.pw ,dot.size = 5, line.size=1.2, show.p = TRUE, p.shape=TRUE, p.threshold = c(0.05, 0.05/6) ) +
+  scale_color_viridis_d() + theme_minimal()+
+   theme(plot.caption = element_text(hjust = 0),
+          plot.title.position = "plot",
+          plot.caption.position =  "plot",
+          plot.title = element_text(size = 25, face = "bold",family = 'Arial', color="black"),
+          axis.title  = element_text(size = 25, family = 'Arial', color="black"),
+          axis.text = element_text(size = 23, family = 'Arial', color="black"),
+          axis.text.y = element_text(size = 23, family = 'Arial', color="black"),
+          axis.text.x = element_text(size = 23, family = 'Arial', color="black"),
+          legend.title = element_text(size = 22, face="plain",family = 'Arial', color="black"),
+          strip.text = element_text(size = 22, face="plain",family = 'Arial', color="black"),
+          legend.text = element_text(size = 22,family = 'Arial', color="black")) 
+
+
+
+```
+
+
+```{r}
+## homoscedasticity
+# weighted regression mostly makes it worse or not better
+
+```
+
+
+## Importance weights and policy
+
+```{r}
+
+data.importance.weights1 <-  data.importance.weights %>% rename(weight=flying)
+model.policy.flying.iw <- lm(policy.flying.tax ~  weight +
+                            cc_concern.mean+ conservative_liberal +
+                            gender + age + income + education ,
+                           data=data.importance.weights1)
+
+data.importance.weights2 <- data.importance.weights %>% rename(weight=commute)
+model.policy.car.iw <- lm(policy.car.tax ~  weight +
+                            cc_concern.mean+ conservative_liberal +
+                            gender + age + income + education ,
+                          data=data.importance.weights2)
+
+data.importance.weights3 <- data.importance.weights %>% rename(weight=diet)
+model.policy.meat.iw <- lm(policy.meat.tax ~ weight +
+                            cc_concern.mean+ conservative_liberal +
+                            gender + age + income + education ,
+                      data=data.importance.weights3)
+
+data.importance.weights4 <- data.importance.weights %>% rename(weight=electricity)
+model.policy.elec.iw <- lm(policy.RE.tax ~  weight +
+                            cc_concern.mean+ conservative_liberal +
+                            gender + age + income + education ,
+                      data=data.importance.weights4)
+
+data.importance.weights5 <- data.importance.weights %>% rename(weight=regional)
+model.policy.regional.iw <- lm(policy.regional_food.tax ~ weight +
+                            cc_concern.mean+ conservative_liberal +
+                            gender + age + income + education ,
+                      data=data.importance.weights5)
+
+data.importance.weights6 <- data.importance.weights %>% rename(weight=recycling)
+model.policy.recycle.iw <- lm(policy.recycle.tax ~ weight +
+                            cc_concern.mean+ conservative_liberal +
+                            gender + age + income + education ,
+                          data=data.importance.weights6)
+```
+
+**Overview plot**
+
+Note: this is using the policy support for the tax version of the policy (when using the mean of the tax plus subsidy policy the results are slightly different: the meat.policy is not significant at all).  
+  
+  
+
+```{r p.iw,    message=FALSE, fig.width=25, fig.height=16}
+plot_models(model.policy.meat.iw, model.policy.flying.iw, model.policy.elec.iw, model.policy.car.iw,  model.policy.recycle.iw, model.policy.regional.iw ,dot.size = 5, line.size=1.2, show.p = TRUE, p.shape=TRUE, p.threshold = c(0.05, 0.05/6) )  +
+  scale_color_viridis_d() +  theme_minimal()+
+   theme(plot.caption = element_text(hjust = 0),
+          plot.title.position = "plot",
+          plot.caption.position =  "plot",
+          plot.title = element_text(size = 25, face = "bold",family = 'Arial', color="black"),
+          axis.title  = element_text(size = 25, family = 'Arial', color="black"),
+          axis.text = element_text(size = 23, family = 'Arial', color="black"),
+          axis.text.y = element_text(size = 23, family = 'Arial', color="black"),
+          axis.text.x = element_text(size = 23, family = 'Arial', color="black"),
+          legend.title = element_text(size = 22, face="plain",family = 'Arial', color="black"),
+          strip.text = element_text(size = 22, face="plain",family = 'Arial', color="black"),
+          legend.text = element_text(size = 22,family = 'Arial', color="black")) 
+
+```
+
+
+
+
+
+## Part worths and policy
+
+```{r}
+
+data.part.worths1 <-  data.part.worths %>% rename(weight=flying.weight)
+model.policy.flying.pw <- lm(policy.flying.tax ~  weight +
+                            cc_concern.mean+ conservative_liberal +
+                            gender + age + income + education ,
+                           data=data.part.worths1)
+
+data.part.worths2 <- data.part.worths %>% rename(weight=commute.weight)
+model.policy.car.pw <- lm(policy.car.tax ~  weight +
+                            cc_concern.mean+ conservative_liberal +
+                            gender + age + income + education ,
+                          data=data.part.worths2)
+
+data.part.worths3 <- data.part.worths %>% rename(weight=diet.weight)
+model.policy.meat.pw <- lm(policy.meat.tax ~ weight +
+                            cc_concern.mean+ conservative_liberal +
+                            gender + age + income + education ,
+                      data=data.part.worths3)
+
+data.part.worths4 <- data.part.worths %>% rename(weight=electricity.weight)
+model.policy.elec.pw <- lm(policy.RE.tax ~  weight +
+                            cc_concern.mean+ conservative_liberal +
+                            gender + age + income + education ,
+                      data=data.part.worths4)
+
+data.part.worths5 <- data.part.worths %>% rename(weight=regional.weight)
+model.policy.regional.pw <- lm(policy.regional_food.tax ~ weight +
+                            cc_concern.mean+ conservative_liberal +
+                            gender + age + income + education ,
+                      data=data.part.worths5)
+
+data.part.worths6 <- data.part.worths %>% rename(weight=recycling.weight)
+model.policy.recycle.pw <- lm(policy.recycle.tax ~ weight +
+                            cc_concern.mean+ conservative_liberal +
+                            gender + age + income + education ,
+                          data=data.part.worths6)
+```
+
+**Overview plot**
+
+Note: this is using the policy support for the tax version of the policy (when using the mean of the tax plus subsidy policy the results are slightly different: the meat.policy is not significant at all).  
+  
+  
+
+```{r p.pw,    message=FALSE, fig.width=25, fig.height=16}
+plot_models(model.policy.meat.pw, model.policy.flying.pw, model.policy.elec.pw, model.policy.car.pw,  model.policy.recycle.pw, model.policy.regional.pw ,dot.size = 5, line.size=1.2, show.p = TRUE, p.shape=TRUE, p.threshold = c(0.05, 0.05/6) )  +
+  scale_color_viridis_d() +  theme_minimal()+
+   theme(plot.caption = element_text(hjust = 0),
+          plot.title.position = "plot",
+          plot.caption.position =  "plot",
+          plot.title = element_text(size = 25, face = "bold",family = 'Arial', color="black"),
+          axis.title  = element_text(size = 25, family = 'Arial', color="black"),
+          axis.text = element_text(size = 23, family = 'Arial', color="black"),
+          axis.text.y = element_text(size = 23, family = 'Arial', color="black"),
+          axis.text.x = element_text(size = 23, family = 'Arial', color="black"),
+          legend.title = element_text(size = 22, face="plain",family = 'Arial', color="black"),
+          strip.text = element_text(size = 22, face="plain",family = 'Arial', color="black"),
+          legend.text = element_text(size = 22,family = 'Arial', color="black")) 
+
+```
+
+
+
+
 
 
