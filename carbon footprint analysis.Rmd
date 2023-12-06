@@ -1388,5 +1388,20 @@ tab_model(complete.model.behavior)
 ```
 
 
+## multivariate (?)
+
+
+```{r}
+
+mode.policy.all <-  lm(cbind(policy.car.tax, policy.flying.tax,policy.meat.tax, policy.regional_food.tax, policy.RE.tax, policy.recycle.tax)  ~  
+                         diet.weight +flying.weight  +commute.weight + recycling.weight + regional.weight+ electricity.weight +
+                         cc_concern.mean+ conservative_liberal +
+                         gender + age + income + education ,
+                       data=data.regression.weights)
+
+Anova(mode.policy.all)
+
+
+```
 
 
