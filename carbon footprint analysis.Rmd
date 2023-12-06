@@ -1204,7 +1204,7 @@ tab_model(model.policy.recycle.2)
 ```
 
 
-## With Importance weights footprint
+## With Importance weights H3
 
 ```{r}
 
@@ -1265,43 +1265,10 @@ plot_models(model.weight.flying.iw, model.weight.diet.iw, model.weight.elec.iw, 
 
 ```
 
-### Flying
-```{r}
-tab_model(model.weight.flying.iw)
 
-```
-
-### Diet
-```{r}
-tab_model(model.weight.diet.iw)
-```
-
-### Electricity
-```{r}
-
-tab_model(model.weight.elec.iw)
-```
-
-
-### Transport
-```{r}
-tab_model(model.weight.transport.iw)
-
-```
-
-### Regional   
 
     
-```{r}
-tab_model(model.weight.regional.iw)
-```
-
-### Recycling
-```{r}
-tab_model(model.weight.recycle.iw)
-```
-
-## Part worths and behavior
+## With Part worths H3
 
 
 ```{r}
@@ -1374,7 +1341,7 @@ plot_models(model.weight.flying.pw, model.weight.diet.pw, model.weight.elec.pw, 
 ```
 
 
-## Importance weights and policy
+## With Importance weights H4
 
 ```{r}
 
@@ -1417,7 +1384,7 @@ model.policy.recycle.iw <- lm(policy.recycle.tax ~ weight +
 
 **Overview plot**
 
-Note: this is using the policy support for the tax version of the policy (when using the mean of the tax plus subsidy policy the results are slightly different: the meat.policy is not significant at all).  
+Note: this is using the policy support for the tax version of the policy 
   
   
 
@@ -1442,7 +1409,7 @@ plot_models(model.policy.meat.iw, model.policy.flying.iw, model.policy.elec.iw, 
 
 
 
-## Part worths and policy
+## With Part worths H4
 
 ```{r}
 
@@ -1485,8 +1452,7 @@ model.policy.recycle.pw <- lm(policy.recycle.tax ~ weight +
 
 **Overview plot**
 
-Note: this is using the policy support for the tax version of the policy (when using the mean of the tax plus subsidy policy the results are slightly different: the meat.policy is not significant at all).  
-  
+Note: this is using the policy support for the tax version of the policy 
   
 
 ```{r p.pw,    message=FALSE, fig.width=25, fig.height=16}
