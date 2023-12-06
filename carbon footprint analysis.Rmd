@@ -397,11 +397,22 @@ tab_model(model.accuracy2.excl)
 #data.accuracy.score.tau.excl
 ```
 ### Distribution accuracy by cc concern
+=> Higher cc concern associated with more accuracy
 ```{r}
-ggplot(data.accuracy.score.tau, aes(x=cor.tau, fill=rel_cc_concern.mean.f, alpha=.3)) +
-  geom_density() +
+ggplot(data.accuracy.score.tau.excl, aes(x=cor.tau, fill=rel_cc_concern.mean.f, alpha=.3)) +
+  geom_density(alpha=.5) +  labs(alpha=NULL, fill="z-standardized cc concern") +  
   theme_minimal() +
-  scale_fill_manual(values=c(  "#a50000", "#ff8c00", "#F6BE00"))
+  scale_fill_manual(values=c(  "#a50000", "#F6BE00", "#2F8D06"))
+```
+
+### Distribution accuracy by income
+=> Higher income associated with lower accuracy
+```{r}
+ggplot(data.accuracy.score.tau.excl, aes(x=cor.tau, fill=income)) +
+    geom_density(alpha=.7) +
+    theme_minimal() + labs(alpha=NULL) +
+    scale_fill_manual(values=c(  "#6ec19d", "#0c8853", "#127d71", "#12547d", "#2e519a"))
+    
 ```
 
 
@@ -430,10 +441,10 @@ model.support.accuracy2.mod <- lm(policy.support.total ~ rel_cor.tau*rel_cc_conc
 ### Distribution policy support by accuracy
 
 ```{r}
-ggplot(data.accuracy.score.tau, aes(x=policy.support.total, fill=rel_cor.tau.f, alpha=.3)) +
-  geom_density() +
+ggplot(data.accuracy.score.tau.excl, aes(x=policy.support.total, fill=rel_cor.tau.f)) +
+  geom_density(alpha=.5) +  labs(alpha=NULL, fill="z-standardized tau") +
   theme_minimal() +
-  scale_fill_manual(values=c(  "#a50000", "#ff8c00", "#F6BE00"))
+  scale_fill_manual(values=c(  "#a50000", "#F6BE00", "#2F8D06"))
 
 ```
 
@@ -1270,6 +1281,111 @@ plot_models(model.policy.meat.pw, model.policy.flying.pw, model.policy.elec.pw, 
 ```
 
 
+## Everything in one Model
+```{r}
+data.regression.weights.long <-  pivot_longer(data.regression.weights,flying.weight:recycling.weight, names_to = "behavior", values_to = "regression.weight" )
+
+data.regression.weights.long_clean <-  data.regression.weights.long %>% select(participant.label, behavior, regression.weight, gender, age, income, education, cc_concern.mean, conservative_liberal)
+data.regression.weights.long_clean$behavior <- factor(data.regression.weights.long_clean$behavior, levels=c("commute.weight", "diet.weight", "electricity.weight", "flying.weight", "recycling.weight", "regional.weight" ),
+                                                      labels=c("commute", "diet", "electricity", "flying", "recyling", "regional") )
+
+data.regression.weights.policies <- data.regression.weights.long %>% select(participant.label, policy.car, policy.flying, policy.RE, policy.meat,   policy.recycle, policy.regional_food )
+data.regression.weights.policies <- unique(data.regression.weights.policies)
+
+data.regression.weights.policies.long <- pivot_longer(data.regression.weights.policies,policy.car:policy.regional_food,  names_to = "behavior", values_to = "policy.support")
+data.regression.weights.policies.long$behavior <- factor(data.regression.weights.policies.long$behavior, 
+                                                         levels=c( "policy.car", "policy.meat", "policy.RE","policy.flying", "policy.recycle", "policy.regional_food" ),
+                                                         labels=c("commute", "diet", "electricity", "flying", "recyling", "regional") )  
+  
+data.regression.weights.footprint <- data.regression.weights.long %>% select(participant.label, footprint.travel.car, footprint.flying, footprint.electricity, footprint.diet,   footprint.recycling, footprint.regional )
+data.regression.weights.footprint <- unique(data.regression.weights.footprint)
+
+data.regression.weights.footprint.long <- pivot_longer(data.regression.weights.footprint, footprint.travel.car:footprint.regional,  names_to = "behavior", values_to = "reported.behavior")
+data.regression.weights.footprint.long$behavior <- factor(data.regression.weights.footprint.long$behavior, 
+                                                         levels=c( "footprint.travel.car", "footprint.diet", "footprint.electricity","footprint.flying", "footprint.recycling", "footprint.regional" ),
+                                                         labels=c("commute", "diet", "electricity", "flying", "recyling", "regional") )  
+  
+data.regression.total1 <- merge(data.regression.weights.long_clean, data.regression.weights.policies.long, by=c("behavior", "participant.label"))
+
+data.regression.total <- merge(data.regression.total1, data.regression.weights.footprint.long, by=c("behavior", "participant.label"))
+                             
+data.regression.total$impact <- factor(data.regression.total$behavior, 
+                                       levels=c("commute", "diet", "electricity", "flying", "recyling", "regional"), labels=c("low", "high", "high", "high", "low","low") )
+
+```
+
+### Predicting policy support  {.tabset}
+
+#### Participat ID as random intercept
+```{r}
+complete.model <- lmer(policy.support ~ regression.weight + reported.behavior +
+                            cc_concern.mean+ conservative_liberal +
+                            gender + age + income + education  +
+                         (1|participant.label),
+                          data=data.regression.total)
+
+tab_model(complete.model)
+
+```
+#### Adding type as random intercept
+```{r}
+
+complete.model.policy<- lmer(policy.support ~ regression.weight + reported.behavior +
+                            cc_concern.mean+ conservative_liberal +
+                            gender + age + income + education  +
+                         (1|participant.label) + (1|behavior) ,
+                          data=data.regression.total)
+
+tab_model(complete.model.policy)
+```
+#### Adding impact
+```{r}
+# raom intercept
+complete.model.policy.impact <- lmer(policy.support ~ regression.weight + reported.behavior +
+                            cc_concern.mean+ conservative_liberal  + impact+
+                            gender + age + income + education  +
+                         (1|participant.label) + (1 |behavior) ,
+                          data=data.regression.total)
+
+tab_model(complete.model.policy.impact)
+```
+
+### Prediciting impact perceptions  {.tabset}
+
+#### With type (behavior) as random intercepts
+```{r}
+complete.model.impact.perc <- lmer(regression.weight ~ policy.support + reported.behavior +
+                            cc_concern.mean+ conservative_liberal  + impact+
+                            gender + age + income + education  +
+                         (1|participant.label) + (1 |behavior) ,
+                          data=data.regression.total)
+
+tab_model(complete.model.impact.perc)
+
+```
+#### With type (behavior) as main effect
+```{r}
+complete.model.impact.perc.beh <- lmer(regression.weight ~ policy.support + reported.behavior +
+                                       cc_concern.mean+ conservative_liberal  + behavior +
+                                       gender + age + income + education  +
+                                       (1|participant.label) ,
+                                   data=data.regression.total)
+
+tab_model(complete.model.impact.perc.beh)
+plot_model(complete.model.impact.perc.beh)
+```
+
+### Predicting reported behavior
+```{r}
+
+complete.model.behavior <- lmer(reported.behavior ~ policy.support + regression.weight +
+                            cc_concern.mean+ conservative_liberal  +
+                            gender + age + income + education  +
+                         (1|participant.label) + (1 |behavior) ,
+                          data=data.regression.total)
+
+tab_model(complete.model.behavior)
+```
 
 
 
