@@ -301,9 +301,49 @@ ggplot(data.regression.weights.long, aes(x=behavior.label, y=regression.weight, 
 Quality check:  
 Only 8 individuals show a reduced variance in their impact ratings, such that they  only use 3 or less of the scale points from 1-10. Excluding these people has virtually no impact on results.
 
-### Importance weights and part worths
+### Part worths
 
-```{r}
+```{r, fig.width=25, fig.height=18}
+data.part.worths.long <-  pivot_longer(data.part.worths,flying.weight:recycling.weight, names_to = "behavior", values_to = "part.worths" )
+
+data.part.worths.long$behavior.label <- factor(data.part.worths.long$behavior, 
+                                                levels=c("flying.weight", "diet.weight", "electricity.weight" ,"regional.weight", "commute.weight","recycling.weight" ) ,
+                                                labels=c("train vs. flying 2/year", "diet vegetarian vs. omnivore", "100% RE vs. mixed",
+                                                         "regional only vs imported food", "commute by bus vs. bike", "recycling vs. not")) 
+
+plot.PW <- ggplot(data.part.worths.long, aes(x=behavior.label, y=part.worths, color=behavior.label)) +
+  geom_boxplot() + 
+  # facet_grid(conservative_liberal.binary~.) +
+  theme_minimal() + 
+  theme(axis.title  = element_text(size = 18), 
+        axis.text.y = element_text(size = 18),
+        axis.text.x = element_text(size=18, angle=90 ),
+        strip.text = element_text(size=18),
+        legend.position = "none")  +
+  scale_color_viridis_d() +
+  labs(fill=NULL, x="behaviors in judgment task", y="Part worths", title="Part worths")
+plot.PW
+```
+
+```{r, fig.width=25, fig.height=18}
+data.part.worths.long.mean <- groupwiseMean(part.worths ~ behavior.label, data=data.part.worths.long)
+
+behavior.label <- c("commutes by bus", "mixed electricity", "regional and imported food", "meat-based diet","does not recycle", "flies 2/year")
+ggplot(data.part.worths.long.mean, aes(x= reorder(Mean, behavior.label), y= Mean, label =behavior.label)) +
+    geom_col(position = "dodge", width = 0.5) + scale_x_discrete(labels= behavior.label) +
+    theme_bw() + ylim(-0.5, 1.5) +
+    labs(x=NULL, y="Part worths", color =NULL, fill =NULL) +
+    theme(legend.position="bottom") +
+    coord_flip()
+
+## part worths refer to attribute levels -> higher scores in this case means influence more the perceived size of carbon footprints
+# importance weights are overall the level of utlitiy / importance assigned to the attribute
+```
+
+
+## Importance weight
+
+```{r, fig.width=25, fig.height=18}
 data.importance.weights.long <-  pivot_longer(data.importance.weights,flying:recycling, names_to = "behavior", values_to = "importance.weight" )
 
 data.importance.weights.long$behavior.label <- factor(data.importance.weights.long$behavior, 
@@ -322,30 +362,47 @@ plot.IW <- ggplot(data.importance.weights.long, aes(x=behavior.label, y=importan
         legend.position = "none")  +
   scale_color_viridis_d() +
   labs(fill=NULL, x="behaviors in judgment task", y="Importance weight", title="Importance weights")
+plot.IW
 
 ```
 
-```{r, fig.width=25, fig.height=18}
-data.part.worths.long <-  pivot_longer(data.part.worths,flying.weight:recycling.weight, names_to = "behavior", values_to = "part.worths" )
 
-data.part.worths.long$behavior.label <- factor(data.part.worths.long$behavior, 
-                                                levels=c("flying.weight", "diet.weight", "electricity.weight" ,"regional.weight", "commute.weight","recycling.weight" ) ,
-                                                labels=c("train vs. flying 2/year", "diet vegetarian vs. omnivore", "100% RE vs. mixed",
-                                                         "regional only vs imported food", "commute by bus vs. bike", "recycling vs. not")) 
+```{r, include=F}
+# QUestion 4: Piechart-How many percent of the respondents think "very good", "good", "moderate", "bad" and "very bad" about the "less for more" project?
 
-plot.PW <- ggplot(data.part.worths.long, aes(x=behavior.label, y=part.worths, color=behavior.label)) +
-  geom_boxplot() + 
-  # facet_grid(conservative_liberal.binary~.) +
-  theme_minimal() +
-  theme(axis.title  = element_text(size = 18), 
-        axis.text.y = element_text(size = 18),
-        axis.text.x = element_text(size=18, angle=90 ),
-        strip.text = element_text(size=18),
-        legend.position = "none")  +
-  scale_color_viridis_d() +
-  labs(fill=NULL, x="behaviors in judgment task", y="Part worths", title="Part worths")
 
-plot.IW | plot.PW
+
+# Pie-chart (noch optimierungsfähig)
+data.importance.weights.long.mean <- groupwiseMean(importance.weight ~ behavior.label, data=data.importance.weights.long)
+
+#prop.table für die Häufigkeiten
+M <- NULL
+M$importance.weight <- data.importance.weights.long.mean$Mean
+M$importance.weight <- round(M$importance.weight*100)
+M$behavior <- data.importance.weights.long.mean$behavior.label
+
+#Datenframe
+Mdf <- data.frame(M)
+
+#barplot
+Mbp<- ggplot(Mdf, aes(x="", y=importance.weight, fill=behavior)) +
+geom_bar(width = 1, stat = "identity")
+
+```
+
+```{r,fig.width=15, fig.height=15}
+#Pie
+Mpie <- Mbp + coord_polar("y", start=0)
+
+#Pie verschönern (noch ausbaubar!)
+Mpie +
+    scale_fill_viridis_d(labels = c("Flying", "Diet", "Electricity", "Regional", "Commute", "Recycling"), alpha=0.4) + 
+    labs(x = NULL, y = NULL, fill = "Behavior", title = NULL, alpha=NULL) + 
+    geom_text(aes(label = round(importance.weight, 2)), 
+              position = position_stack(vjust = 0.5),
+              size=6,
+              col="black") + 
+    theme_void() 
 ```
 
 

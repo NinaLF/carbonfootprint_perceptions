@@ -71,11 +71,21 @@ Correlation between reported behaviors
 Quality check:  
 Only 8 individuals show a reduced variance in their impact ratings, such that they  only use 3 or less of the scale points from 1-10. Excluding these people has virtually no impact on results.
 
-### Importance weights and part worths
+### Part worths
 
-
+<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" />
 
 <img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-9-1.png" style="display: block; margin: auto;" />
+
+
+## Importance weight
+
+<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" />
+
+
+
+
+<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
 
 
 ### Description of typical participant
@@ -369,14 +379,14 @@ Info for H2, H3 and H4 I excluded individuals with negative regression weights (
 </table>
 
 ### Effect of high versus low impact behaviors Plot
-<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" />
+<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-17-1.png" style="display: block; margin: auto;" />
 
 ### Plot2
 => For high impact behaviors: if two or three (out of three) high impact behaviors are carbon intensive, this is associated with higher carbon footprint perceptions than when none of the high impact behaviors are carbon intensive   
 => For low impact behaviors: For increasing amount of low impact behaviors that are carbon intensive the perception of the size of carbon footprint increases (and most so when all 3 low impact behaviors are the more carbon intensive one)  
 => The number of low impact bheaviors that are carbon intensive seems to drive the the perception of the size of carbon footprint more than the number of high impact behaviors that are carbon intensive.  
 
-<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-15-1.png" style="display: block; margin: auto;" />
+<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-18-1.png" style="display: block; margin: auto;" />
 
 
 
@@ -524,7 +534,7 @@ Info for H2, H3 and H4 I excluded individuals with negative regression weights (
 ### Plot Effect of different behaviors
 => **Flying** accurately receives the highest impact weight, which is followed by **recyling** (actually least impactful #6), **diet** (#2), **regionality** (#4), **electricity supply** (#3) and **commuting** (#5)
 
-<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-18-1.png" style="display: block; margin: auto;" />
+<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-21-1.png" style="display: block; margin: auto;" />
 
 
 ## H1b Compensatory Beliefs 
@@ -899,7 +909,7 @@ Info for H2, H3 and H4 I excluded individuals with negative regression weights (
 </table>
 
 #### Plot  Diet and flying
-<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-19-1.png" style="display: block; margin: auto;" />
+<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-22-1.png" style="display: block; margin: auto;" />
 
 ### For other interactions no evidence of compensatory beliefs {.tabset}
 
@@ -1274,7 +1284,7 @@ Info for H2, H3 and H4 I excluded individuals with negative regression weights (
 </tr>
 
 </table>
-<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-20-1.png" style="display: block; margin: auto;" />
+<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-23-1.png" style="display: block; margin: auto;" />
 
 
 ## H2 accuracy  {.tabset}
@@ -1468,7 +1478,7 @@ Info for H2, H3 and H4 I excluded individuals with negative regression weights (
 
 </table>
 ### Distribution accuracy by cc concern
-<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-22-1.png" style="display: block; margin: auto;" />
+<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-25-1.png" style="display: block; margin: auto;" />
 
 
 ### Policy support predicted by accuracy
@@ -1649,7 +1659,7 @@ Info for H2, H3 and H4 I excluded individuals with negative regression weights (
 
 ### Distribution policy support by accuracy
 
-<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-24-1.png" style="display: block; margin: auto;" />
+<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-27-1.png" style="display: block; margin: auto;" />
 
 
 ### Carbon footprint predicted by accuracy 
@@ -1841,13 +1851,13 @@ Info for H2, H3 and H4 I excluded individuals with negative regression weights (
 </table>
 ### Distribution carbon footprint by accuracy
 
-<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-26-1.png" style="display: block; margin: auto;" />
+<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-29-1.png" style="display: block; margin: auto;" />
 
 ## Per behavior {.tabset}
 
 
 **Overall plot**
-<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-28-1.png" style="display: block; margin: auto;" />
+<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-31-1.png" style="display: block; margin: auto;" />
 
 
 ### car
@@ -2328,7 +2338,7 @@ Info for H2, H3 and H4 I excluded individuals with negative regression weights (
 ## H3 Impact perceptions (=Regression weights) predicted by reported behavior?
 
 ### Correlations between regression weights
-<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-34-1.png" style="display: block; margin: auto;" />
+<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-37-1.png" style="display: block; margin: auto;" />
 
 *We expect that the perceived impact of behaviors on the size of carbon footprints is influenced by self-reported climate relevant behavior. Specifically, we expect that individuals exhibit motivated reasoning such that the more a person engages in a given climate-unfriendly behavior, the lower they estimate the behavior to have an impact on the size of carbon footprints.*
 
@@ -4110,9 +4120,9 @@ Note: this is using the policy support for the tax version of the policy (when u
 ## H4 with cc concern as moderator
 
 
-<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-56-1.png" style="display: block; margin: auto;" />
+<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-59-1.png" style="display: block; margin: auto;" />
 
-<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-57-1.png" style="display: block; margin: auto;" /><img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-57-2.png" style="display: block; margin: auto;" />
+<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-60-1.png" style="display: block; margin: auto;" /><img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-60-2.png" style="display: block; margin: auto;" />
 
 
 ## regression weights and behavior predicting policy {.tabset}
