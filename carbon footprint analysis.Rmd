@@ -631,7 +631,7 @@ tab_model(model.weight.reg.fact)
 
 #### Commute
 ```{r}
-model.weight.commute.fact <- lm(commute.weight ~  footprint.travel.car_fact +
+model.weight.commute.fact <- lm(commute.weight ~  footprint.public.transport_fact +
                          gender + age + income + education + cc_concern.mean,
                        data=data.regression.weights)
 tab_model(model.weight.commute.fact)
@@ -670,7 +670,7 @@ model.weight.elec<- lm(electricity.weight ~  footprint +
                          gender + age + income + education + cc_concern.mean,
                        data=data.regression.weights.e)
 
-data.regression.weights.t <- data.regression.weights.excl %>% rename(footprint=footprint.travel.car)
+data.regression.weights.t <- data.regression.weights.excl %>% rename(footprint=footprint.public.transport)
 model.weight.transport<- lm(commute.weight ~ footprint +
                               gender + age + income + education + cc_concern.mean,
                             data=data.regression.weights.t)
@@ -1035,7 +1035,7 @@ model.weight.elec.iw <- lm(electricity ~  footprint +
                          gender + age + income + education + cc_concern.mean,
                        data=data.importance.weights.e)
 
-data.importance.weights.t <- data.importance.weights %>% rename(footprint=footprint.travel.car)
+data.importance.weights.t <- data.importance.weights %>% rename(footprint=footprint.public.transport)
 model.weight.transport.iw <- lm(commute ~ footprint +
                               gender + age + income + education + cc_concern.mean,
                             data=data.importance.weights.t)
@@ -1100,7 +1100,7 @@ model.weight.elec.pw <- lm(electricity.weight ~  footprint +
                          gender + age + income + education + cc_concern.mean,
                        data=data.part.worths.e)
 
-data.part.worths.t <- data.part.worths %>% rename(footprint=footprint.travel.car)
+data.part.worths.t <- data.part.worths %>% rename(footprint=footprint.public.transport)
 model.weight.transport.pw <- lm(commute.weight ~ footprint +
                               gender + age + income + education + cc_concern.mean,
                             data=data.part.worths.t)
@@ -1302,7 +1302,7 @@ data.regression.weights.footprint <- unique(data.regression.weights.footprint)
 
 data.regression.weights.footprint.long <- pivot_longer(data.regression.weights.footprint, footprint.travel.car:footprint.regional,  names_to = "behavior", values_to = "reported.behavior")
 data.regression.weights.footprint.long$behavior <- factor(data.regression.weights.footprint.long$behavior, 
-                                                         levels=c( "footprint.travel.car", "footprint.diet", "footprint.electricity","footprint.flying", "footprint.recycling", "footprint.regional" ),
+                                                         levels=c( "footprint.public.transport", "footprint.diet", "footprint.electricity","footprint.flying", "footprint.recycling", "footprint.regional" ),
                                                          labels=c("commute", "diet", "electricity", "flying", "recyling", "regional") )  
   
 data.regression.total1 <- merge(data.regression.weights.long_clean, data.regression.weights.policies.long, by=c("behavior", "participant.label"))
@@ -1401,6 +1401,38 @@ mode.policy.all <-  lm(cbind(policy.car.tax, policy.flying.tax,policy.meat.tax, 
 
 Anova(mode.policy.all)
 
+
+```
+
+## specr for policy support
+
+```{r}
+
+specs_policy <- setup(data = data.regression.weights, 
+               y = c("policy.car.tax", "policy.flying.tax","policy.meat.tax", "policy.regional_food.tax", "policy.RE.tax", "policy.recycle.tax"), 
+               x = c( "diet.weight" , "flying.weight"  , "commute.weight" , "recycling.weight" , "regional.weight", "electricity.weight" ), 
+               model = "lm", 
+               controls = c("gender", "age", "education", "income") )
+
+hyp_4 = specr(specs_policy)
+
+plot(hyp_4, choices = c("x", "y", "controls")) 
+
+```
+
+
+## specf for regression weights
+```{r}
+
+specs_perception <- setup(data = data.regression.weights, 
+               y = c("diet.weight" , "flying.weight"  , "commute.weight"  , "regional.weight", "electricity.weight"), 
+               x = c( "footprint.diet" , "footprint.flying"  , "footprint.public.transport"  , "footprint.regional", "footprint.electricity" ), 
+               model = "lm", 
+               controls = c("gender", "age", "education", "income") )
+
+hyp_3 = specr(specs_perception)
+
+plot(hyp_3, choices = c("x", "y", "controls")) 
 
 ```
 
