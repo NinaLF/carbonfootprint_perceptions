@@ -1,3 +1,6 @@
 ---
 pagetitle: "index"
 ---
+
+This website contains an overview page with descriptives and graphs regarding the assessed variables, 
+as well as an analysis page where all hypotheses and results can be found.

@@ -1,4 +1,5 @@
 ---
+pagetitle: "carbon footprint analysis"
 title: "carbon footprint perceptions results pilot"
 
 date: "2023-12-06"
@@ -24,76 +25,6 @@ output:
 
 
 
-## Overview and descriptives
-
-
-Sample:  
-N=196, (excluded n=3 out of 199 because of inconsistent response (age and year of birth do not match +-1)).  
-Age: Mean: 44, range: 19, 73.  
-gender: female: 100 ; male: 99  
-income: 
-
-|income             |Frequency |
-|:------------------|:---------|
-|< 18.000£          |70        |
-|> 45.001£          |36        |
-|18.000£ to 23.000£ |20        |
-|23.001£ to 30.500£ |38        |
-|30.501£ to 45.000£ |36        |
-
-  
-  
-### Climate change concern
-<img src="carbon-footprint-analysis_files/figure-html/plot.ccc-1.png" style="display: block; margin: auto;" />
-
-```
-##  left-leaning right-leaning 
-##      5.046000      3.973333
-```
-
-
-### Policy support
-Alpha= 0.87
-<img src="carbon-footprint-analysis_files/figure-html/plot.policy-1.png" style="display: block; margin: auto;" /><img src="carbon-footprint-analysis_files/figure-html/plot.policy-2.png" style="display: block; margin: auto;" />
-
-
-
-### Reported Behaviors 
-Correlation between reported behaviors
-<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
-
-<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" />
-
-### Perceived impact
-
-<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" />
-  
-Quality check:  
-Only 8 individuals show a reduced variance in their impact ratings, such that they  only use 3 or less of the scale points from 1-10. Excluding these people has virtually no impact on results.
-
-### Part worths
-
-<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" />
-
-<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-9-1.png" style="display: block; margin: auto;" />
-
-
-## Importance weight
-
-<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" />
-
-
-
-
-<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
-
-
-### Description of typical participant
-
-Most participants: 71.4% follow a meat-based diet, 42.9% did not fly , 
-and have a conventional electricity supply (or dont know): 46.4%, whereas 16.8% have a renewable electricity supply, and only 11.8% are vegan or vegetarian    
-  
-    
 ## Hypotheses
 **Quick overview**  
   
@@ -379,14 +310,14 @@ Info for H2, H3 and H4 I excluded individuals with negative regression weights (
 </table>
 
 ### Effect of high versus low impact behaviors Plot
-<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-17-1.png" style="display: block; margin: auto;" />
+<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
 
 ### Plot2
 => For high impact behaviors: if two or three (out of three) high impact behaviors are carbon intensive, this is associated with higher carbon footprint perceptions than when none of the high impact behaviors are carbon intensive   
 => For low impact behaviors: For increasing amount of low impact behaviors that are carbon intensive the perception of the size of carbon footprint increases (and most so when all 3 low impact behaviors are the more carbon intensive one)  
 => The number of low impact bheaviors that are carbon intensive seems to drive the the perception of the size of carbon footprint more than the number of high impact behaviors that are carbon intensive.  
 
-<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-18-1.png" style="display: block; margin: auto;" />
+<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" />
 
 
 
@@ -534,14 +465,14 @@ Info for H2, H3 and H4 I excluded individuals with negative regression weights (
 ### Plot Effect of different behaviors
 => **Flying** accurately receives the highest impact weight, which is followed by **recyling** (actually least impactful #6), **diet** (#2), **regionality** (#4), **electricity supply** (#3) and **commuting** (#5)
 
-<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-21-1.png" style="display: block; margin: auto;" />
+<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-9-1.png" style="display: block; margin: auto;" />
 
 
 ## H1b Compensatory Beliefs 
-### {.tabset}
+### Overview {.tabset}
 *We expect that perceptions of the size of carbon footprints are influenced by interactions between behaviors. Specifically, we will investigate the interactions between: diet and regionality, diet and electricity supply, diet and flying, flying and commuting*
 
-#### Overview
+#### All interactions
 <table style="border-collapse:collapse; border:none;">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
@@ -667,131 +598,6 @@ Info for H2, H3 and H4 I excluded individuals with negative regression weights (
 </tr>
 
 </table>
-<table style="border-collapse:collapse; border:none;">
-<tr>
-<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
-<th colspan="3" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">rating</th>
-</tr>
-<tr>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">Predictors</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">Estimates</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">CI</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">p</td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">(Intercept)</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">2.32</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.64&nbsp;&ndash;&nbsp;3.00</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">diet [meat-based]</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.09</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.91&nbsp;&ndash;&nbsp;1.27</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">flying [flies 2/year]</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.45</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.32&nbsp;&ndash;&nbsp;1.57</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">electricity [mixed energy<br>supply]</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.64</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.51&nbsp;&ndash;&nbsp;0.76</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">regional [regional and<br>imported]</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.54</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.41&nbsp;&ndash;&nbsp;0.66</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">commute [takes the bus]</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.41</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.32&nbsp;&ndash;&nbsp;0.50</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">recycling [does not<br>recycle]</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.01</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.92&nbsp;&ndash;&nbsp;1.11</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">age</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.00</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.01&nbsp;&ndash;&nbsp;0.01</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.762</td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">gender [Male]</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.10</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.37&nbsp;&ndash;&nbsp;0.17</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.473</td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">education [Further<br>education]</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.03</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.49&nbsp;&ndash;&nbsp;0.44</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.913</td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">education [Higher<br>education (Bachelor,<br>Master, PhD)]</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.25</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.19&nbsp;&ndash;&nbsp;0.68</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.264</td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">diet [meat-based] ×<br>flying [flies 2/year]</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.60</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.78&nbsp;&ndash;&nbsp;-0.42</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">diet [meat-based] ×<br>electricity [mixed energy<br>supply]</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.07</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.25&nbsp;&ndash;&nbsp;0.11</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.433</td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">diet [meat-based] ×<br>regional [regional and<br>imported]</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.15</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.03&nbsp;&ndash;&nbsp;0.33</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.097</td>
-</tr>
-<tr>
-<td colspan="4" style="font-weight:bold; text-align:left; padding-top:.8em;">Random Effects</td>
-</tr>
-
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">&sigma;<sup>2</sup></td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">1.54</td>
-</tr>
-
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">&tau;<sub>00</sub> <sub>participant.label</sub></td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">0.79</td>
-
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">ICC</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">0.34</td>
-
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">N <sub>participant.label</sub></td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">188</td>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">Observations</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="3">3008</td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">Marginal R<sup>2</sup> / Conditional R<sup>2</sup></td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">0.305 / 0.541</td>
-</tr>
-
-</table>
 
 #### Diet and flying
 <table style="border-collapse:collapse; border:none;">
@@ -909,7 +715,7 @@ Info for H2, H3 and H4 I excluded individuals with negative regression weights (
 </table>
 
 #### Plot  Diet and flying
-<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-22-1.png" style="display: block; margin: auto;" />
+<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" />
 
 ### For other interactions no evidence of compensatory beliefs {.tabset}
 
@@ -1284,7 +1090,7 @@ Info for H2, H3 and H4 I excluded individuals with negative regression weights (
 </tr>
 
 </table>
-<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-23-1.png" style="display: block; margin: auto;" />
+<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" />
 
 
 ## H2 accuracy  {.tabset}
@@ -1478,7 +1284,7 @@ Info for H2, H3 and H4 I excluded individuals with negative regression weights (
 
 </table>
 ### Distribution accuracy by cc concern
-<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-25-1.png" style="display: block; margin: auto;" />
+<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" />
 
 
 ### Policy support predicted by accuracy
@@ -1659,7 +1465,7 @@ Info for H2, H3 and H4 I excluded individuals with negative regression weights (
 
 ### Distribution policy support by accuracy
 
-<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-27-1.png" style="display: block; margin: auto;" />
+<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-15-1.png" style="display: block; margin: auto;" />
 
 
 ### Carbon footprint predicted by accuracy 
@@ -1851,13 +1657,13 @@ Info for H2, H3 and H4 I excluded individuals with negative regression weights (
 </table>
 ### Distribution carbon footprint by accuracy
 
-<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-29-1.png" style="display: block; margin: auto;" />
+<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-17-1.png" style="display: block; margin: auto;" />
 
 ## Per behavior {.tabset}
 
 
 **Overall plot**
-<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-31-1.png" style="display: block; margin: auto;" />
+<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-19-1.png" style="display: block; margin: auto;" />
 
 
 ### car
@@ -2338,13 +2144,13 @@ Info for H2, H3 and H4 I excluded individuals with negative regression weights (
 ## H3 Impact perceptions (=Regression weights) predicted by reported behavior?
 
 ### Correlations between regression weights
-<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-37-1.png" style="display: block; margin: auto;" />
+<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-25-1.png" style="display: block; margin: auto;" />
 
 *We expect that the perceived impact of behaviors on the size of carbon footprints is influenced by self-reported climate relevant behavior. Specifically, we expect that individuals exhibit motivated reasoning such that the more a person engages in a given climate-unfriendly behavior, the lower they estimate the behavior to have an impact on the size of carbon footprints.*
 
-## Behaviors as factors {.tabset}
+### Behaviors as factors {.tabset}
 
-### Flying
+#### Flying
 <table style="border-collapse:collapse; border:none;">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
@@ -2463,7 +2269,7 @@ Info for H2, H3 and H4 I excluded individuals with negative regression weights (
 
 </table>
 
-### Diet
+#### Diet
 <table style="border-collapse:collapse; border:none;">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
@@ -2576,7 +2382,7 @@ Info for H2, H3 and H4 I excluded individuals with negative regression weights (
 
 </table>
 
-### Electricity
+#### Electricity
 <table style="border-collapse:collapse; border:none;">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
@@ -2671,7 +2477,7 @@ Info for H2, H3 and H4 I excluded individuals with negative regression weights (
 
 </table>
 
-### Regional
+#### Regional
 <table style="border-collapse:collapse; border:none;">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
@@ -2778,7 +2584,7 @@ Info for H2, H3 and H4 I excluded individuals with negative regression weights (
 
 </table>
 
-### Commute
+#### Commute
 <table style="border-collapse:collapse; border:none;">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
@@ -2890,7 +2696,7 @@ Info for H2, H3 and H4 I excluded individuals with negative regression weights (
 </tr>
 
 </table>
-### Recycling
+#### Recycling
 <table style="border-collapse:collapse; border:none;">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
@@ -2980,7 +2786,7 @@ Info for H2, H3 and H4 I excluded individuals with negative regression weights (
 </table>
 
 
-##  Behaviors as numerical values {.tabset}
+###  Behaviors as numerical values {.tabset}
 Info: this excludes participants with negative regression weights because that makes no sense and should not be possible.   
   
   
@@ -2992,7 +2798,7 @@ Info: this excludes participants with negative regression weights because that m
 **Overview plot**
 <img src="carbon-footprint-analysis_files/figure-html/plot.weights-1.png" style="display: block; margin: auto;" />
 
-### Flying
+#### Flying
 <table style="border-collapse:collapse; border:none;">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
@@ -3081,7 +2887,7 @@ Info: this excludes participants with negative regression weights because that m
 
 </table>
 
-### Diet
+#### Diet
 <table style="border-collapse:collapse; border:none;">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
@@ -3170,7 +2976,7 @@ Info: this excludes participants with negative regression weights because that m
 
 </table>
 
-### Electricity
+#### Electricity
 <table style="border-collapse:collapse; border:none;">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
@@ -3260,7 +3066,7 @@ Info: this excludes participants with negative regression weights because that m
 </table>
 
 
-### Transport
+#### Transport
 <table style="border-collapse:collapse; border:none;">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
@@ -3349,7 +3155,7 @@ Info: this excludes participants with negative regression weights because that m
 
 </table>
 
-### Regional   
+#### Regional   
 
     
 <table style="border-collapse:collapse; border:none;">
@@ -3440,7 +3246,7 @@ Info: this excludes participants with negative regression weights because that m
 
 </table>
 
-### Recycling
+#### Recycling
 <table style="border-collapse:collapse; border:none;">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
@@ -3531,7 +3337,10 @@ Info: this excludes participants with negative regression weights because that m
 
 
 
-## H4 Impact perceptions (=regression weights) predicting policy  {.tabset}
+## H4 Impact perceptions (=regression weights) predicting policy  
+
+### Main effect {.tabset}
+
 Again excluding participants with negative regression weights.  
   
   
@@ -3546,7 +3355,7 @@ Note: this is using the policy support for the tax version of the policy (when u
 
 <img src="carbon-footprint-analysis_files/figure-html/p1-1.png" style="display: block; margin: auto;" />
 
-### Policy affecting air traffic
+#### Policy affecting air traffic
 
 <table style="border-collapse:collapse; border:none;">
 <tr>
@@ -3642,7 +3451,7 @@ Note: this is using the policy support for the tax version of the policy (when u
 
 </table>
 
-### Policy affecting car use
+#### Policy affecting car use
 <table style="border-collapse:collapse; border:none;">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
@@ -3737,7 +3546,7 @@ Note: this is using the policy support for the tax version of the policy (when u
 
 </table>
 
-### Diet
+#### Diet
 <table style="border-collapse:collapse; border:none;">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
@@ -3832,7 +3641,7 @@ Note: this is using the policy support for the tax version of the policy (when u
 
 </table>
 
-### Policy electricity
+#### Policy electricity
 <table style="border-collapse:collapse; border:none;">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
@@ -3927,7 +3736,7 @@ Note: this is using the policy support for the tax version of the policy (when u
 
 </table>
 
-### Policy regional
+#### Policy regional
 <table style="border-collapse:collapse; border:none;">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
@@ -4022,7 +3831,7 @@ Note: this is using the policy support for the tax version of the policy (when u
 
 </table>
 
-### Policy recycling
+#### Policy recycling
 <table style="border-collapse:collapse; border:none;">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
@@ -4117,12 +3926,12 @@ Note: this is using the policy support for the tax version of the policy (when u
 
 </table>
 
-## H4 with cc concern as moderator
+### H4 with cc concern as moderator
 
 
-<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-59-1.png" style="display: block; margin: auto;" />
+<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-47-1.png" style="display: block; margin: auto;" />
 
-<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-60-1.png" style="display: block; margin: auto;" /><img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-60-2.png" style="display: block; margin: auto;" />
+<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-48-1.png" style="display: block; margin: auto;" /><img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-48-2.png" style="display: block; margin: auto;" />
 
 
 ## regression weights and behavior predicting policy {.tabset}
@@ -4742,7 +4551,7 @@ Note: this is using the policy support for the tax version of the policy (when u
 </table>
 
 
-## With Importance weights H3
+## H3 with importance weights
 
 
 
@@ -4752,7 +4561,7 @@ Note: this is using the policy support for the tax version of the policy (when u
 
 
     
-## With Part worths H3
+## H3 with Part worths 
 
 
 
@@ -4767,7 +4576,7 @@ Note: this is using the policy support for the tax version of the policy (when u
 
 
 
-## With Importance weights H4
+## H4 with Importance weights 
 
 
 
@@ -4783,7 +4592,7 @@ Note: this is using the policy support for the tax version of the policy
 
 
 
-## With Part worths H4
+## H4 with Part worths 
 
 
 

@@ -1,4 +1,5 @@
 ---
+pagetitle: "carbon footprint analysis"
 title: "carbon footprint perceptions results pilot"
 
 date: "`r Sys.Date()`"
@@ -160,270 +161,6 @@ data.accuracy.score.tau.excl <- data.accuracy.score.tau %>% filter(!cor.tau<0)
 ```
 
 
-## Overview and descriptives
-```{r}
-t.gender <- table(data$gender)
-t.income <- table(data$income)
-```
-
-Sample:  
-N=196, (excluded n=3 out of 199 because of inconsistent response (age and year of birth do not match +-1)).  
-Age: Mean: `r round( mean(data$age),1) `, range: `r range(data$age)`.  
-gender: female: `r t.gender[[1]] ` ; male: `r t.gender[[2]] `  
-income: 
-```{r}
-knitr::kable(t.income, align = "l", col.names = c("income", "Frequency"))
-```
-
-  
-  
-### Climate change concern
-```{r plot.ccc,   message=FALSE}
-
-## cc concern
-
-data.cc_concern <-data %>% select(participant.label, climate_change_concern1,climate_change_concern2,climate_change_concern3,climate_change_concern4, cc_concern.mean, conservative_liberal.binary)
-data.cc_concern <- na.omit(data.cc_concern)
-data.cc_concern.long <- pivot_longer(data.cc_concern, climate_change_concern1:climate_change_concern4, names_to = "item", values_to = "cc.concern")
-
-data.cc_concern.long$cc.concern.f <- factor(data.cc_concern.long$cc.concern)
- 
-ggplot(data.cc_concern.long,aes( x=item, fill=cc.concern.f), group=item) +
-  geom_bar( position="dodge") + facet_grid(conservative_liberal.binary ~.) +
-  theme_minimal() +
-  theme(axis.title  = element_text(size = 18), 
-        axis.text.y = element_text(size = 18),
-        axis.text.x = element_text(size=18, angle=90 ),
-        strip.text = element_text(size=18))  +
-  scale_fill_viridis_d()
-
-tapply(data$cc_concern.mean, data$conservative_liberal.binary, mean)
-
-```
-
-
-### Policy support
-Alpha= 0.87
-```{r plot.policy,   message=FALSE}
-## visualizing
-data.policies.long2 <- data.policies.long %>% filter(!policy2=="expand recycling") %>% filter(!policy2=="taxes non-recylabes")
-ggplot(data.policies.long2,aes( x=policy2, fill=support.f), group=type) +
-  geom_bar( position="dodge") + 
-  theme_minimal() +
-  theme(axis.title  = element_text(size = 18), 
-        axis.text.y = element_text(size = 18),
-        axis.text.x = element_text(size=18, angle=90 ),
-        strip.text = element_text(size=18))  +
-  scale_fill_viridis_d()
-
-
-## means
-data.policy.means <- groupwiseMean(support ~ policy2 + conservative_liberal.binary,
-                                   data=data.policies.long2)
-# midpoint would be 4
-ggplot(data.policy.means,aes( x=policy2, y=Mean, fill=policy2) )+
-  geom_bar( position="dodge", stat="identity") + 
-  facet_grid(conservative_liberal.binary ~.) +
-  geom_errorbar(aes(ymin=Trad.lower, ymax=Trad.upper), position=position_dodge(0.9), width=0.1) +
-  theme_minimal() +
-  theme(axis.title  = element_text(size = 18), 
-        axis.text.y = element_text(size = 18),
-        axis.text.x = element_text(size=18, angle=90 ),
-        strip.text = element_text(size=18))  +
-  scale_fill_viridis_d() + ylim(0,7.5) + 
-  geom_abline(slope=0, intercept=4,linetype="dashed" ) +
-  labs(x="policies", y="Mean support", fill=NULL)
-
-```
-
-```{r, include=FALSE}
-
-## basics, reliability etc
-#psych::alpha(data[c("policy_item1" ,"policy_item11" ,  "policy_item3", "policy_item5" , "policy_item8", 
- #                            "policy_item12",  "policy_item2", "policy_item4" , "policy_item6",  "policy_item7" )])
-
-# alpha = 0.87
-#item 10 (expand recyling) , item9 taxes on non-recyclables
-# "subscaling" subsidies = 0.79
-#psych::alpha(data[c("policy_item1" ,"policy_item11" ,  "policy_item3", "policy_item5" , "policy_item8")])
-# "subscaling" taxes = 0.89
-#psych::alpha(data[c( "policy_item12",  "policy_item2", "policy_item4" , "policy_item6",  "policy_item7" )])
-
-```
-
-### Reported Behaviors 
-Correlation between reported behaviors
-```{r}
-corr.behaviors <- data.regression.weights %>% select(footprint.diet, footprint.regional, footprint.electricity, footprint.recycling, 
-                                                     footprint.travel.car, footprint.flying, footprint.public.transport)
-coef.behaviors <- rcorr(as.matrix(corr.behaviors))
-corrplot(coef.behaviors$r, type="upper", order="hclust", 
-         p.mat = NULL, sig.level = 0.05, insig = "blank")
-
-
-```
-
-```{r}
-## factors
-
-
-corr.behaviors.fact <-data.regression.weights %>% select(ends_with("_fact")) %>% select(!footprint.public.transport_fact)
-
-model.matrix(~0+., data=corr.behaviors.fact) %>% 
-  cor(use="pairwise.complete.obs") %>% 
-  ggcorrplot(show.diag=FALSE, type="lower", lab=TRUE, lab_size=2)
-
-```
-
-### Perceived impact
-
-```{r}
-data.regression.weights.long <-  pivot_longer(data.regression.weights,flying.weight:recycling.weight, names_to = "behavior", values_to = "regression.weight" )
-
-data.regression.weights.long$behavior.label <- factor(data.regression.weights.long$behavior, 
-                                                levels=c("flying.weight", "diet.weight", "electricity.weight" ,"regional.weight", "commute.weight","recycling.weight" ) ,
-                                                labels=c("train vs. flying 2/year", "diet vegetarian vs. omnivore", "100% RE vs. mixed",
-                                                         "regional only vs imported food", "commute by bus vs. bike", "recycling vs. not")) 
-
-ggplot(data.regression.weights.long, aes(x=behavior.label, y=regression.weight, color=behavior.label)) +
-  geom_boxplot() + 
-  # facet_grid(conservative_liberal.binary~.) +
-  theme_minimal() +
-  theme(axis.title  = element_text(size = 18), 
-        axis.text.y = element_text(size = 18),
-        axis.text.x = element_text(size=18, angle=90 ),
-        strip.text = element_text(size=18),
-        legend.position = "none")  +
-  scale_color_viridis_d() +
-  labs(fill=NULL, x="behaviors in judgment task", y="perceived impact(regression weight)")
-```
-  
-Quality check:  
-Only 8 individuals show a reduced variance in their impact ratings, such that they  only use 3 or less of the scale points from 1-10. Excluding these people has virtually no impact on results.
-
-### Part worths
-
-```{r, fig.width=25, fig.height=18}
-data.part.worths.long <-  pivot_longer(data.part.worths,flying.weight:recycling.weight, names_to = "behavior", values_to = "part.worths" )
-
-data.part.worths.long$behavior.label <- factor(data.part.worths.long$behavior, 
-                                                levels=c("flying.weight", "diet.weight", "electricity.weight" ,"regional.weight", "commute.weight","recycling.weight" ) ,
-                                                labels=c("train vs. flying 2/year", "diet vegetarian vs. omnivore", "100% RE vs. mixed",
-                                                         "regional only vs imported food", "commute by bus vs. bike", "recycling vs. not")) 
-
-plot.PW <- ggplot(data.part.worths.long, aes(x=behavior.label, y=part.worths, color=behavior.label)) +
-  geom_boxplot() + 
-  # facet_grid(conservative_liberal.binary~.) +
-  theme_minimal() + 
-  theme(axis.title  = element_text(size = 18), 
-        axis.text.y = element_text(size = 18),
-        axis.text.x = element_text(size=18, angle=90 ),
-        strip.text = element_text(size=18),
-        legend.position = "none")  +
-  scale_color_viridis_d() +
-  labs(fill=NULL, x="behaviors in judgment task", y="Part worths", title="Part worths")
-plot.PW
-```
-
-```{r, fig.width=25, fig.height=18}
-data.part.worths.long.mean <- groupwiseMean(part.worths ~ behavior.label, data=data.part.worths.long)
-
-behavior.label <- c("commutes by bus", "mixed electricity", "regional and imported food", "meat-based diet","does not recycle", "flies 2/year")
-ggplot(data.part.worths.long.mean, aes(x= reorder(Mean, behavior.label), y= Mean, label =behavior.label)) +
-    geom_col(position = "dodge", width = 0.5) + scale_x_discrete(labels= behavior.label) +
-    theme_bw() + ylim(-0.5, 1.5) +
-    labs(x=NULL, y="Part worths", color =NULL, fill =NULL) +
-    theme(legend.position="bottom") +
-    coord_flip()
-
-## part worths refer to attribute levels -> higher scores in this case means influence more the perceived size of carbon footprints
-# importance weights are overall the level of utlitiy / importance assigned to the attribute
-```
-
-
-## Importance weight
-
-```{r, fig.width=25, fig.height=18}
-data.importance.weights.long <-  pivot_longer(data.importance.weights,flying:recycling, names_to = "behavior", values_to = "importance.weight" )
-
-data.importance.weights.long$behavior.label <- factor(data.importance.weights.long$behavior, 
-                                                levels=c("flying", "diet", "electricity" ,"regional", "commute","recycling" ) ,
-                                                labels=c("train vs. flying 2/year", "diet vegetarian vs. omnivore", "100% RE vs. mixed",
-                                                         "regional only vs imported food", "commute by bus vs. bike", "recycling vs. not")) 
-
-plot.IW <- ggplot(data.importance.weights.long, aes(x=behavior.label, y=importance.weight, color=behavior.label)) +
-  geom_boxplot() + 
-  # facet_grid(conservative_liberal.binary~.) +
-  theme_minimal() +
-  theme(axis.title  = element_text(size = 18), 
-        axis.text.y = element_text(size = 18),
-        axis.text.x = element_text(size=18, angle=90 ),
-        strip.text = element_text(size=18),
-        legend.position = "none")  +
-  scale_color_viridis_d() +
-  labs(fill=NULL, x="behaviors in judgment task", y="Importance weight", title="Importance weights")
-plot.IW
-
-```
-
-
-```{r, include=F}
-# QUestion 4: Piechart-How many percent of the respondents think "very good", "good", "moderate", "bad" and "very bad" about the "less for more" project?
-
-
-
-# Pie-chart (noch optimierungsfähig)
-data.importance.weights.long.mean <- groupwiseMean(importance.weight ~ behavior.label, data=data.importance.weights.long)
-
-#prop.table für die Häufigkeiten
-M <- NULL
-M$importance.weight <- data.importance.weights.long.mean$Mean
-M$importance.weight <- round(M$importance.weight*100)
-M$behavior <- data.importance.weights.long.mean$behavior.label
-
-#Datenframe
-Mdf <- data.frame(M)
-
-#barplot
-Mbp<- ggplot(Mdf, aes(x="", y=importance.weight, fill=behavior)) +
-geom_bar(width = 1, stat = "identity")
-
-```
-
-```{r,fig.width=15, fig.height=15}
-#Pie
-Mpie <- Mbp + coord_polar("y", start=0)
-
-#Pie verschönern (noch ausbaubar!)
-Mpie +
-    scale_fill_viridis_d(labels = c("Flying", "Diet", "Electricity", "Regional", "Commute", "Recycling"), alpha=0.4) + 
-    labs(x = NULL, y = NULL, fill = "Behavior", title = NULL, alpha=NULL) + 
-    geom_text(aes(label = round(importance.weight, 2)), 
-              position = position_stack(vjust = 0.5),
-              size=6,
-              col="black") + 
-    theme_void() 
-```
-
-
-### Description of typical participant
-```{r}
-
-data.behaviors.diet <- data.regression.weights %>% select(participant.label, footprint.diet_fact) %>% group_by(footprint.diet_fact) %>% tally()
-data.behaviors.diet$perc <- round(data.behaviors.diet$n/196*100,1)
-
-
-data.behaviors.flying <- data.regression.weights %>% select(participant.label, footprint.flying_fact) %>% group_by(footprint.flying_fact) %>% tally()
-data.behaviors.flying$perc <- round(data.behaviors.flying$n/196*100,1)
-
-data.behaviors.elec <- data.regression.weights %>% select(participant.label, footprint.electricity_fact) %>% group_by(footprint.electricity_fact) %>% tally()
-data.behaviors.elec$perc <- round(data.behaviors.elec$n/196*100,1)
-
-```
-Most participants: `r paste0(data.behaviors.diet$perc[data.behaviors.diet$footprint.diet_fact=="meat-based" ] , "%") ` follow a meat-based diet, `r paste0(data.behaviors.flying$perc[data.behaviors.flying$footprint.flying_fact=="did not fly" ] , "%") ` did not fly , 
-and have a conventional electricity supply (or dont know): `r paste0(data.behaviors.elec$perc[data.behaviors.elec$footprint.electricity_fact=="have a conventional supply / dont know" ] , "%" ) `, whereas `r paste0(data.behaviors.elec$perc[data.behaviors.elec$footprint.electricity_fact=="have a renwable electricity supply"], "%") ` have a renewable electricity supply, and only `r paste0(data.behaviors.diet$perc[data.behaviors.diet$footprint.diet_fact=="vegetarian" ] + data.behaviors.diet$perc[data.behaviors.diet$footprint.diet_fact=="vegan" ], "%" )` are vegan or vegetarian    
-  
-    
 ## Hypotheses
 **Quick overview**  
   
@@ -563,10 +300,10 @@ plot_model(model.perceptions1, show.values =TRUE, vline.color = "black")
 
 
 ## H1b Compensatory Beliefs 
-### {.tabset}
+### Overview {.tabset}
 *We expect that perceptions of the size of carbon footprints are influenced by interactions between behaviors. Specifically, we will investigate the interactions between: diet and regionality, diet and electricity supply, diet and flying, flying and commuting*
 
-#### Overview
+#### All interactions
 ```{r comp}
 #diet and regionality, diet and electricity supply, diet and flying, flying and commuting
 model.perceptions.comp <- lmer(rating ~ diet*flying + diet*electricity + diet*regional + commute  + recycling +
@@ -581,7 +318,7 @@ model.perceptions.comp.excl <- lmer(rating ~ diet*flying + diet*electricity + di
                                    (1|participant.label),
                                data=data.perceptions.total.excl)
 
-tab_model(model.perceptions.comp.excl)
+#tab_model(model.perceptions.comp.excl)
 ```
 
 #### Diet and flying
@@ -829,9 +566,9 @@ corrplot(coef.reg.weights$r, type="upper", order="hclust",
 
 *We expect that the perceived impact of behaviors on the size of carbon footprints is influenced by self-reported climate relevant behavior. Specifically, we expect that individuals exhibit motivated reasoning such that the more a person engages in a given climate-unfriendly behavior, the lower they estimate the behavior to have an impact on the size of carbon footprints.*
 
-## Behaviors as factors {.tabset}
+### Behaviors as factors {.tabset}
 
-### Flying
+#### Flying
 ```{r}
 
 
@@ -848,7 +585,7 @@ model.weight.flying.fact.excl <- lm(flying.weight ~ footprint.flying_fact    +
 # p-value now 0.007
 ```
 
-### Diet
+#### Diet
 ```{r}
 
 # data.regression.weights$footprint.diet_fact.2 <- factor(data.regression.weights$footprint.diet_fact, levels=c("vegan", "vegetarian", "no red meat", "pescetarian", "meat-based", "no pork") , labels=c("reduction of meat", "reduction of meat", "reduction of meat", "reduction of meat", "meat-based", "meat-based"))
@@ -865,7 +602,7 @@ model.weight.diet.fact.excl <- lm(diet.weight ~  footprint.diet_fact +
 # no difference really
 ```
 
-### Electricity
+#### Electricity
 ```{r}
 model.weight.elec.fact <- lm(electricity.weight ~  footprint.electricity_fact +
                          gender + age + income + education + cc_concern.mean,
@@ -873,7 +610,7 @@ model.weight.elec.fact <- lm(electricity.weight ~  footprint.electricity_fact +
 tab_model(model.weight.elec.fact)
 ```
 
-### Regional
+#### Regional
 ```{r}
 model.weight.reg.fact <- lm(regional.weight ~  footprint.regional_fact +
                          gender + age + income + education + cc_concern.mean,
@@ -881,14 +618,14 @@ model.weight.reg.fact <- lm(regional.weight ~  footprint.regional_fact +
 tab_model(model.weight.reg.fact)
 ```
 
-### Commute
+#### Commute
 ```{r}
 model.weight.commute.fact <- lm(commute.weight ~  footprint.travel.car_fact +
                          gender + age + income + education + cc_concern.mean,
                        data=data.regression.weights)
 tab_model(model.weight.commute.fact)
 ```
-### Recycling
+#### Recycling
 ```{r}
 model.weight.recycle.fact <- lm(recycling.weight ~  footprint.recycling_fact +
                          gender + age + income + education + cc_concern.mean,
@@ -897,7 +634,7 @@ tab_model(model.weight.recycle.fact)
 ```
 
 
-##  Behaviors as numerical values {.tabset}
+###  Behaviors as numerical values {.tabset}
 Info: this excludes participants with negative regression weights because that makes no sense and should not be possible.   
   
   
@@ -963,45 +700,48 @@ plot_models(model.weight.flying, model.weight.diet, model.weight.elec, model.wei
 
 ```
 
-### Flying
+#### Flying
 ```{r}
 tab_model(model.weight.flying)
 
 ```
 
-### Diet
+#### Diet
 ```{r}
 tab_model(model.weight.diet)
 ```
 
-### Electricity
+#### Electricity
 ```{r}
 
 tab_model(model.weight.elec)
 ```
 
 
-### Transport
+#### Transport
 ```{r}
 tab_model(model.weight.transport)
 
 ```
 
-### Regional   
+#### Regional   
 
     
 ```{r}
 tab_model(model.weight.regional)
 ```
 
-### Recycling
+#### Recycling
 ```{r}
 tab_model(model.weight.recycle)
 ```
 
 
 
-## H4 Impact perceptions (=regression weights) predicting policy  {.tabset}
+## H4 Impact perceptions (=regression weights) predicting policy  
+
+### Main effect {.tabset}
+
 Again excluding participants with negative regression weights.  
   
   
@@ -1067,41 +807,41 @@ plot_models(model.policy.meat, model.policy.flying, model.policy.elec, model.pol
 
 ```
 
-### Policy affecting air traffic
+#### Policy affecting air traffic
 
 ```{r}
 tab_model(model.policy.flying)
 
 ```
 
-### Policy affecting car use
+#### Policy affecting car use
 ```{r}
 tab_model(model.policy.car)
 
 ```
 
-### Diet
+#### Diet
 ```{r}
 tab_model(model.policy.meat)
 
 ```
 
-### Policy electricity
+#### Policy electricity
 ```{r}
 tab_model(model.policy.elec)
 ```
 
-### Policy regional
+#### Policy regional
 ```{r}
 tab_model(model.policy.regional)
 ```
 
-### Policy recycling
+#### Policy recycling
 ```{r}
 tab_model(model.policy.recycle)
 ```
 
-## H4 with cc concern as moderator
+### H4 with cc concern as moderator
 ```{r}
 model.policy.flying.mod <- lm(policy.flying.tax ~  weight*rel.cc.concern +
                             conservative_liberal +
@@ -1261,7 +1001,7 @@ tab_model(model.policy.recycle.2)
 ```
 
 
-## With Importance weights H3
+## H3 with importance weights
 
 ```{r}
 
@@ -1325,7 +1065,7 @@ plot_models(model.weight.flying.iw, model.weight.diet.iw, model.weight.elec.iw, 
 
 
     
-## With Part worths H3
+## H3 with Part worths 
 
 
 ```{r}
@@ -1398,7 +1138,7 @@ plot_models(model.weight.flying.pw, model.weight.diet.pw, model.weight.elec.pw, 
 ```
 
 
-## With Importance weights H4
+## H4 with Importance weights 
 
 ```{r}
 
@@ -1466,7 +1206,7 @@ plot_models(model.policy.meat.iw, model.policy.flying.iw, model.policy.elec.iw, 
 
 
 
-## With Part worths H4
+## H4 with Part worths 
 
 ```{r}
 
