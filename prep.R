@@ -340,6 +340,7 @@ write.csv(data.perceptions.total, "data/data.perceptions.total.csv")
 
 
 
+
 #### individual regression weights
 
 ## beta weights
@@ -437,7 +438,8 @@ data.accuracy <- data.perceptions.total
 data.accuracy$actual.ranking <- data.accuracy$vignette
 # 1 und 2 sind 1 und 2
 data.accuracy$actual.ranking[data.accuracy$actual.ranking==3] <- 4
-# 4 is 4data.accuracy$actual.ranking[data.accuracy$actual.ranking==5] <- 3
+# 4 is 4
+data.accuracy$actual.ranking[data.accuracy$actual.ranking==5] <- 3
 data.accuracy$actual.ranking[data.accuracy$actual.ranking==6] <- 4
 data.accuracy$actual.ranking[data.accuracy$actual.ranking==7] <- 5
 data.accuracy$actual.ranking[data.accuracy$actual.ranking==8] <- 7

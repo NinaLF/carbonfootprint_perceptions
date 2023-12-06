@@ -88,6 +88,9 @@ Only 8 individuals show a reduced variance in their impact ratings, such that th
 
 <img src="Overview_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
 
+### Accuracy
+
+<img src="Overview_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" />
 
 ### Description of typical participant
 
