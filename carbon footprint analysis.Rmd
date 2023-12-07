@@ -43,6 +43,7 @@ library(ggeffects)
 library(reghelper) # for simple slopes
 library(interactions)# for simple slopes
 library(lmtest)
+library(specr)
 
 library("rmcorr")
 library(Hmisc)
@@ -1297,10 +1298,11 @@ data.regression.weights.policies.long$behavior <- factor(data.regression.weights
                                                          levels=c( "policy.car", "policy.meat", "policy.RE","policy.flying", "policy.recycle", "policy.regional_food" ),
                                                          labels=c("commute", "diet", "electricity", "flying", "recyling", "regional") )  
   
-data.regression.weights.footprint <- data.regression.weights.long %>% select(participant.label, footprint.travel.car, footprint.flying, footprint.electricity, footprint.diet,   footprint.recycling, footprint.regional )
+data.regression.weights.footprint <- data.regression.weights.long %>% select(participant.label, footprint.public.transport, footprint.flying, footprint.electricity, footprint.diet,   footprint.recycling, footprint.regional )
 data.regression.weights.footprint <- unique(data.regression.weights.footprint)
 
-data.regression.weights.footprint.long <- pivot_longer(data.regression.weights.footprint, footprint.travel.car:footprint.regional,  names_to = "behavior", values_to = "reported.behavior")
+data.regression.weights.footprint.long <- pivot_longer(data.regression.weights.footprint, c(footprint.public.transport,footprint.diet, footprint.regional, footprint.electricity, footprint.flying,footprint.recycling),
+                                                                                            names_to = "behavior", values_to = "reported.behavior")
 data.regression.weights.footprint.long$behavior <- factor(data.regression.weights.footprint.long$behavior, 
                                                          levels=c( "footprint.public.transport", "footprint.diet", "footprint.electricity","footprint.flying", "footprint.recycling", "footprint.regional" ),
                                                          labels=c("commute", "diet", "electricity", "flying", "recyling", "regional") )  
@@ -1361,6 +1363,7 @@ complete.model.impact.perc <- lmer(regression.weight ~ policy.support + reported
                           data=data.regression.total)
 
 tab_model(complete.model.impact.perc)
+plot_model(complete.model.impact.perc, show.values =TRUE, vline.color = "darkgrey")
 
 ```
 #### With type (behavior) as main effect
@@ -1372,7 +1375,8 @@ complete.model.impact.perc.beh <- lmer(regression.weight ~ policy.support + repo
                                    data=data.regression.total)
 
 tab_model(complete.model.impact.perc.beh)
-plot_model(complete.model.impact.perc.beh)
+plot_model(complete.model.impact.perc.beh, show.values =TRUE, vline.color = "darkgrey")
+
 ```
 
 ### Predicting reported behavior
@@ -1385,6 +1389,8 @@ complete.model.behavior <- lmer(reported.behavior ~ policy.support + regression.
                           data=data.regression.total)
 
 tab_model(complete.model.behavior)
+plot_model(complete.model.behavior, show.values =TRUE, vline.color = "darkgrey")
+
 ```
 
 

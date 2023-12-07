@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2023-12-06" />
+<meta name="date" content="2023-12-07" />
 
 <title>carbon footprint analysis</title>
 
@@ -266,7 +266,7 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">carbon footprint perceptions results
 pilot</h1>
-<h4 class="date">2023-12-06</h4>
+<h4 class="date">2023-12-07</h4>
 
 </div>
 
@@ -451,14 +451,18 @@ perceptions</a>
 <li><a href="#with-type-behavior-as-random-intercepts"
 id="toc-with-type-behavior-as-random-intercepts">With type (behavior) as
 random intercepts</a></li>
-<li><a href="#with-type-behavior-as-main-effect"
-id="toc-with-type-behavior-as-main-effect">With type (behavior) as main
-effect</a></li>
 </ul></li>
 <li><a href="#predicting-reported-behavior"
 id="toc-predicting-reported-behavior">Predicting reported
 behavior</a></li>
 </ul></li>
+<li><a href="#multivariate" id="toc-multivariate">multivariate
+(?)</a></li>
+<li><a href="#specr-for-policy-support"
+id="toc-specr-for-policy-support">specr for policy support</a></li>
+<li><a href="#specf-for-regression-weights"
+id="toc-specf-for-regression-weights">specf for regression
+weights</a></li>
 </ul>
 </div>
 
@@ -6069,10 +6073,10 @@ p
 (Intercept)
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.38
+0.42
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.18 – 0.59
+0.21 – 0.63
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 <strong>&lt;0.001</strong>
@@ -6080,72 +6084,198 @@ p
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-footprint travel car fact<br>[0.2726]
+footprint public<br>transport fact [0.03645]
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.03
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.19 – 0.14
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.762
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+footprint public<br>transport fact [0.07775]
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.02
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.12 – 0.09
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.771
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+footprint public<br>transport fact [0.1142]
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.06
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.14 – 0.02
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.132
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+footprint public<br>transport fact [0.14545]
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.09
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.23 – 0.41
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.574
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+footprint public<br>transport fact [0.2232]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 0.02
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.07 – 0.11
+-0.18 – 0.23
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.650
+0.819
 </td>
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-footprint travel car fact<br>[1.0872]
+footprint public<br>transport fact [0.31005]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.01
+0.08
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.09 – 0.11
+-0.38 – 0.53
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.810
+0.738
 </td>
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-footprint travel car fact<br>[2.0414]
+footprint public<br>transport fact [0.3465]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.05
+-0.20
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.21 – 0.11
+-0.52 – 0.13
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.553
+0.241
 </td>
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-footprint travel car fact<br>[3.27168]
+footprint public<br>transport fact [0.3509]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.18
+-0.01
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.36 – -0.00
+-0.34 – 0.32
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-<strong>0.048</strong>
+0.945
 </td>
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-footprint travel car fact<br>[4.0896]
+footprint public<br>transport fact [0.4555]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.07
+-0.04
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.31 – 0.16
+-0.30 – 0.23
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.538
+0.785
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+footprint public<br>transport fact [0.558225]
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.13
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.59 – 0.32
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.560
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+footprint public<br>transport fact [0.831375]
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.26
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.72 – 0.21
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.279
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+footprint public<br>transport fact [0.85725]
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.14
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.59 – 0.32
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.554
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+footprint public<br>transport fact [0.995975]
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.27
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.73 – 0.19
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.243
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+footprint public<br>transport fact [1.37085]
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.21
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.53 – 0.11
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.199
 </td>
 </tr>
 <tr>
@@ -6153,13 +6283,13 @@ footprint travel car fact<br>[4.0896]
 gender [Male]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.00
+-0.01
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.07 – 0.07
+-0.08 – 0.06
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.984
+0.829
 </td>
 </tr>
 <tr>
@@ -6173,7 +6303,7 @@ age
 -0.00 – 0.00
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.084
+0.137
 </td>
 </tr>
 <tr>
@@ -6187,26 +6317,12 @@ income [18.000£ to<br>23.000£]
 -0.08 – 0.15
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.567
+0.553
 </td>
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
 income [23.001£ to<br>30.500£]
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.01
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.10 – 0.08
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.875
-</td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-income [30.501£ to<br>45.000£]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 0.00
@@ -6215,7 +6331,21 @@ income [30.501£ to<br>45.000£]
 -0.09 – 0.10
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.933
+0.981
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+income [30.501£ to<br>45.000£]
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.01
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.09 – 0.11
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.823
 </td>
 </tr>
 <tr>
@@ -6223,13 +6353,13 @@ income [30.501£ to<br>45.000£]
 income [&gt; 45.001£]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.06
+-0.07
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.15 – 0.04
+-0.17 – 0.03
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.253
+0.159
 </td>
 </tr>
 <tr>
@@ -6237,13 +6367,13 @@ income [&gt; 45.001£]
 education [Further<br>education]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.03
+0.01
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.08 – 0.13
+-0.10 – 0.12
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.629
+0.848
 </td>
 </tr>
 <tr>
@@ -6254,10 +6384,10 @@ education [Higher<br>education (Bachelor,<br>Master, PhD)]
 0.02
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.08 – 0.12
+-0.09 – 0.13
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.744
+0.725
 </td>
 </tr>
 <tr>
@@ -6271,7 +6401,7 @@ cc concern mean
 -0.01 – 0.04
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.126
+0.216
 </td>
 </tr>
 <tr>
@@ -6287,7 +6417,7 @@ Observations
 R<sup>2</sup> / R<sup>2</sup> adjusted
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
-0.086 / 0.015
+0.097 / -0.024
 </td>
 </tr>
 </table>
@@ -7117,10 +7247,10 @@ p
 (Intercept)
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.51
+0.54
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.30 – 0.71
+0.33 – 0.74
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 <strong>&lt;0.001</strong>
@@ -7131,13 +7261,13 @@ p
 footprint
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.02
+-0.21
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.06 – 0.02
+-0.38 – -0.05
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.307
+<strong>0.012</strong>
 </td>
 </tr>
 <tr>
@@ -7145,13 +7275,13 @@ footprint
 gender [Male]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.00
+-0.00
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.07 – 0.07
+-0.07 – 0.06
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.971
+0.951
 </td>
 </tr>
 <tr>
@@ -7162,10 +7292,10 @@ age
 -0.00
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.00 – 0.00
+-0.01 – -0.00
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.084
+<strong>0.043</strong>
 </td>
 </tr>
 <tr>
@@ -7173,13 +7303,13 @@ age
 income [18.000£ to<br>23.000£]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.02
+0.01
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.09 – 0.14
+-0.10 – 0.12
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.696
+0.850
 </td>
 </tr>
 <tr>
@@ -7187,13 +7317,13 @@ income [18.000£ to<br>23.000£]
 income [23.001£ to<br>30.500£]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.00
+0.01
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.09 – 0.09
+-0.08 – 0.10
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.999
+0.846
 </td>
 </tr>
 <tr>
@@ -7201,13 +7331,13 @@ income [23.001£ to<br>30.500£]
 income [30.501£ to<br>45.000£]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.02
+0.00
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.11 – 0.08
+-0.09 – 0.10
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.742
+0.917
 </td>
 </tr>
 <tr>
@@ -7221,7 +7351,7 @@ income [&gt; 45.001£]
 -0.15 – 0.05
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.361
+0.324
 </td>
 </tr>
 <tr>
@@ -7229,13 +7359,13 @@ income [&gt; 45.001£]
 education [Further<br>education]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.01
+0.00
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.11 – 0.12
+-0.11 – 0.11
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.913
+0.991
 </td>
 </tr>
 <tr>
@@ -7246,10 +7376,10 @@ education [Higher<br>education (Bachelor,<br>Master, PhD)]
 0.03
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.08 – 0.13
+-0.07 – 0.14
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.596
+0.523
 </td>
 </tr>
 <tr>
@@ -7260,10 +7390,10 @@ cc concern mean
 -0.00
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.03 – 0.03
+-0.03 – 0.02
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.943
+0.783
 </td>
 </tr>
 <tr>
@@ -7279,7 +7409,7 @@ Observations
 R<sup>2</sup> / R<sup>2</sup> adjusted
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
-0.041 / -0.018
+0.072 / 0.015
 </td>
 </tr>
 </table>
@@ -10384,10 +10514,10 @@ p
 (Intercept)
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-2.13
+2.12
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-1.33 – 2.93
+1.32 – 2.92
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 <strong>&lt;0.001</strong>
@@ -10398,13 +10528,13 @@ p
 regression weight
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.03
+0.07
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.09 – 0.15
+-0.05 – 0.19
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.672
+0.229
 </td>
 </tr>
 <tr>
@@ -10412,10 +10542,10 @@ regression weight
 reported behavior
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.27
+-0.30
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.32 – -0.23
+-0.35 – -0.25
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 <strong>&lt;0.001</strong>
@@ -10429,7 +10559,7 @@ cc concern mean
 0.47
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.39 – 0.56
+0.38 – 0.56
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 <strong>&lt;0.001</strong>
@@ -10457,10 +10587,10 @@ gender [Male]
 -0.02
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.24 – 0.20
+-0.25 – 0.20
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.870
+0.842
 </td>
 </tr>
 <tr>
@@ -10474,7 +10604,7 @@ age
 0.00 – 0.02
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-<strong>0.009</strong>
+<strong>0.011</strong>
 </td>
 </tr>
 <tr>
@@ -10482,13 +10612,13 @@ age
 income [18.000£ to<br>23.000£]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.04
+-0.06
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.43 – 0.35
+-0.45 – 0.33
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.836
+0.752
 </td>
 </tr>
 <tr>
@@ -10499,10 +10629,10 @@ income [23.001£ to<br>30.500£]
 0.13
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.17 – 0.44
+-0.18 – 0.44
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.396
+0.405
 </td>
 </tr>
 <tr>
@@ -10510,13 +10640,13 @@ income [23.001£ to<br>30.500£]
 income [30.501£ to<br>45.000£]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.03
+-0.04
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.34 – 0.28
+-0.35 – 0.27
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.852
+0.806
 </td>
 </tr>
 <tr>
@@ -10524,13 +10654,13 @@ income [30.501£ to<br>45.000£]
 income [&gt; 45.001£]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.13
+0.14
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.19 – 0.45
+-0.19 – 0.46
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.427
+0.406
 </td>
 </tr>
 <tr>
@@ -10538,13 +10668,13 @@ income [&gt; 45.001£]
 education [Further<br>education]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.25
+0.24
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 -0.12 – 0.61
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.183
+0.190
 </td>
 </tr>
 <tr>
@@ -10552,10 +10682,10 @@ education [Further<br>education]
 education [Higher<br>education (Bachelor,<br>Master, PhD)]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.47
+0.48
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.13 – 0.81
+0.13 – 0.82
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 <strong>0.007</strong>
@@ -10571,7 +10701,7 @@ Random Effects
 σ<sup>2</sup>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
-0.88
+0.86
 </td>
 </tr>
 <tr>
@@ -10579,14 +10709,14 @@ Random Effects
 τ<sub>00</sub> <sub>participant.label</sub>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
-0.42
+0.43
 </td>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
 ICC
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
-0.32
+0.33
 </td>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
@@ -10608,7 +10738,7 @@ Observations
 Marginal R<sup>2</sup> / Conditional R<sup>2</sup>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
-0.395 / 0.591
+0.400 / 0.600
 </td>
 </tr>
 </table>
@@ -10646,7 +10776,7 @@ p
 1.92
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-1.07 – 2.77
+1.07 – 2.76
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 <strong>&lt;0.001</strong>
@@ -10660,10 +10790,10 @@ regression weight
 0.15
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.01 – 0.29
+0.01 – 0.28
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-<strong>0.034</strong>
+<strong>0.037</strong>
 </td>
 </tr>
 <tr>
@@ -10674,7 +10804,7 @@ reported behavior
 -0.15
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.20 – -0.09
+-0.21 – -0.08
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 <strong>&lt;0.001</strong>
@@ -10716,10 +10846,10 @@ gender [Male]
 0.00
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.22 – 0.22
+-0.23 – 0.23
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-1.000
+0.997
 </td>
 </tr>
 <tr>
@@ -10733,7 +10863,7 @@ age
 0.00 – 0.02
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-<strong>0.007</strong>
+<strong>0.008</strong>
 </td>
 </tr>
 <tr>
@@ -10741,13 +10871,13 @@ age
 income [18.000£ to<br>23.000£]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.05
+-0.06
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.44 – 0.34
+-0.45 – 0.33
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.797
+0.755
 </td>
 </tr>
 <tr>
@@ -10758,10 +10888,10 @@ income [23.001£ to<br>30.500£]
 0.12
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.18 – 0.43
+-0.19 – 0.43
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.427
+0.434
 </td>
 </tr>
 <tr>
@@ -10772,10 +10902,10 @@ income [30.501£ to<br>45.000£]
 -0.06
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.37 – 0.26
+-0.38 – 0.25
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.727
+0.697
 </td>
 </tr>
 <tr>
@@ -10786,10 +10916,10 @@ income [&gt; 45.001£]
 0.11
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.21 – 0.44
+-0.21 – 0.43
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.488
+0.505
 </td>
 </tr>
 <tr>
@@ -10797,7 +10927,7 @@ income [&gt; 45.001£]
 education [Further<br>education]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.24
+0.25
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 -0.12 – 0.61
@@ -10811,13 +10941,13 @@ education [Further<br>education]
 education [Higher<br>education (Bachelor,<br>Master, PhD)]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.46
+0.47
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.12 – 0.80
+0.12 – 0.81
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-<strong>0.009</strong>
+<strong>0.008</strong>
 </td>
 </tr>
 <tr>
@@ -10845,14 +10975,14 @@ Random Effects
 τ<sub>00</sub> <sub>behavior</sub>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
-0.11
+0.10
 </td>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
 ICC
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
-0.41
+0.40
 </td>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
@@ -10881,7 +11011,7 @@ Observations
 Marginal R<sup>2</sup> / Conditional R<sup>2</sup>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
-0.367 / 0.625
+0.367 / 0.623
 </td>
 </tr>
 </table>
@@ -10916,10 +11046,10 @@ p
 (Intercept)
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-2.20
+2.18
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-1.39 – 3.01
+1.37 – 2.99
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 <strong>&lt;0.001</strong>
@@ -10930,13 +11060,13 @@ p
 regression weight
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.17
+0.18
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.04 – 0.30
+0.05 – 0.31
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-<strong>0.010</strong>
+<strong>0.007</strong>
 </td>
 </tr>
 <tr>
@@ -10947,7 +11077,7 @@ reported behavior
 -0.13
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.19 – -0.08
+-0.20 – -0.07
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 <strong>&lt;0.001</strong>
@@ -10986,10 +11116,10 @@ conservative liberal
 impact [high]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.61
+-0.58
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.79 – -0.43
+-0.77 – -0.40
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 <strong>&lt;0.001</strong>
@@ -11006,7 +11136,7 @@ gender [Male]
 -0.22 – 0.23
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.990
+0.988
 </td>
 </tr>
 <tr>
@@ -11020,7 +11150,7 @@ age
 0.00 – 0.02
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-<strong>0.007</strong>
+<strong>0.008</strong>
 </td>
 </tr>
 <tr>
@@ -11028,13 +11158,13 @@ age
 income [18.000£ to<br>23.000£]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.05
+-0.06
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.44 – 0.34
+-0.45 – 0.33
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.793
+0.754
 </td>
 </tr>
 <tr>
@@ -11045,10 +11175,10 @@ income [23.001£ to<br>30.500£]
 0.12
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.18 – 0.43
+-0.19 – 0.43
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.430
+0.437
 </td>
 </tr>
 <tr>
@@ -11059,10 +11189,10 @@ income [30.501£ to<br>45.000£]
 -0.06
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.37 – 0.25
+-0.38 – 0.25
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.716
+0.688
 </td>
 </tr>
 <tr>
@@ -11076,7 +11206,7 @@ income [&gt; 45.001£]
 -0.21 – 0.44
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.486
+0.497
 </td>
 </tr>
 <tr>
@@ -11090,7 +11220,7 @@ education [Further<br>education]
 -0.12 – 0.61
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.189
+0.190
 </td>
 </tr>
 <tr>
@@ -11101,7 +11231,7 @@ education [Higher<br>education (Bachelor,<br>Master, PhD)]
 0.46
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.11 – 0.80
+0.12 – 0.81
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 <strong>0.009</strong>
@@ -11168,7 +11298,7 @@ Observations
 Marginal R<sup>2</sup> / Conditional R<sup>2</sup>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
-0.422 / 0.630
+0.420 / 0.629
 </td>
 </tr>
 </table>
@@ -11210,10 +11340,10 @@ p
 0.30
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.14 – 0.74
+-0.15 – 0.74
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.181
+0.191
 </td>
 </tr>
 <tr>
@@ -11227,7 +11357,7 @@ policy support
 0.00 – 0.05
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-<strong>0.022</strong>
+<strong>0.024</strong>
 </td>
 </tr>
 <tr>
@@ -11235,10 +11365,10 @@ policy support
 reported behavior
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.06
+-0.07
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.08 – -0.03
+-0.10 – -0.04
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 <strong>&lt;0.001</strong>
@@ -11255,7 +11385,7 @@ cc concern mean
 -0.00 – 0.07
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.080
+0.088
 </td>
 </tr>
 <tr>
@@ -11269,7 +11399,7 @@ conservative liberal
 -0.03 – 0.02
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.643
+0.630
 </td>
 </tr>
 <tr>
@@ -11277,13 +11407,13 @@ conservative liberal
 impact [high]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.29
+0.32
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.14 – 0.72
+-0.12 – 0.76
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.183
+0.154
 </td>
 </tr>
 <tr>
@@ -11291,13 +11421,13 @@ impact [high]
 gender [Male]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.03
+0.02
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.06 – 0.11
+-0.07 – 0.11
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.566
+0.598
 </td>
 </tr>
 <tr>
@@ -11311,7 +11441,7 @@ age
 -0.00 – 0.00
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.745
+0.777
 </td>
 </tr>
 <tr>
@@ -11319,13 +11449,13 @@ age
 income [18.000£ to<br>23.000£]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.02
+0.01
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 -0.14 – 0.17
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.839
+0.884
 </td>
 </tr>
 <tr>
@@ -11336,10 +11466,10 @@ income [23.001£ to<br>30.500£]
 0.01
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.11 – 0.13
+-0.12 – 0.13
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.921
+0.920
 </td>
 </tr>
 <tr>
@@ -11353,7 +11483,7 @@ income [30.501£ to<br>45.000£]
 -0.12 – 0.13
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.901
+0.909
 </td>
 </tr>
 <tr>
@@ -11367,7 +11497,7 @@ income [&gt; 45.001£]
 -0.30 – -0.04
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-<strong>0.009</strong>
+<strong>0.010</strong>
 </td>
 </tr>
 <tr>
@@ -11381,7 +11511,7 @@ education [Further<br>education]
 -0.08 – 0.21
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.368
+0.371
 </td>
 </tr>
 <tr>
@@ -11392,10 +11522,10 @@ education [Higher<br>education (Bachelor,<br>Master, PhD)]
 0.10
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.04 – 0.24
+-0.03 – 0.24
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.149
+0.140
 </td>
 </tr>
 <tr>
@@ -11430,7 +11560,7 @@ Random Effects
 ICC
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
-0.49
+0.50
 </td>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
@@ -11459,13 +11589,12 @@ Observations
 Marginal R<sup>2</sup> / Conditional R<sup>2</sup>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
-0.095 / 0.539
+0.096 / 0.550
 </td>
 </tr>
 </table>
-</div>
-<div id="with-type-behavior-as-main-effect" class="section level4">
-<h4>With type (behavior) as main effect</h4>
+<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-66-1.png" style="display: block; margin: auto;" />
+#### With type (behavior) as main effect
 <table style="border-collapse:collapse; border:none;">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
@@ -11494,13 +11623,13 @@ p
 (Intercept)
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.08
+0.06
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.24 – 0.41
+-0.26 – 0.39
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.620
+0.716
 </td>
 </tr>
 <tr>
@@ -11514,7 +11643,7 @@ policy support
 0.00 – 0.05
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-<strong>0.022</strong>
+<strong>0.024</strong>
 </td>
 </tr>
 <tr>
@@ -11522,10 +11651,10 @@ policy support
 reported behavior
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.06
+-0.07
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.08 – -0.03
+-0.10 – -0.04
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 <strong>&lt;0.001</strong>
@@ -11542,7 +11671,7 @@ cc concern mean
 -0.00 – 0.07
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.080
+0.087
 </td>
 </tr>
 <tr>
@@ -11556,7 +11685,7 @@ conservative liberal
 -0.03 – 0.02
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.642
+0.629
 </td>
 </tr>
 <tr>
@@ -11564,10 +11693,10 @@ conservative liberal
 behavior <a href="#diet">diet</a>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.52
+0.58
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.44 – 0.61
+0.49 – 0.67
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 <strong>&lt;0.001</strong>
@@ -11578,10 +11707,10 @@ behavior <a href="#diet">diet</a>
 behavior <a href="#electricity">electricity</a>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.23
+0.27
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.15 – 0.30
+0.19 – 0.35
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 <strong>&lt;0.001</strong>
@@ -11592,10 +11721,10 @@ behavior <a href="#electricity">electricity</a>
 behavior <a href="#flying">flying</a>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.77
+0.82
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.70 – 0.85
+0.74 – 0.90
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 <strong>&lt;0.001</strong>
@@ -11606,10 +11735,10 @@ behavior <a href="#flying">flying</a>
 behavior [recyling]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.50
+0.53
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.43 – 0.58
+0.46 – 0.61
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 <strong>&lt;0.001</strong>
@@ -11620,10 +11749,10 @@ behavior [recyling]
 behavior <a href="#regional">regional</a>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.15
+0.18
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.07 – 0.23
+0.11 – 0.25
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 <strong>&lt;0.001</strong>
@@ -11634,13 +11763,13 @@ behavior <a href="#regional">regional</a>
 gender [Male]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.03
+0.02
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.06 – 0.11
+-0.07 – 0.11
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.566
+0.599
 </td>
 </tr>
 <tr>
@@ -11654,7 +11783,7 @@ age
 -0.00 – 0.00
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.744
+0.776
 </td>
 </tr>
 <tr>
@@ -11662,13 +11791,13 @@ age
 income [18.000£ to<br>23.000£]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.02
+0.01
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 -0.14 – 0.17
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.839
+0.884
 </td>
 </tr>
 <tr>
@@ -11679,10 +11808,10 @@ income [23.001£ to<br>30.500£]
 0.01
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.11 – 0.13
+-0.12 – 0.13
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.921
+0.920
 </td>
 </tr>
 <tr>
@@ -11696,7 +11825,7 @@ income [30.501£ to<br>45.000£]
 -0.12 – 0.13
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.901
+0.909
 </td>
 </tr>
 <tr>
@@ -11710,7 +11839,7 @@ income [&gt; 45.001£]
 -0.30 – -0.04
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-<strong>0.009</strong>
+<strong>0.010</strong>
 </td>
 </tr>
 <tr>
@@ -11724,7 +11853,7 @@ education [Further<br>education]
 -0.08 – 0.21
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.367
+0.371
 </td>
 </tr>
 <tr>
@@ -11735,10 +11864,10 @@ education [Higher<br>education (Bachelor,<br>Master, PhD)]
 0.10
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.04 – 0.24
+-0.03 – 0.24
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.149
+0.140
 </td>
 </tr>
 <tr>
@@ -11788,7 +11917,7 @@ Observations
 Marginal R<sup>2</sup> / Conditional R<sup>2</sup>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
-0.274 / 0.505
+0.276 / 0.510
 </td>
 </tr>
 </table>
@@ -11797,7 +11926,6 @@ Marginal R<sup>2</sup> / Conditional R<sup>2</sup>
 </div>
 <div id="predicting-reported-behavior" class="section level3">
 <h3>Predicting reported behavior</h3>
-<pre><code>## boundary (singular) fit: see help(&#39;isSingular&#39;)</code></pre>
 <table style="border-collapse:collapse; border:none;">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
@@ -11826,10 +11954,10 @@ p
 (Intercept)
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-1.54
+1.43
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.79 – 2.29
+0.64 – 2.21
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 <strong>&lt;0.001</strong>
@@ -11840,10 +11968,10 @@ p
 policy support
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.12
+-0.10
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.17 – -0.08
+-0.14 – -0.06
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 <strong>&lt;0.001</strong>
@@ -11857,7 +11985,7 @@ regression weight
 -0.21
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.32 – -0.09
+-0.32 – -0.10
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 <strong>&lt;0.001</strong>
@@ -11868,13 +11996,13 @@ regression weight
 cc concern mean
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.00
+-0.01
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.05 – 0.05
+-0.06 – 0.04
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.972
+0.649
 </td>
 </tr>
 <tr>
@@ -11888,7 +12016,7 @@ conservative liberal
 -0.04 – 0.02
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.491
+0.425
 </td>
 </tr>
 <tr>
@@ -11896,10 +12024,10 @@ conservative liberal
 gender [Male]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.17
+-0.16
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.28 – -0.06
+-0.27 – -0.06
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 <strong>0.003</strong>
@@ -11916,7 +12044,7 @@ age
 -0.01 – 0.00
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.345
+0.198
 </td>
 </tr>
 <tr>
@@ -11924,13 +12052,13 @@ age
 income [18.000£ to<br>23.000£]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.06
+-0.01
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.13 – 0.25
+-0.20 – 0.17
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.514
+0.895
 </td>
 </tr>
 <tr>
@@ -11938,13 +12066,13 @@ income [18.000£ to<br>23.000£]
 income [23.001£ to<br>30.500£]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.07
+0.06
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.08 – 0.22
+-0.09 – 0.20
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.354
+0.428
 </td>
 </tr>
 <tr>
@@ -11952,13 +12080,13 @@ income [23.001£ to<br>30.500£]
 income [30.501£ to<br>45.000£]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.20
+0.15
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.04 – 0.35
+0.00 – 0.30
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-<strong>0.012</strong>
+<strong>0.049</strong>
 </td>
 </tr>
 <tr>
@@ -11966,13 +12094,13 @@ income [30.501£ to<br>45.000£]
 income [&gt; 45.001£]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.27
+0.23
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.11 – 0.43
+0.08 – 0.39
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-<strong>0.001</strong>
+<strong>0.003</strong>
 </td>
 </tr>
 <tr>
@@ -11983,10 +12111,10 @@ education [Further<br>education]
 -0.01
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.19 – 0.17
+-0.18 – 0.16
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.887
+0.896
 </td>
 </tr>
 <tr>
@@ -11994,13 +12122,13 @@ education [Further<br>education]
 education [Higher<br>education (Bachelor,<br>Master, PhD)]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.06
+0.09
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.11 – 0.23
+-0.08 – 0.25
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.500
+0.299
 </td>
 </tr>
 <tr>
@@ -12013,7 +12141,7 @@ Random Effects
 σ<sup>2</sup>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
-0.82
+0.70
 </td>
 </tr>
 <tr>
@@ -12021,14 +12149,21 @@ Random Effects
 τ<sub>00</sub> <sub>participant.label</sub>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
-0.00
+0.01
 </td>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
 τ<sub>00</sub> <sub>behavior</sub>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
-0.62
+0.72
+</td>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+ICC
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+0.51
 </td>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
@@ -12057,11 +12192,40 @@ Observations
 Marginal R<sup>2</sup> / Conditional R<sup>2</sup>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
-0.072 / NA
+0.036 / 0.529
 </td>
 </tr>
 </table>
+<p><img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-68-1.png" style="display: block; margin: auto;" /></p>
 </div>
+</div>
+<div id="multivariate" class="section level2">
+<h2>multivariate (?)</h2>
+<pre><code>## 
+## Type II MANOVA Tests: Pillai test statistic
+##                      Df test stat approx F num Df den Df   Pr(&gt;F)    
+## diet.weight           1   0.03708   1.1167      6    174 0.354512    
+## flying.weight         1   0.07259   2.2698      6    174 0.039067 *  
+## commute.weight        1   0.04656   1.4161      6    174 0.210899    
+## recycling.weight      1   0.06291   1.9467      6    174 0.075861 .  
+## regional.weight       1   0.04585   1.3936      6    174 0.219673    
+## electricity.weight    1   0.03604   1.0842      6    174 0.373749    
+## cc_concern.mean       1   0.32828  14.1730      6    174 4.08e-13 ***
+## conservative_liberal  1   0.09620   3.0868      6    174 0.006753 ** 
+## gender                1   0.03490   1.0487      6    174 0.395622    
+## age                   1   0.08031   2.5323      6    174 0.022443 *  
+## income                4   0.15627   1.1994     24    708 0.233542    
+## education             2   0.12709   1.9792     12    350 0.025248 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+<div id="specr-for-policy-support" class="section level2">
+<h2>specr for policy support</h2>
+<p><img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-70-1.png" style="display: block; margin: auto;" /></p>
+</div>
+<div id="specf-for-regression-weights" class="section level2">
+<h2>specf for regression weights</h2>
+<p><img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-71-1.png" style="display: block; margin: auto;" /></p>
 </div>
 
 
