@@ -4610,7 +4610,9 @@ Note: this is using the policy support for the tax version of the policy (when u
 </table>
 
 
-## H3 with importance weights
+## H3 and H4 with conjoint parameters 
+
+### H3 with importance weights
 
 
 
@@ -4620,7 +4622,7 @@ Note: this is using the policy support for the tax version of the policy (when u
 
 
     
-## H3 with Part worths 
+### H3 with Part worths 
 
 
 
@@ -4635,7 +4637,7 @@ Note: this is using the policy support for the tax version of the policy (when u
 
 
 
-## H4 with Importance weights 
+### H4 with Importance weights 
 
 
 
@@ -4651,7 +4653,7 @@ Note: this is using the policy support for the tax version of the policy
 
 
 
-## H4 with Part worths 
+### H4 with Part worths 
 
 
 
@@ -5471,7 +5473,9 @@ Note: this is using the policy support for the tax version of the policy
 <img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-68-1.png" style="display: block; margin: auto;" />
 
 
-## multivariate (?)
+## Other models
+
+### multivariate (?)
 
 
 
@@ -5495,12 +5499,12 @@ Note: this is using the policy support for the tax version of the policy
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
-## specr for policy support
+### specification curve analysis for policy support
 
 <img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-70-1.png" style="display: block; margin: auto;" />
 
 
-## specf for regression weights
+### specification curve analysis for regression weights
 <img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-71-1.png" style="display: block; margin: auto;" />
 
 
