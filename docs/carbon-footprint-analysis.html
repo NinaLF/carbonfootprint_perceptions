@@ -446,8 +446,8 @@ intercept</a></li>
 <li><a href="#adding-type-as-random-intercept"
 id="toc-adding-type-as-random-intercept">Adding type as random
 intercept</a></li>
-<li><a href="#adding-impact" id="toc-adding-impact">Adding
-impact</a></li>
+<li><a href="#adding-domain" id="toc-adding-domain">Adding
+domain</a></li>
 </ul></li>
 <li><a href="#prediciting-impact-perceptions"
 id="toc-prediciting-impact-perceptions">Prediciting impact
@@ -11028,8 +11028,8 @@ Marginal R<sup>2</sup> / Conditional R<sup>2</sup>
 </tr>
 </table>
 </div>
-<div id="adding-impact" class="section level4">
-<h4>Adding impact</h4>
+<div id="adding-domain" class="section level4">
+<h4>Adding domain</h4>
 <table style="border-collapse:collapse; border:none;">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
@@ -11058,10 +11058,10 @@ p
 (Intercept)
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-2.18
+2.26
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-1.37 – 2.99
+1.41 – 3.11
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 <strong>&lt;0.001</strong>
@@ -11072,13 +11072,13 @@ p
 regression weight
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.18
+0.15
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.05 – 0.31
+0.01 – 0.29
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-<strong>0.007</strong>
+<strong>0.031</strong>
 </td>
 </tr>
 <tr>
@@ -11086,10 +11086,10 @@ regression weight
 reported behavior
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.13
+-0.15
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.20 – -0.07
+-0.21 – -0.09
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 <strong>&lt;0.001</strong>
@@ -11125,16 +11125,30 @@ conservative liberal
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-impact [high]
+domain [food]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.58
+-0.41
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.77 – -0.40
+-0.80 – -0.03
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-<strong>&lt;0.001</strong>
+<strong>0.037</strong>
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+domain [household]
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.62
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-1.00 – -0.23
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+<strong>0.002</strong>
 </td>
 </tr>
 <tr>
@@ -11145,10 +11159,10 @@ gender [Male]
 0.00
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.22 – 0.23
+-0.23 – 0.23
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.988
+1.000
 </td>
 </tr>
 <tr>
@@ -11176,7 +11190,7 @@ income [18.000£ to<br>23.000£]
 -0.45 – 0.33
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.754
+0.755
 </td>
 </tr>
 <tr>
@@ -11187,10 +11201,10 @@ income [23.001£ to<br>30.500£]
 0.12
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.19 – 0.43
+-0.18 – 0.43
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.437
+0.433
 </td>
 </tr>
 <tr>
@@ -11204,7 +11218,7 @@ income [30.501£ to<br>45.000£]
 -0.38 – 0.25
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.688
+0.699
 </td>
 </tr>
 <tr>
@@ -11218,7 +11232,7 @@ income [&gt; 45.001£]
 -0.21 – 0.44
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.497
+0.501
 </td>
 </tr>
 <tr>
@@ -11226,13 +11240,13 @@ income [&gt; 45.001£]
 education [Further<br>education]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.24
+0.25
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 -0.12 – 0.61
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.190
+0.188
 </td>
 </tr>
 <tr>
@@ -11240,13 +11254,13 @@ education [Further<br>education]
 education [Higher<br>education (Bachelor,<br>Master, PhD)]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.46
+0.47
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 0.12 – 0.81
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-<strong>0.009</strong>
+<strong>0.008</strong>
 </td>
 </tr>
 <tr>
@@ -11274,14 +11288,14 @@ Random Effects
 τ<sub>00</sub> <sub>behavior</sub>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
-0.01
+0.03
 </td>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
 ICC
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
-0.36
+0.37
 </td>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
@@ -11310,10 +11324,11 @@ Observations
 Marginal R<sup>2</sup> / Conditional R<sup>2</sup>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
-0.420 / 0.629
+0.406 / 0.628
 </td>
 </tr>
 </table>
+<p><img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-65-1.png" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div id="prediciting-impact-perceptions" class="section level3 tabset">
@@ -11349,13 +11364,13 @@ p
 (Intercept)
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.30
+0.48
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.15 – 0.74
+0.02 – 0.94
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.191
+<strong>0.042</strong>
 </td>
 </tr>
 <tr>
@@ -11369,7 +11384,7 @@ policy support
 0.00 – 0.05
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-<strong>0.024</strong>
+<strong>0.025</strong>
 </td>
 </tr>
 <tr>
@@ -11380,7 +11395,7 @@ reported behavior
 -0.07
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.10 – -0.04
+-0.09 – -0.04
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 <strong>&lt;0.001</strong>
@@ -11397,7 +11412,7 @@ cc concern mean
 -0.00 – 0.07
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.088
+0.085
 </td>
 </tr>
 <tr>
@@ -11411,21 +11426,21 @@ conservative liberal
 -0.03 – 0.02
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.630
+0.628
 </td>
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-impact [high]
+impact [low]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.32
+-0.06
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.12 – 0.76
+-0.63 – 0.51
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.154
+0.835
 </td>
 </tr>
 <tr>
@@ -11436,10 +11451,10 @@ gender [Male]
 0.02
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.07 – 0.11
+-0.06 – 0.11
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.598
+0.596
 </td>
 </tr>
 <tr>
@@ -11453,7 +11468,7 @@ age
 -0.00 – 0.00
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.777
+0.773
 </td>
 </tr>
 <tr>
@@ -11495,7 +11510,7 @@ income [30.501£ to<br>45.000£]
 -0.12 – 0.13
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.909
+0.911
 </td>
 </tr>
 <tr>
@@ -11523,7 +11538,7 @@ education [Further<br>education]
 -0.08 – 0.21
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.371
+0.370
 </td>
 </tr>
 <tr>
@@ -11565,14 +11580,14 @@ Random Effects
 τ<sub>00</sub> <sub>behavior</sub>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
-0.07
+0.11
 </td>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
 ICC
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
-0.50
+0.56
 </td>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
@@ -11601,7 +11616,7 @@ Observations
 Marginal R<sup>2</sup> / Conditional R<sup>2</sup>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
-0.096 / 0.550
+0.062 / 0.587
 </td>
 </tr>
 </table>
