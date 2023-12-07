@@ -1314,7 +1314,7 @@ data.regression.total1 <- merge(data.regression.weights.long_clean, data.regress
 data.regression.total <- merge(data.regression.total1, data.regression.weights.footprint.long, by=c("behavior", "participant.label"))
                              
 data.regression.total$impact <- factor(data.regression.total$behavior, 
-                                       levels=c("commute", "diet", "electricity", "flying", "recyling", "regional"), labels=c("high", "high", "high", "high", "low","low") )
+                                       levels=c("commute", "diet", "electricity", "flying", "recyling", "regional"), labels=c("low", "high", "high", "high", "low","low") )
 
 data.regression.total$domain <- factor(data.regression.total$behavior, 
                                        levels=c("commute", "diet", "electricity", "flying", "recyling", "regional"), labels=c("transport", "food", "household", "household", "transport","food") )
@@ -1386,11 +1386,13 @@ plot_model(complete.model.impact.perc.beh, show.values =TRUE, vline.color = "dar
 
 ```
 
-### Predicting reported behavior
+### Predicting reported behavior  {.tabset}
+
+#### main effect of perceived impact
 ```{r}
 
 complete.model.behavior <- lmer(reported.behavior ~ policy.support + regression.weight +
-                            cc_concern.mean+ conservative_liberal  +
+                            cc_concern.mean+ conservative_liberal  + impact + domain +
                             gender + age + income + education  +
                          (1|participant.label) + (1 |behavior) ,
                           data=data.regression.total)
@@ -1400,6 +1402,19 @@ plot_model(complete.model.behavior, show.values =TRUE, vline.color = "darkgrey")
 
 ```
 
+#### interaction of perceived impact and impactfulness of behavior
+```{r}
+
+complete.model.behavior.impact <- lmer(reported.behavior ~ policy.support + regression.weight*impact +
+                            cc_concern.mean+ conservative_liberal  +
+                            gender + age + income + education  +
+                         (1|participant.label) + (1 |behavior) ,
+                          data=data.regression.total)
+
+tab_model(complete.model.behavior.impact)
+plot_model(complete.model.behavior.impact, type="emm",terms=c("regression.weight","impact"))
+
+```
 
 ## Other models
 
