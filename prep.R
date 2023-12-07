@@ -20,6 +20,7 @@ library(Hmisc)
 library(corrplot)
 library(GPArotation)
 library(ircor)
+library(purrr)
 
 set_theme(base=theme_classic())
 
@@ -410,27 +411,6 @@ write.csv(data.part.worths, "data/data.part.worths.csv")
 
 
 
-# per person importance weight
-
-### regression weights visually
-data.regression.weights.long <-  pivot_longer(data.regression.weights,flying2:recycling2, names_to = "behavior", values_to = "regression.weight" )
-
-data.regression.weights.long$behavior.label <- factor(data.regression.weights.long$behavior, 
-                                                levels=c("flying2", "diet2", "electricity2" ,"regional2", "commute2","recycling2" ) ,
-                                                labels=c("train vs. flying 2/year", "diet vegetarian vs. omnivore", "100% RE vs. mixed",
-                                                         "regional only vs imported food", "commute by bus vs. bike", "recycling vs. not")) 
-
-ggplot(data.regression.weights.long, aes(x=reorder(behavior.label,-regression.weight), y=regression.weight, color=behavior.label)) +
-  geom_boxplot() + 
-  # facet_grid(conservative_liberal.binary~.) +
-  theme_minimal() +
-  theme(axis.title  = element_text(size = 14), 
-        axis.text.y = element_text(size = 14),
-        axis.text.x = element_text(size=14, angle=90 ),
-        strip.text = element_text(size=14),
-        legend.position = "none")  +
-  scale_color_viridis_d() + labs(fill=NULL)
-  
 
 
 ### accuracy
@@ -460,7 +440,6 @@ ggplot(data.accuracy, aes(x=actual.ranking, y=rating)) +
 
 
 cor.test(data.accuracy$actual.ranking, data.accuracy$rating, method="spearman")
-tau_b(data.accuracy$actual.ranking, data.accuracy$rating)
 
 accuracy.estimates <- data.accuracy %>% 
   nest(data = -participant.label) %>%
@@ -468,43 +447,23 @@ accuracy.estimates <- data.accuracy %>%
   mutate(tidied = map(cor, tidy)) %>% 
   unnest(tidied) %>% 
   select(-data, -cor)
-write.csv(data.accuracy.score, "data/data.accuracy.score.csv")
 
 data.accuracy.score <- merge(data, accuracy.estimates, by="participant.label")
+data.accuracy.score$rel_cc_concern.mean <- scale(data.accuracy.score$cc_concern.mean)[,1]
+data.accuracy.score$rel_cc_concern.mean.f <- cut(data.accuracy.score$rel_cc_concern.mean, breaks=c(-3, -1, 0, 2))
+data.accuracy.score$rel_cc_concern.mean.f <- factor(data.accuracy.score$rel_cc_concern.mean.f ,
+                                                     levels=c("(-3,-1]" , "(-1,0]",   "(0,2]" ) ,
+                                                     labels=c("-1", "0", "1"))
 
-model.accuracy <- lm(estimate ~ age + gender + education + 
-                       cc_concern.mean + conservative_liberal + total_co2,
-                       data=data.accuracy.score)
-summary(model.accuracy)
-tab_model(model.accuracy)
-
-plot_model(model.accuracy, terms=c("total_co2"), type="pred")
-
-
-ggplot(data.accuracy.score, aes(x=total_co2, y=estimate)) +
-  geom_point() +
-  theme_minimal()
-
-
-model.support.accuracy <- lm(policy.support.total ~ estimate+
-                              age + gender + education + income +
-                              cc_concern.mean ,
-                            data=data.accuracy.score)
-tab_model(model.support.accuracy)
-
-model.behavior.accuracy <- lm(total_co2 ~ estimate+
-                               age + gender + education + income +
-                               cc_concern.mean,
-                             data=data.accuracy.score)
-tab_model(model.behavior.accuracy)
-
-ggplot(data.accuracy.score, aes(x=estimate)) +
-  geom_density() +
-  theme_minimal()
+data.accuracy.score$rel_cor <- scale(data.accuracy.score$estimate)[,1]
+data.accuracy.score$rel_cor.f <- cut(data.accuracy.score$rel_cor, breaks=c(-5, -1, 0, 2))
+data.accuracy.score$rel_cor.f <- factor(data.accuracy.score$rel_cor.f ,
+                                             levels=c("(-5,-1]" , "(-1,0]",   "(0,2]" ) ,
+                                             labels=c("-1", "0", "1"))
+write.csv(data.accuracy.score, "data/data.accuracy.score.csv")
 
 
 ## with tau
-
 
 accuracy.estimates.tau <- data.accuracy %>% 
   nest(data = -participant.label) %>%

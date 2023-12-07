@@ -106,6 +106,9 @@ data.accuracy.score.tau$rel_cor.tau.f <- factor(data.accuracy.score.tau$rel_cor.
 
 data.accuracy.score <- read.csv("data/data.accuracy.score.csv")
 data.accuracy.score <- data.accuracy.score[!c(data.accuracy.score$participant.label %in% data.excl$participant.label), ] 
+data.accuracy.score$income <- factor(data.accuracy.score$income, levels=c("< 18.000£", "18.000£ to 23.000£", "23.001£ to 30.500£", "30.501£ to 45.000£", "> 45.001£"))
+data.accuracy.score$rel_cc_concern.mean.f <- factor(data.accuracy.score$rel_cc_concern.mean.f)
+data.accuracy.score$rel_cor.f <- factor(data.accuracy.score$rel_cor.f)
 
 
 data.perceptions.total <- read.csv("data/data.perceptions.total.csv")
@@ -158,6 +161,9 @@ data.regression.weights.excl  <- data.regression.weights %>% filter(!diet.weight
 
 ### exclude those with negative accuracy score assoication because they are so bad that there is a negative correlation..
 data.accuracy.score.tau.excl <- data.accuracy.score.tau %>% filter(!cor.tau<0) 
+
+data.accuracy.score.excl <- data.accuracy.score %>% filter(!estimate<0) 
+
 
 ```
 
@@ -387,21 +393,21 @@ plot_model(model.perceptions.comp4, type="pred", terms=c("flying", "commute"))
 
 ### Predicting Accuracy 
 ```{r}
-model.accuracy2 <- lm(cor.tau ~ age + gender + education + income +
+model.accuracy2 <- lm(estimate ~ age + gender + education + income +
                        cc_concern.mean + conservative_liberal + total_co2,
-                     data=data.accuracy.score.tau)
+                     data=data.accuracy.score)
 tab_model(model.accuracy2)
-model.accuracy2.excl <- lm(cor.tau ~ age + gender + education + income +
+model.accuracy2.excl <- lm(estimate ~ age + gender + education + income +
                        cc_concern.mean + conservative_liberal + total_co2,
-                     data=data.accuracy.score.tau.excl)
+                     data=data.accuracy.score.excl)
 tab_model(model.accuracy2.excl)
 #data.accuracy.score.tau.excl
 ```
 ### Distribution accuracy by cc concern
 => Higher cc concern associated with more accuracy
 ```{r}
-ggplot(data.accuracy.score.tau.excl, aes(x=cor.tau, fill=rel_cc_concern.mean.f, alpha=.3)) +
-  geom_density(alpha=.5) +  labs(alpha=NULL, fill="z-standardized cc concern") +  
+ggplot(data.accuracy.score.excl, aes(x=estimate, fill=rel_cc_concern.mean.f, alpha=.3)) +
+  geom_density(alpha=.5) +  labs(alpha=NULL, fill="z-standardized cc concern", x="accuracy") +  
   theme_minimal() +
   scale_fill_manual(values=c(  "#a50000", "#F6BE00", "#2F8D06"))
 ```
@@ -409,9 +415,9 @@ ggplot(data.accuracy.score.tau.excl, aes(x=cor.tau, fill=rel_cc_concern.mean.f, 
 ### Distribution accuracy by income
 => Higher income associated with lower accuracy
 ```{r}
-ggplot(data.accuracy.score.tau.excl, aes(x=cor.tau, fill=income)) +
+ggplot(data.accuracy.score.excl, aes(x=estimate, fill=income)) +
     geom_density(alpha=.7) +
-    theme_minimal() + labs(alpha=NULL) +
+    theme_minimal() + labs(alpha=NULL, x="accuracy") +
     scale_fill_manual(values=c(  "#6ec19d", "#0c8853", "#127d71", "#12547d", "#2e519a"))
     
 ```
@@ -419,21 +425,21 @@ ggplot(data.accuracy.score.tau.excl, aes(x=cor.tau, fill=income)) +
 
 ### Policy support predicted by accuracy
 ```{r}
-model.support.accuracy2 <- lm(policy.support.total ~ cor.tau+
+model.support.accuracy2 <- lm(policy.support.total ~ estimate+
                                age + gender + education + income +
                                cc_concern.mean ,
-                             data=data.accuracy.score.tau)
+                             data=data.accuracy.score)
 tab_model(model.support.accuracy2)
 
-model.support.accuracy.excl <- lm(policy.support.total ~ cor.tau+
+model.support.accuracy.excl <- lm(policy.support.total ~ estimate+
                                   age + gender + education + income +
                                   cc_concern.mean ,
-                              data=data.accuracy.score.tau.excl)
+                              data=data.accuracy.score.excl)
 tab_model(model.support.accuracy.excl)
 
-model.support.accuracy2.mod <- lm(policy.support.total ~ rel_cor.tau*rel_cc_concern.mean+
+model.support.accuracy2.mod <- lm(policy.support.total ~ estimate*rel_cc_concern.mean+
                                age + gender + education + income ,
-                             data=data.accuracy.score.tau.excl)
+                             data=data.accuracy.score.excl)
 #tab_model(model.support.accuracy2.mod)
 # interaction not significant but both accuracy and cc concern remain sign
 
@@ -442,7 +448,7 @@ model.support.accuracy2.mod <- lm(policy.support.total ~ rel_cor.tau*rel_cc_conc
 ### Distribution policy support by accuracy
 
 ```{r}
-ggplot(data.accuracy.score.tau.excl, aes(x=policy.support.total, fill=rel_cor.tau.f)) +
+ggplot(data.accuracy.score.excl, aes(x=policy.support.total, fill=rel_cor.f)) +
   geom_density(alpha=.5) +  labs(alpha=NULL, fill="z-standardized tau") +
   theme_minimal() +
   scale_fill_manual(values=c(  "#a50000", "#F6BE00", "#2F8D06"))
@@ -453,29 +459,29 @@ ggplot(data.accuracy.score.tau.excl, aes(x=policy.support.total, fill=rel_cor.ta
 ### Carbon footprint predicted by accuracy 
 ```{r}
 
-model.behavior.accuracy2 <- lm(total_co2 ~ cor.tau + cc_concern.mean+ conservative_liberal +
+model.behavior.accuracy2 <- lm(total_co2 ~ estimate + cc_concern.mean+ conservative_liberal +
                                 age + gender + education + income ,
-                              data=data.accuracy.score.tau)
+                              data=data.accuracy.score)
 tab_model(model.behavior.accuracy2)
 
-model.behavior.accuracy2.excl <- lm(total_co2 ~ cor.tau + cc_concern.mean+ conservative_liberal +
+model.behavior.accuracy2.excl <- lm(total_co2 ~ estimate + cc_concern.mean+ conservative_liberal +
                                    age + gender + education + income ,
-                               data=data.accuracy.score.tau.excl)
+                               data=data.accuracy.score.excl)
 tab_model(model.behavior.accuracy2.excl)
 # no sign interaction
-model.behavior.accuracy2.mod <- lm(total_co2 ~ rel_cor.tau*rel_cc_concern.mean+ conservative_liberal +
+model.behavior.accuracy2.mod <- lm(total_co2 ~ rel_cor*rel_cc_concern.mean+ conservative_liberal +
                                    age + gender + education + income ,
-                               data=data.accuracy.score.tau.excl)
+                               data=data.accuracy.score.excl)
 #tab_model(model.behavior.accuracy2.mod)
 
 ```
 ### Distribution carbon footprint by accuracy
 
 ```{r}
-ggplot(data.accuracy.score.tau, aes(x=total_co2, fill=rel_cc_concern.mean.f, alpha=.3)) +
+ggplot(data.accuracy.score.excl, aes(x=total_co2, fill=rel_cor.f, alpha=.3)) +
   geom_density() +
   theme_minimal() +
-  scale_fill_manual(values=c(  "#a50000", "#ff8c00", "#F6BE00"))
+  scale_fill_manual(values=c(  "#a50000", "#F6BE00", "#2F8D06"))
 
 
 ```
@@ -494,24 +500,24 @@ ggplot(data.accuracy.score.tau, aes(x=total_co2, fill=rel_cc_concern.mean.f, alp
 #data.accuracy.score.tau4 <- data.accuracy.score.tau %>% rename(policy = policy.RE)
 #data.accuracy.score.tau5 <- data.accuracy.score.tau %>% rename(policy = policy.regional_food)
 
-model.behavior.accuracy1.car <- lm(footprint.travel.car ~   cc_concern.mean+ conservative_liberal + cor.tau + # policy+
+model.behavior.accuracy1.car <- lm(footprint.travel.car ~   cc_concern.mean+ conservative_liberal + estimate + # policy+
                                 age + gender + education + income ,
-                              data=data.accuracy.score.tau.excl)
-model.behavior.accuracy1.fly <- lm(footprint.flying ~   cc_concern.mean+ conservative_liberal  + cor.tau + # policy+
+                              data=data.accuracy.score.excl)
+model.behavior.accuracy1.fly <- lm(footprint.flying ~   cc_concern.mean+ conservative_liberal  + estimate + # policy+
                                 age + gender + education + income ,
-                              data=data.accuracy.score.tau.excl)
+                              data=data.accuracy.score.excl)
 
-model.behavior.accuracy1.diet <- lm(footprint.diet ~    cc_concern.mean+  conservative_liberal  + cor.tau +  # policy+
+model.behavior.accuracy1.diet <- lm(footprint.diet ~    cc_concern.mean+  conservative_liberal  + estimate +  # policy+
                                 age + gender + education + income ,
-                              data=data.accuracy.score.tau.excl)
+                              data=data.accuracy.score.excl)
 
-model.behavior.accuracy1.elec <- lm(footprint.electricity ~  +cc_concern.mean+ conservative_liberal  + cor.tau +  # policy+
+model.behavior.accuracy1.elec <- lm(footprint.electricity ~  +cc_concern.mean+ conservative_liberal  + estimate +  # policy+
                                 age + gender + education + income ,
-                              data=data.accuracy.score.tau.excl)
+                              data=data.accuracy.score.excl)
 
-model.behavior.accuracy1.reg <- lm(footprint.regional ~  cc_concern.mean+ conservative_liberal  + cor.tau +  # policy+
+model.behavior.accuracy1.reg <- lm(footprint.regional ~  cc_concern.mean+ conservative_liberal  + estimate +  # policy+
                                 age + gender + education + income ,
-                              data=data.accuracy.score.tau.excl)
+                              data=data.accuracy.score.excl)
 
 ```
 
