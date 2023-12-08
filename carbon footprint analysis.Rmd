@@ -449,7 +449,7 @@ model.support.accuracy2.mod <- lm(policy.support.total ~ estimate*rel_cc_concern
 
 ```{r}
 ggplot(data.accuracy.score.excl, aes(x=policy.support.total, fill=rel_cor.f)) +
-  geom_density(alpha=.5) +  labs(alpha=NULL, fill="z-standardized tau") +
+  geom_density(alpha=.5) +  labs(alpha=NULL, fill="z-standardized tau", y="policy support") +
   theme_minimal() +
   scale_fill_manual(values=c(  "#a50000", "#F6BE00", "#2F8D06"))
 
@@ -478,8 +478,8 @@ model.behavior.accuracy2.mod <- lm(total_co2 ~ rel_cor*rel_cc_concern.mean+ cons
 ### Distribution carbon footprint by accuracy
 
 ```{r}
-ggplot(data.accuracy.score.excl, aes(x=total_co2, fill=rel_cor.f, alpha=.3)) +
-  geom_density() +
+ggplot(data.accuracy.score.excl, aes(x=total_co2, fill=rel_cor.f)) +
+  geom_density(alpha=.5) + labs(x="carbon footprint of reported behavior", fill="accuracy") +
   theme_minimal() +
   scale_fill_manual(values=c(  "#a50000", "#F6BE00", "#2F8D06"))
 

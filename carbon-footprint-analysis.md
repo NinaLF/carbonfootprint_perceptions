@@ -2,7 +2,7 @@
 pagetitle: "carbon footprint analysis"
 title: "carbon footprint perceptions results pilot"
 
-date: "2023-12-07"
+date: "2023-12-08"
 output:
   html_document:
     theme: lumen
@@ -1662,7 +1662,7 @@ Info for H2, H3 and H4 I excluded individuals with negative regression weights (
 </table>
 ### Distribution carbon footprint by accuracy
 
-<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-18-1.png" style="display: block; margin: auto;" />
+<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-18-1.png" style="display: block; margin: auto;" /><img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-18-2.png" style="display: block; margin: auto;" />
 
 ## Per behavior {.tabset}
 
@@ -5497,7 +5497,7 @@ Note: this is using the policy support for the tax version of the policy
 </tr>
 
 </table>
-<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-68-1.png" style="display: block; margin: auto;" />
+<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-68-1.png" style="display: block; margin: auto;" /><img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-68-2.png" style="display: block; margin: auto;" />
 
 #### interaction of perceived impact and impactfulness of behavior
 <table style="border-collapse:collapse; border:none;">
@@ -5641,6 +5641,11 @@ Note: this is using the policy support for the tax version of the policy
 </table>
 <img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-69-1.png" style="display: block; margin: auto;" />
 
+
+
+<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-70-1.png" style="display: block; margin: auto;" />
+
+
 ## Other models
 
 ### multivariate (?)
@@ -5669,10 +5674,10 @@ Note: this is using the policy support for the tax version of the policy
 
 ### specification curve analysis for policy support
 
-<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-71-1.png" style="display: block; margin: auto;" />
+<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-72-1.png" style="display: block; margin: auto;" />
 
 
 ### specification curve analysis for regression weights
-<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-72-1.png" style="display: block; margin: auto;" />
+<img src="carbon-footprint-analysis_files/figure-html/unnamed-chunk-73-1.png" style="display: block; margin: auto;" />
 
 

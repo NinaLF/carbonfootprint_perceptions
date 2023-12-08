@@ -452,16 +452,16 @@ accuracy.estimates <- data.accuracy %>%
 
 data.accuracy.score <- merge(data, accuracy.estimates, by="participant.label")
 data.accuracy.score$rel_cc_concern.mean <- scale(data.accuracy.score$cc_concern.mean)[,1]
-data.accuracy.score$rel_cc_concern.mean.f <- cut(data.accuracy.score$rel_cc_concern.mean, breaks=c(-3, -1, 0, 2))
+data.accuracy.score$rel_cc_concern.mean.f <- cut(data.accuracy.score$rel_cc_concern.mean, breaks=c(-3, -0.5, 0.5, 2))
 data.accuracy.score$rel_cc_concern.mean.f <- factor(data.accuracy.score$rel_cc_concern.mean.f ,
-                                                     levels=c("(-3,-1]" , "(-1,0]",   "(0,2]" ) ,
-                                                     labels=c("-1", "0", "1"))
+                                                     levels=c("(-3,-0.5]" , "(-0.5,0.5]",   "(0.5,2]" ) ,
+                                                     labels=c("below average", "average", "above average"))
 
 data.accuracy.score$rel_cor <- scale(data.accuracy.score$estimate)[,1]
-data.accuracy.score$rel_cor.f <- cut(data.accuracy.score$rel_cor, breaks=c(-5, -1, 0, 2))
+data.accuracy.score$rel_cor.f <- cut(data.accuracy.score$rel_cor, breaks=c(-5, -0.5, 0.5, 2))
 data.accuracy.score$rel_cor.f <- factor(data.accuracy.score$rel_cor.f ,
-                                             levels=c("(-5,-1]" , "(-1,0]",   "(0,2]" ) ,
-                                             labels=c("-1", "0", "1"))
+                                             levels=c("(-5,-0.5]" , "(-0.5,0.5]",   "(0.5,2]" ) ,
+                                             labels=c("below average", "average", "above average"))
 write.csv(data.accuracy.score, "data/data.accuracy.score.csv")
 
 
