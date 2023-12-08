@@ -484,6 +484,19 @@ ggplot(data.accuracy.score.excl, aes(x=total_co2, fill=rel_cor.f, alpha=.3)) +
   scale_fill_manual(values=c(  "#a50000", "#F6BE00", "#2F8D06"))
 
 
+data.accuracy.score.excl$rel_total_co2 <- scale(data.accuracy.score.excl$total_co2 )[,1]
+data.accuracy.score.excl$rel_total_co2.f <- cut(data.accuracy.score.excl$rel_total_co2, breaks=c(-2, -1,-0.5, 0.5, 1,6))
+
+data.accuracy.score.excl$rel_total_co2.f <- factor(data.accuracy.score.excl$rel_total_co2.f ,
+                                             levels=c("(-2,-1]" , "(-1,-0.5]", "(-0.5,0.5]", "(0.5,1]",  "(1,6]" ) ,
+                                             labels=c("-much lower than average", "lower than average", 
+                                                      "average", "higher than average", "much higher than average"))
+
+ggplot(data.accuracy.score.excl, aes(x=estimate, fill=rel_total_co2.f, alpha=.3)) +
+  geom_density() + labs(x="accuracy", fill="carbon footprint of reported behavior") +
+  theme_minimal() +
+  scale_fill_manual(values=c("#127d71", "#2F8D06","#F6BE00","#DC582A" , "#a50000"))
+
 ```
 
 ## Per behavior {.tabset}
@@ -1405,6 +1418,8 @@ complete.model.behavior <- lmer(reported.behavior ~ policy.support + regression.
 
 tab_model(complete.model.behavior)
 plot_model(complete.model.behavior, show.values =TRUE, vline.color = "darkgrey")
+plot_model(complete.model.behavior, type="emm",terms=c("regression.weight")) +
+  labs(x="regression weight", y="reported behavior")
 
 ```
 
@@ -1421,6 +1436,25 @@ tab_model(complete.model.behavior.impact)
 plot_model(complete.model.behavior.impact, type="emm",terms=c("regression.weight","impact"))
 
 ```
+
+
+
+```{r}
+data.regression.total$rel_regression.weight <- scale(data.regression.total$regression.weight)[,1]
+data.regression.total$rel_regression.weight.f <- cut(data.regression.total$rel_regression.weight, breaks=c(-5, -1,-0.5, 0.5, 1,6))
+
+data.regression.total$rel_regression.weight.f <- factor(data.regression.total$rel_regression.weight.f ,
+                                             levels=c("(-5,-1]" , "(-1,-0.5]", "(-0.5,0.5]", "(0.5,1]",  "(1,6]" ) ,
+                                             labels=c("-much lower than average", "lower than average", 
+                                                      "average", "higher than average", "much higher than average"))
+
+ggplot(data.regression.total, aes(x=reported.behavior, fill=rel_regression.weight.f)) +
+    geom_density(alpha=.7) +
+    theme_minimal() + labs(alpha=NULL, x="carbon footprint of reported behavior", fill="impact perception") +
+    scale_fill_manual(values=c(  "#a50000", "#DC582A","#F6BE00", "#2F8D06", "#127d71"))
+    
+```
+
 
 ## Other models
 

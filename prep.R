@@ -449,6 +449,7 @@ accuracy.estimates <- data.accuracy %>%
   select(-data, -cor)
 
 
+
 data.accuracy.score <- merge(data, accuracy.estimates, by="participant.label")
 data.accuracy.score$rel_cc_concern.mean <- scale(data.accuracy.score$cc_concern.mean)[,1]
 data.accuracy.score$rel_cc_concern.mean.f <- cut(data.accuracy.score$rel_cc_concern.mean, breaks=c(-3, -1, 0, 2))
