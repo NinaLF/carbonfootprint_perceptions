@@ -407,7 +407,7 @@ tab_model(model.accuracy2.excl)
 => Higher cc concern associated with more accuracy
 ```{r}
 ggplot(data.accuracy.score.excl, aes(x=estimate, fill=rel_cc_concern.mean.f, alpha=.3)) +
-  geom_density(alpha=.5) +  labs(alpha=NULL, fill="z-standardized cc concern", x="accuracy") +  
+  geom_density(alpha=.5) +  labs(alpha=NULL, fill= "cc concern", x="accuracy") +  
   theme_minimal() +
   scale_fill_manual(values=c(  "#a50000", "#F6BE00", "#2F8D06"))
 ```
@@ -449,7 +449,7 @@ model.support.accuracy2.mod <- lm(policy.support.total ~ estimate*rel_cc_concern
 
 ```{r}
 ggplot(data.accuracy.score.excl, aes(x=policy.support.total, fill=rel_cor.f)) +
-  geom_density(alpha=.5) +  labs(alpha=NULL, fill="z-standardized tau", y="policy support") +
+  geom_density(alpha=.5) +  labs(alpha=NULL, fill="accuracy", y="policy support") +
   theme_minimal() +
   scale_fill_manual(values=c(  "#a50000", "#F6BE00", "#2F8D06"))
 
