@@ -107,8 +107,8 @@ data.accuracy.score.tau$rel_cor.tau.f <- factor(data.accuracy.score.tau$rel_cor.
 data.accuracy.score <- read.csv("data/data.accuracy.score.csv")
 data.accuracy.score <- data.accuracy.score[!c(data.accuracy.score$participant.label %in% data.excl$participant.label), ] 
 data.accuracy.score$income <- factor(data.accuracy.score$income, levels=c("< 18.000£", "18.000£ to 23.000£", "23.001£ to 30.500£", "30.501£ to 45.000£", "> 45.001£"))
-data.accuracy.score$rel_cc_concern.mean.f <- factor(data.accuracy.score$rel_cc_concern.mean.f)
-data.accuracy.score$rel_cor.f <- factor(data.accuracy.score$rel_cor.f)
+data.accuracy.score$rel_cc_concern.mean.f <- factor(data.accuracy.score$rel_cc_concern.mean.f, levels=c("below average", "average", "above average"))
+data.accuracy.score$rel_cor.f <- factor(data.accuracy.score$rel_cor.f, levels=c("below average", "average", "above average"))
 
 
 data.perceptions.total <- read.csv("data/data.perceptions.total.csv")
@@ -425,19 +425,19 @@ ggplot(data.accuracy.score.excl, aes(x=estimate, fill=income)) +
 
 ### Policy support predicted by accuracy
 ```{r}
-model.support.accuracy2 <- lm(policy.support.total ~ estimate+
+model.support.accuracy2 <- lm(policy.support.total ~ estimate+ conservative_liberal +
                                age + gender + education + income +
                                cc_concern.mean ,
                              data=data.accuracy.score)
 tab_model(model.support.accuracy2)
 
-model.support.accuracy.excl <- lm(policy.support.total ~ estimate+
+model.support.accuracy.excl <- lm(policy.support.total ~ estimate+ conservative_liberal +
                                   age + gender + education + income +
                                   cc_concern.mean ,
                               data=data.accuracy.score.excl)
 tab_model(model.support.accuracy.excl)
 
-model.support.accuracy2.mod <- lm(policy.support.total ~ estimate*rel_cc_concern.mean+
+model.support.accuracy2.mod <- lm(policy.support.total ~ estimate*rel_cc_concern.mean+ conservative_liberal+
                                age + gender + education + income ,
                              data=data.accuracy.score.excl)
 #tab_model(model.support.accuracy2.mod)
