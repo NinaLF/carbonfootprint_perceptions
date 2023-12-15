@@ -582,7 +582,204 @@ tab_model(model.behavior.accuracy1.reg)
 
 ```
 
-## H3 Impact perceptions (=Regression weights) predicted by reported behavior?
+
+## H3 impact perceptions and reported behavior overall model
+
+*We expect that the perceived impact of behaviors on the size of carbon footprints is influenced by self-reported climate relevant behavior. Specifically, we expect that individuals exhibit motivated reasoning such that the more a person engages in a given climate-unfriendly behavior, the lower they estimate the behavior to have an impact on the size of carbon footprints.*
+
+```{r}
+data.regression.weights.long <-  pivot_longer(data.regression.weights,flying.weight:recycling.weight, names_to = "behavior", values_to = "regression.weight" )
+
+data.regression.weights.long_clean <-  data.regression.weights.long %>% select(participant.label, behavior, regression.weight, gender, age, income, education, cc_concern.mean, conservative_liberal)
+data.regression.weights.long_clean$behavior <- factor(data.regression.weights.long_clean$behavior, levels=c("commute.weight", "diet.weight", "electricity.weight", "flying.weight", "recycling.weight", "regional.weight" ),
+                                                      labels=c("commute", "diet", "electricity", "flying", "recyling", "regional") )
+
+data.regression.weights.policies <- data.regression.weights.long %>% select(participant.label, policy.car, policy.flying, policy.RE, policy.meat,   policy.recycle, policy.regional_food )
+data.regression.weights.policies <- unique(data.regression.weights.policies)
+
+data.regression.weights.policies.long <- pivot_longer(data.regression.weights.policies,policy.car:policy.regional_food,  names_to = "behavior", values_to = "policy.support")
+data.regression.weights.policies.long$behavior <- factor(data.regression.weights.policies.long$behavior, 
+                                                         levels=c( "policy.car", "policy.meat", "policy.RE","policy.flying", "policy.recycle", "policy.regional_food" ),
+                                                         labels=c("commute", "diet", "electricity", "flying", "recyling", "regional") )  
+  
+data.regression.weights.footprint <- data.regression.weights.long %>% select(participant.label, footprint.public.transport, footprint.flying, footprint.electricity, footprint.diet,   footprint.recycling, footprint.regional )
+data.regression.weights.footprint <- unique(data.regression.weights.footprint)
+
+data.regression.weights.footprint.long <- pivot_longer(data.regression.weights.footprint, c(footprint.public.transport,footprint.diet, footprint.regional, footprint.electricity, footprint.flying,footprint.recycling),
+                                                                                            names_to = "behavior", values_to = "reported.behavior")
+data.regression.weights.footprint.long$behavior <- factor(data.regression.weights.footprint.long$behavior, 
+                                                         levels=c( "footprint.public.transport", "footprint.diet", "footprint.electricity","footprint.flying", "footprint.recycling", "footprint.regional" ),
+                                                         labels=c("commute", "diet", "electricity", "flying", "recyling", "regional") )  
+  
+data.regression.total1 <- merge(data.regression.weights.long_clean, data.regression.weights.policies.long, by=c("behavior", "participant.label"))
+
+data.regression.total <- merge(data.regression.total1, data.regression.weights.footprint.long, by=c("behavior", "participant.label"))
+                             
+data.regression.total$impact <- factor(data.regression.total$behavior, 
+                                       levels=c("commute", "diet", "electricity", "flying", "recyling", "regional"), labels=c("low", "high", "high", "high", "low","low") )
+
+data.regression.total$domain <- factor(data.regression.total$behavior, 
+                                       levels=c("commute", "diet", "electricity", "flying", "recyling", "regional"), labels=c("transport", "food", "household", "household", "transport","food") )
+
+```
+
+### Prediciting impact perceptions  {.tabset}
+
+#### With type (behavior) as random intercepts
+```{r}
+complete.model.impact.perc <- lmer(regression.weight ~ policy.support + reported.behavior +
+                            cc_concern.mean+ conservative_liberal  + impact+
+                            gender + age + income + education  +
+                         (1|participant.label) + (1 |behavior) ,
+                          data=data.regression.total)
+
+tab_model(complete.model.impact.perc)
+plot_model(complete.model.impact.perc, show.values =TRUE, vline.color = "darkgrey")
+
+```
+#### With type (behavior) as main effect
+```{r}
+complete.model.impact.perc.beh <- lmer(regression.weight ~ policy.support + reported.behavior +
+                                       cc_concern.mean+ conservative_liberal  + behavior +
+                                       gender + age + income + education  +
+                                       (1|participant.label) ,
+                                   data=data.regression.total)
+
+tab_model(complete.model.impact.perc.beh)
+plot_model(complete.model.impact.perc.beh, show.values =TRUE, vline.color = "darkgrey")
+
+```
+
+### Predicting reported behavior  {.tabset}
+
+#### main effect of perceived impact
+```{r}
+
+complete.model.behavior <- lmer(reported.behavior ~ policy.support + regression.weight +
+                            cc_concern.mean+ conservative_liberal  + impact + domain +
+                            gender + age + income + education  +
+                         (1|participant.label) + (1 |behavior) ,
+                          data=data.regression.total)
+
+tab_model(complete.model.behavior)
+plot_model(complete.model.behavior, show.values =TRUE, vline.color = "darkgrey")
+plot_model(complete.model.behavior, type="emm",terms=c("regression.weight")) +
+  labs(x="regression weight", y="reported behavior")
+
+```
+
+#### interaction of perceived impact and impactfulness of behavior
+```{r}
+
+complete.model.behavior.impact <- lmer(reported.behavior ~ policy.support + regression.weight*impact +
+                            cc_concern.mean+ conservative_liberal  +
+                            gender + age + income + education  +
+                         (1|participant.label) + (1 |behavior) ,
+                          data=data.regression.total)
+
+tab_model(complete.model.behavior.impact)
+plot_model(complete.model.behavior.impact, type="emm",terms=c("regression.weight","impact"))
+
+```
+
+### Predicting policy support  {.tabset}
+
+#### Participat ID as random intercept
+```{r}
+complete.model <- lmer(policy.support ~ regression.weight + reported.behavior +
+                            cc_concern.mean+ conservative_liberal +
+                            gender + age + income + education  +
+                         (1|participant.label),
+                          data=data.regression.total)
+
+tab_model(complete.model)
+
+```
+#### Adding type as random intercept
+```{r}
+
+complete.model.policy<- lmer(policy.support ~ regression.weight + reported.behavior +
+                            cc_concern.mean+ conservative_liberal +
+                            gender + age + income + education  +
+                         (1|participant.label) + (1|behavior) ,
+                          data=data.regression.total)
+
+tab_model(complete.model.policy)
+```
+#### Adding domain
+```{r}
+# raom intercept
+complete.model.policy.domain <- lmer(policy.support ~ regression.weight + reported.behavior +
+                            cc_concern.mean+ conservative_liberal  + domain +
+                            gender + age + income + education  +
+                         (1|participant.label) + (1 |behavior) ,
+                          data=data.regression.total)
+
+tab_model(complete.model.policy.domain)
+plot_model(complete.model.policy.domain, show.values =TRUE, vline.color = "darkgrey")
+
+```
+
+
+```{r, include=FALSE}
+
+data.regression.total.mean <- groupwiseMean(regression.weight ~ behavior ,
+                                            data= data.regression.total)
+data.regression.total.mean$SD <- tapply(data.regression.total$regression.weight, data.regression.total$behavior, sd)
+
+data.regression.total.id <- groupwiseMean(regression.weight ~ behavior + participant.label,
+                                            data= data.regression.total)
+data.regression.total.id <- data.regression.total.id %>% rename(regression.weight = Mean)
+data.regression.total.id <- merge(data.regression.total.id,data.regression.total.mean, by="behavior" )
+data.regression.total.id$rel_regression.weight <- (data.regression.total.id$regression.weight -data.regression.total.id$Mean)/ data.regression.total.id$SD
+data.regression.total.id$rel_regression.weight.f <- cut(data.regression.total.id$rel_regression.weight, breaks=c(-6, -1,-0.5, 0.5, 1,5))
+data.regression.total.id$rel_regression.weight.f <- factor(data.regression.total.id$rel_regression.weight.f ,
+                                             levels=c("(-6,-1]" , "(-1,-0.5]", "(-0.5,0.5]", "(0.5,1]",  "(1,5]" ) ,
+                                             labels=c("-much lower than average", "lower than average", 
+                                                      "average", "higher than average", "much higher than average"))
+
+data.regression.total.behavior.mean <- groupwiseMean(reported.behavior ~ behavior ,
+                                            data= data.regression.total)
+data.regression.total.behavior.mean$SD <- tapply(data.regression.total$regression.weight, data.regression.total$behavior, sd)
+
+data.regression.total.behavior.id <- groupwiseMean(reported.behavior ~ behavior + participant.label,
+                                            data= data.regression.total)
+data.regression.total.behavior.id <- data.regression.total.behavior.id %>% rename(reported.behavior = Mean)
+data.regression.total.behavior.id <- merge(data.regression.total.behavior.id,data.regression.total.behavior.mean, by="behavior" )
+data.regression.total.behavior.id$rel_reported.behavior <- (data.regression.total.behavior.id$reported.behavior -data.regression.total.id$Mean)/ data.regression.total.behavior.id$SD
+
+data.regression.total.behavior.id$rel_behavior <- scale(data.regression.total.behavior.id$reported.behavior)[,1]
+data.regression.total.behavior.id$rel_behavior.f <- cut(data.regression.total.behavior.id$rel_behavior, breaks=c(-1, -0.5, 0, 0.5, 1,11))
+data.regression.total.behavior.id$rel_behavior.f <- factor(data.regression.total.behavior.id$rel_behavior.f ,
+                                             levels=c("(-1,-0.5]" , "(-0.5,0]",  "(0,0.5]", "(0.5,1]",  "(1,11]" ) ,
+                                             labels=c( "lower than average", "slightly lower than average", "slightly higher than average","higher than average", "much higher than average"))
+data.regression.total.plot <- merge(data.regression.total.behavior.id, data.regression.total.id, by=c("participant.label", "behavior"))
+
+data.regression.total.plot.flying <- data.regression.total.plot %>% filter(behavior=="flying")
+plot.flying <- ggplot(data.regression.total.plot.flying, aes(x=regression.weight, fill=rel_behavior.f)) +
+    geom_density(alpha=.7) +
+    theme_minimal() + labs(alpha=NULL, x="impact perception", fill="carbon footprint of reported behavior", title="flying") +
+  scale_fill_manual(values=c( "#127d71" , "#2F8D06","#F6BE00" ,"#DC582A", "#a50000"))
+
+data.regression.total.plot.diet<- data.regression.total.plot %>% filter(behavior=="diet")
+plot.diet <- ggplot(data.regression.total.plot.diet, aes(x=regression.weight, fill=rel_behavior.f)) +
+    geom_density(alpha=.7) +
+    theme_minimal() + labs(alpha=NULL, x="impact perception", fill="carbon footprint of reported behavior", title="diet") +
+   theme(legend.position = "none") +
+  scale_fill_manual(values=c( "#127d71" , "#2F8D06","#F6BE00" ,"#DC582A", "#a50000"))
+data.regression.total.plot.commute <- data.regression.total.plot %>% filter(behavior=="commute")
+plot.commute <- ggplot(data.regression.total.plot.commute, aes(x=regression.weight, fill=rel_behavior.f)) +
+    geom_density(alpha=.7) +
+    theme_minimal() + labs(alpha=NULL, x="impact perception", fill="carbon footprint of reported behavior", title="commute") +
+       theme(legend.position = "none") +
+  scale_fill_manual(values=c( "#127d71" , "#2F8D06","#F6BE00" ,"#DC582A", "#a50000"))
+
+plot.diet | plot.commute | plot.flying  
+```
+
+
+
+## H3 Impact perceptions (=Regression weights) predicted by reported behavior? as pre-registered per behavior
 
 ### Correlations between regression weights
 ```{r}
@@ -769,7 +966,7 @@ tab_model(model.weight.recycle)
 
 
 
-## H4 Impact perceptions (=regression weights) predicting policy  
+## H4 Impact perceptions (=regression weights) predicting policy  - as preregistered
 
 ### Main effect {.tabset}
 
@@ -1302,158 +1499,6 @@ plot_models(model.policy.meat.pw, model.policy.flying.pw, model.policy.elec.pw, 
 
 ```
 
-
-## Everything in one Model
-```{r}
-data.regression.weights.long <-  pivot_longer(data.regression.weights,flying.weight:recycling.weight, names_to = "behavior", values_to = "regression.weight" )
-
-data.regression.weights.long_clean <-  data.regression.weights.long %>% select(participant.label, behavior, regression.weight, gender, age, income, education, cc_concern.mean, conservative_liberal)
-data.regression.weights.long_clean$behavior <- factor(data.regression.weights.long_clean$behavior, levels=c("commute.weight", "diet.weight", "electricity.weight", "flying.weight", "recycling.weight", "regional.weight" ),
-                                                      labels=c("commute", "diet", "electricity", "flying", "recyling", "regional") )
-
-data.regression.weights.policies <- data.regression.weights.long %>% select(participant.label, policy.car, policy.flying, policy.RE, policy.meat,   policy.recycle, policy.regional_food )
-data.regression.weights.policies <- unique(data.regression.weights.policies)
-
-data.regression.weights.policies.long <- pivot_longer(data.regression.weights.policies,policy.car:policy.regional_food,  names_to = "behavior", values_to = "policy.support")
-data.regression.weights.policies.long$behavior <- factor(data.regression.weights.policies.long$behavior, 
-                                                         levels=c( "policy.car", "policy.meat", "policy.RE","policy.flying", "policy.recycle", "policy.regional_food" ),
-                                                         labels=c("commute", "diet", "electricity", "flying", "recyling", "regional") )  
-  
-data.regression.weights.footprint <- data.regression.weights.long %>% select(participant.label, footprint.public.transport, footprint.flying, footprint.electricity, footprint.diet,   footprint.recycling, footprint.regional )
-data.regression.weights.footprint <- unique(data.regression.weights.footprint)
-
-data.regression.weights.footprint.long <- pivot_longer(data.regression.weights.footprint, c(footprint.public.transport,footprint.diet, footprint.regional, footprint.electricity, footprint.flying,footprint.recycling),
-                                                                                            names_to = "behavior", values_to = "reported.behavior")
-data.regression.weights.footprint.long$behavior <- factor(data.regression.weights.footprint.long$behavior, 
-                                                         levels=c( "footprint.public.transport", "footprint.diet", "footprint.electricity","footprint.flying", "footprint.recycling", "footprint.regional" ),
-                                                         labels=c("commute", "diet", "electricity", "flying", "recyling", "regional") )  
-  
-data.regression.total1 <- merge(data.regression.weights.long_clean, data.regression.weights.policies.long, by=c("behavior", "participant.label"))
-
-data.regression.total <- merge(data.regression.total1, data.regression.weights.footprint.long, by=c("behavior", "participant.label"))
-                             
-data.regression.total$impact <- factor(data.regression.total$behavior, 
-                                       levels=c("commute", "diet", "electricity", "flying", "recyling", "regional"), labels=c("low", "high", "high", "high", "low","low") )
-
-data.regression.total$domain <- factor(data.regression.total$behavior, 
-                                       levels=c("commute", "diet", "electricity", "flying", "recyling", "regional"), labels=c("transport", "food", "household", "household", "transport","food") )
-
-```
-
-### Predicting policy support  {.tabset}
-
-#### Participat ID as random intercept
-```{r}
-complete.model <- lmer(policy.support ~ regression.weight + reported.behavior +
-                            cc_concern.mean+ conservative_liberal +
-                            gender + age + income + education  +
-                         (1|participant.label),
-                          data=data.regression.total)
-
-tab_model(complete.model)
-
-```
-#### Adding type as random intercept
-```{r}
-
-complete.model.policy<- lmer(policy.support ~ regression.weight + reported.behavior +
-                            cc_concern.mean+ conservative_liberal +
-                            gender + age + income + education  +
-                         (1|participant.label) + (1|behavior) ,
-                          data=data.regression.total)
-
-tab_model(complete.model.policy)
-```
-#### Adding domain
-```{r}
-# raom intercept
-complete.model.policy.domain <- lmer(policy.support ~ regression.weight + reported.behavior +
-                            cc_concern.mean+ conservative_liberal  + domain +
-                            gender + age + income + education  +
-                         (1|participant.label) + (1 |behavior) ,
-                          data=data.regression.total)
-
-tab_model(complete.model.policy.domain)
-plot_model(complete.model.policy.domain, show.values =TRUE, vline.color = "darkgrey")
-
-```
-
-### Prediciting impact perceptions  {.tabset}
-
-#### With type (behavior) as random intercepts
-```{r}
-complete.model.impact.perc <- lmer(regression.weight ~ policy.support + reported.behavior +
-                            cc_concern.mean+ conservative_liberal  + impact+
-                            gender + age + income + education  +
-                         (1|participant.label) + (1 |behavior) ,
-                          data=data.regression.total)
-
-tab_model(complete.model.impact.perc)
-plot_model(complete.model.impact.perc, show.values =TRUE, vline.color = "darkgrey")
-
-```
-#### With type (behavior) as main effect
-```{r}
-complete.model.impact.perc.beh <- lmer(regression.weight ~ policy.support + reported.behavior +
-                                       cc_concern.mean+ conservative_liberal  + behavior +
-                                       gender + age + income + education  +
-                                       (1|participant.label) ,
-                                   data=data.regression.total)
-
-tab_model(complete.model.impact.perc.beh)
-plot_model(complete.model.impact.perc.beh, show.values =TRUE, vline.color = "darkgrey")
-
-```
-
-### Predicting reported behavior  {.tabset}
-
-#### main effect of perceived impact
-```{r}
-
-complete.model.behavior <- lmer(reported.behavior ~ policy.support + regression.weight +
-                            cc_concern.mean+ conservative_liberal  + impact + domain +
-                            gender + age + income + education  +
-                         (1|participant.label) + (1 |behavior) ,
-                          data=data.regression.total)
-
-tab_model(complete.model.behavior)
-plot_model(complete.model.behavior, show.values =TRUE, vline.color = "darkgrey")
-plot_model(complete.model.behavior, type="emm",terms=c("regression.weight")) +
-  labs(x="regression weight", y="reported behavior")
-
-```
-
-#### interaction of perceived impact and impactfulness of behavior
-```{r}
-
-complete.model.behavior.impact <- lmer(reported.behavior ~ policy.support + regression.weight*impact +
-                            cc_concern.mean+ conservative_liberal  +
-                            gender + age + income + education  +
-                         (1|participant.label) + (1 |behavior) ,
-                          data=data.regression.total)
-
-tab_model(complete.model.behavior.impact)
-plot_model(complete.model.behavior.impact, type="emm",terms=c("regression.weight","impact"))
-
-```
-
-
-
-```{r}
-data.regression.total$rel_regression.weight <- scale(data.regression.total$regression.weight)[,1]
-data.regression.total$rel_regression.weight.f <- cut(data.regression.total$rel_regression.weight, breaks=c(-5, -1,-0.5, 0.5, 1,6))
-
-data.regression.total$rel_regression.weight.f <- factor(data.regression.total$rel_regression.weight.f ,
-                                             levels=c("(-5,-1]" , "(-1,-0.5]", "(-0.5,0.5]", "(0.5,1]",  "(1,6]" ) ,
-                                             labels=c("-much lower than average", "lower than average", 
-                                                      "average", "higher than average", "much higher than average"))
-
-ggplot(data.regression.total, aes(x=reported.behavior, fill=rel_regression.weight.f)) +
-    geom_density(alpha=.7) +
-    theme_minimal() + labs(alpha=NULL, x="carbon footprint of reported behavior", fill="impact perception") +
-    scale_fill_manual(values=c(  "#a50000", "#DC582A","#F6BE00", "#2F8D06", "#127d71"))
-    
-```
 
 
 ## Other models
