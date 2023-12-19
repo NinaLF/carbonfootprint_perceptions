@@ -109,7 +109,7 @@ data.accuracy.score <- data.accuracy.score[!c(data.accuracy.score$participant.la
 data.accuracy.score$income <- factor(data.accuracy.score$income, levels=c("< 18.000£", "18.000£ to 23.000£", "23.001£ to 30.500£", "30.501£ to 45.000£", "> 45.001£"))
 data.accuracy.score$rel_cc_concern.mean.f <- factor(data.accuracy.score$rel_cc_concern.mean.f, levels=c("below average", "average", "above average"))
 data.accuracy.score$rel_cor.f <- factor(data.accuracy.score$rel_cor.f, levels=c("below average", "average", "above average"))
-
+data.accuracy.score <- data.accuracy.score %>% rename( correlation = estimate)
 
 data.perceptions.total <- read.csv("data/data.perceptions.total.csv")
 data.perceptions.total <- data.perceptions.total[!c(data.perceptions.total$participant.label %in% data.excl$participant.label), ] 
@@ -162,7 +162,7 @@ data.regression.weights.excl  <- data.regression.weights %>% filter(!diet.weight
 ### exclude those with negative accuracy score assoication because they are so bad that there is a negative correlation..
 data.accuracy.score.tau.excl <- data.accuracy.score.tau %>% filter(!cor.tau<0) 
 
-data.accuracy.score.excl <- data.accuracy.score %>% filter(!estimate<0) 
+data.accuracy.score.excl <- data.accuracy.score %>% filter(!correlation<0) 
 
 
 ```
@@ -393,12 +393,12 @@ plot_model(model.perceptions.comp4, type="pred", terms=c("flying", "commute"))
 
 ### Predicting Accuracy 
 ```{r}
-model.accuracy2 <- lm(estimate ~ age + gender + education + income +
-                       cc_concern.mean + conservative_liberal + total_co2,
+model.accuracy2 <- lm(correlation ~ age + gender + education + income +
+                       cc_concern.mean + conservative_liberal ,
                      data=data.accuracy.score)
 tab_model(model.accuracy2)
-model.accuracy2.excl <- lm(estimate ~ age + gender + education + income +
-                       cc_concern.mean + conservative_liberal + total_co2,
+model.accuracy2.excl <- lm(correlation ~ age + gender + education + income +
+                       cc_concern.mean + conservative_liberal ,
                      data=data.accuracy.score.excl)
 tab_model(model.accuracy2.excl)
 #data.accuracy.score.tau.excl
@@ -406,16 +406,17 @@ tab_model(model.accuracy2.excl)
 ### Distribution accuracy by cc concern
 => Higher cc concern associated with more accuracy
 ```{r}
-ggplot(data.accuracy.score.excl, aes(x=estimate, fill=rel_cc_concern.mean.f, alpha=.3)) +
+ggplot(data.accuracy.score.excl, aes(x=correlation, fill=rel_cc_concern.mean.f, alpha=.3)) +
   geom_density(alpha=.5) +  labs(alpha=NULL, fill= "cc concern", x="accuracy") +  
   theme_minimal() +
   scale_fill_manual(values=c(  "#a50000", "#F6BE00", "#2F8D06"))
+
 ```
 
 ### Distribution accuracy by income
 => Higher income associated with lower accuracy
 ```{r}
-ggplot(data.accuracy.score.excl, aes(x=estimate, fill=income)) +
+ggplot(data.accuracy.score.excl, aes(x=correlation, fill=income)) +
     geom_density(alpha=.7) +
     theme_minimal() + labs(alpha=NULL, x="accuracy") +
     scale_fill_manual(values=c(  "#6ec19d", "#0c8853", "#127d71", "#12547d", "#2e519a"))
@@ -425,19 +426,19 @@ ggplot(data.accuracy.score.excl, aes(x=estimate, fill=income)) +
 
 ### Policy support predicted by accuracy
 ```{r}
-model.support.accuracy2 <- lm(policy.support.total ~ estimate+ conservative_liberal +
+model.support.accuracy2 <- lm(policy.support.total ~ correlation+ conservative_liberal +
                                age + gender + education + income +
                                cc_concern.mean ,
                              data=data.accuracy.score)
 tab_model(model.support.accuracy2)
 
-model.support.accuracy.excl <- lm(policy.support.total ~ estimate+ conservative_liberal +
+model.support.accuracy.excl <- lm(policy.support.total ~ correlation+ conservative_liberal +
                                   age + gender + education + income +
                                   cc_concern.mean ,
                               data=data.accuracy.score.excl)
 tab_model(model.support.accuracy.excl)
 
-model.support.accuracy2.mod <- lm(policy.support.total ~ estimate*rel_cc_concern.mean+ conservative_liberal+
+model.support.accuracy2.mod <- lm(policy.support.total ~ correlation*rel_cc_concern.mean+ conservative_liberal+
                                age + gender + education + income ,
                              data=data.accuracy.score.excl)
 #tab_model(model.support.accuracy2.mod)
@@ -449,9 +450,21 @@ model.support.accuracy2.mod <- lm(policy.support.total ~ estimate*rel_cc_concern
 
 ```{r}
 ggplot(data.accuracy.score.excl, aes(x=policy.support.total, fill=rel_cor.f)) +
-  geom_density(alpha=.5) +  labs(alpha=NULL, fill="accuracy", y="policy support") +
+  geom_density(alpha=.5) +  labs(alpha=NULL,  fill="accuracy", x="policy support") +
   theme_minimal() +
-  scale_fill_manual(values=c(  "#a50000", "#F6BE00", "#2F8D06"))
+  scale_fill_manual(values=c(  "#a50000", "#F6BE00", "#2F8D06")) +
+    theme(plot.caption = element_text(hjust = 0),
+        plot.title.position = "plot",
+        plot.caption.position =  "plot",
+        plot.title = element_text(size = 25, face = "bold",family = 'Arial', color="black"),
+        axis.title  = element_text(size = 25, family = 'Arial', color="black"),
+        axis.text = element_text(size = 23, family = 'Arial', color="black"),
+        axis.text.y = element_text(size = 23, family = 'Arial', color="black"),
+        axis.text.x = element_text(size = 23, family = 'Arial', color="black"),
+        legend.title = element_text(size = 22, face="plain",family = 'Arial', color="black"),
+        legend.text =  element_text(size = 22, face="plain",family = 'Arial', color="black"),
+        strip.text = element_text(size = 22, face="plain",family = 'Arial', color="black")
+        )
 
 ```
 
@@ -459,12 +472,12 @@ ggplot(data.accuracy.score.excl, aes(x=policy.support.total, fill=rel_cor.f)) +
 ### Carbon footprint predicted by accuracy 
 ```{r}
 
-model.behavior.accuracy2 <- lm(total_co2 ~ estimate + cc_concern.mean+ conservative_liberal +
+model.behavior.accuracy2 <- lm(total_co2 ~ correlation + cc_concern.mean+ conservative_liberal +
                                 age + gender + education + income ,
                               data=data.accuracy.score)
 tab_model(model.behavior.accuracy2)
 
-model.behavior.accuracy2.excl <- lm(total_co2 ~ estimate + cc_concern.mean+ conservative_liberal +
+model.behavior.accuracy2.excl <- lm(total_co2 ~ correlation + cc_concern.mean+ conservative_liberal +
                                    age + gender + education + income ,
                                data=data.accuracy.score.excl)
 tab_model(model.behavior.accuracy2.excl)
@@ -478,6 +491,10 @@ model.behavior.accuracy2.mod <- lm(total_co2 ~ rel_cor*rel_cc_concern.mean+ cons
 ### Distribution carbon footprint by accuracy
 
 ```{r}
+
+#  tapply(data.accuracy.score.excl$total_co2, data.accuracy.score.excl$rel_cor.f, mean)
+#data.accuracy.score.income2 <- data.accuracy.score.excl %>% filter(income=="< 18.000£" | income=="18.000£ to 23.000£" | income=="23.001£ to 30.500£")
+
 ggplot(data.accuracy.score.excl, aes(x=total_co2, fill=rel_cor.f)) +
   geom_density(alpha=.5) + labs(x="carbon footprint of reported behavior", fill="accuracy") +
   theme_minimal() +
@@ -492,7 +509,7 @@ data.accuracy.score.excl$rel_total_co2.f <- factor(data.accuracy.score.excl$rel_
                                              labels=c("-much lower than average", "lower than average", 
                                                       "average", "higher than average", "much higher than average"))
 
-ggplot(data.accuracy.score.excl, aes(x=estimate, fill=rel_total_co2.f, alpha=.3)) +
+ggplot(data.accuracy.score.excl, aes(x=correlation, fill=rel_total_co2.f, alpha=.3)) +
   geom_density() + labs(x="accuracy", fill="carbon footprint of reported behavior") +
   theme_minimal() +
   scale_fill_manual(values=c("#127d71", "#2F8D06","#F6BE00","#DC582A" , "#a50000"))
@@ -513,22 +530,22 @@ ggplot(data.accuracy.score.excl, aes(x=estimate, fill=rel_total_co2.f, alpha=.3)
 #data.accuracy.score.tau4 <- data.accuracy.score.tau %>% rename(policy = policy.RE)
 #data.accuracy.score.tau5 <- data.accuracy.score.tau %>% rename(policy = policy.regional_food)
 
-model.behavior.accuracy1.car <- lm(footprint.travel.car ~   cc_concern.mean+ conservative_liberal + estimate + # policy+
+model.behavior.accuracy1.car <- lm(footprint.travel.car ~   cc_concern.mean+ conservative_liberal + correlation + # policy+
                                 age + gender + education + income ,
                               data=data.accuracy.score.excl)
-model.behavior.accuracy1.fly <- lm(footprint.flying ~   cc_concern.mean+ conservative_liberal  + estimate + # policy+
-                                age + gender + education + income ,
-                              data=data.accuracy.score.excl)
-
-model.behavior.accuracy1.diet <- lm(footprint.diet ~    cc_concern.mean+  conservative_liberal  + estimate +  # policy+
+model.behavior.accuracy1.fly <- lm(footprint.flying ~   cc_concern.mean+ conservative_liberal  + correlation + # policy+
                                 age + gender + education + income ,
                               data=data.accuracy.score.excl)
 
-model.behavior.accuracy1.elec <- lm(footprint.electricity ~  +cc_concern.mean+ conservative_liberal  + estimate +  # policy+
+model.behavior.accuracy1.diet <- lm(footprint.diet ~    cc_concern.mean+  conservative_liberal  + correlation +  # policy+
                                 age + gender + education + income ,
                               data=data.accuracy.score.excl)
 
-model.behavior.accuracy1.reg <- lm(footprint.regional ~  cc_concern.mean+ conservative_liberal  + estimate +  # policy+
+model.behavior.accuracy1.elec <- lm(footprint.electricity ~  +cc_concern.mean+ conservative_liberal  + correlation +  # policy+
+                                age + gender + education + income ,
+                              data=data.accuracy.score.excl)
+
+model.behavior.accuracy1.reg <- lm(footprint.regional ~  cc_concern.mean+ conservative_liberal  + correlation +  # policy+
                                 age + gender + education + income ,
                               data=data.accuracy.score.excl)
 
@@ -652,7 +669,7 @@ plot_model(complete.model.impact.perc.beh, show.values =TRUE, vline.color = "dar
 
 ### Predicting reported behavior  {.tabset}
 
-#### main effect of perceived impact
+#### Overall model
 ```{r}
 
 complete.model.behavior <- lmer(reported.behavior ~ policy.support + regression.weight +
@@ -666,6 +683,16 @@ plot_model(complete.model.behavior, show.values =TRUE, vline.color = "darkgrey")
 plot_model(complete.model.behavior, type="emm",terms=c("regression.weight")) +
   labs(x="regression weight", y="reported behavior")
 
+```
+#### interaction with cc concern
+
+```{r}
+interaction.model.behavior <- lmer(reported.behavior ~  regression.weight*cc_concern.mean +
+                            gender + age + income + education  +
+                         (1|participant.label) + (1 |behavior) ,
+                          data=data.regression.total)
+
+tab_model(interaction.model.behavior)
 ```
 
 #### interaction of perceived impact and impactfulness of behavior
@@ -684,18 +711,7 @@ plot_model(complete.model.behavior.impact, type="emm",terms=c("regression.weight
 
 ### Predicting policy support  {.tabset}
 
-#### Participat ID as random intercept
-```{r}
-complete.model <- lmer(policy.support ~ regression.weight + reported.behavior +
-                            cc_concern.mean+ conservative_liberal +
-                            gender + age + income + education  +
-                         (1|participant.label),
-                          data=data.regression.total)
-
-tab_model(complete.model)
-
-```
-#### Adding type as random intercept
+#### Overall model
 ```{r}
 
 complete.model.policy<- lmer(policy.support ~ regression.weight + reported.behavior +
@@ -706,6 +722,18 @@ complete.model.policy<- lmer(policy.support ~ regression.weight + reported.behav
 
 tab_model(complete.model.policy)
 ```
+#### interaction with cc concern
+```{r}
+interaction.model.policy<- lmer(policy.support ~ regression.weight*cc_concern.mean  +
+                             conservative_liberal +
+                            gender + age + income + education  +
+                         (1|participant.label) + (1|behavior) ,
+                          data=data.regression.total)
+
+tab_model(interaction.model.policy)
+plot_model(interaction.model.policy, type="pred", terms=c("regression.weight", "cc_concern.mean"))
+```
+
 #### Adding domain
 ```{r}
 # raom intercept
@@ -719,6 +747,7 @@ tab_model(complete.model.policy.domain)
 plot_model(complete.model.policy.domain, show.values =TRUE, vline.color = "darkgrey")
 
 ```
+
 
 
 ```{r, include=FALSE}
@@ -759,20 +788,56 @@ data.regression.total.plot.flying <- data.regression.total.plot %>% filter(behav
 plot.flying <- ggplot(data.regression.total.plot.flying, aes(x=regression.weight, fill=rel_behavior.f)) +
     geom_density(alpha=.7) +
     theme_minimal() + labs(alpha=NULL, x="impact perception", fill="carbon footprint of reported behavior", title="flying") +
-  scale_fill_manual(values=c( "#127d71" , "#2F8D06","#F6BE00" ,"#DC582A", "#a50000"))
+  scale_fill_manual(values=c( "#127d71" , "#2F8D06","#F6BE00" ,"#DC582A", "#a50000")) + 
+  scale_fill_manual(values=c( "#127d71" , "#2F8D06","#F6BE00" ,"#DC582A", "#a50000")) +
+    theme(plot.caption = element_text(hjust = 0),
+          plot.title.position = "plot",
+          plot.caption.position =  "plot",
+          plot.title = element_text(size = 25, face = "bold",family = 'Arial', color="black"),
+          axis.title  = element_text(size = 25, family = 'Arial', color="black"),
+          axis.text = element_text(size = 23, family = 'Arial', color="black"),
+          axis.text.y = element_text(size = 23, family = 'Arial', color="black"),
+          axis.text.x = element_text(size = 23, family = 'Arial', color="black"),
+          legend.title = element_text(size = 22, face="plain",family = 'Arial', color="black"),
+          strip.text = element_text(size = 22, face="plain",family = 'Arial', color="black"),
+          legend.text = element_text(size = 22,family = 'Arial', color="black")) 
 
 data.regression.total.plot.diet<- data.regression.total.plot %>% filter(behavior=="diet")
 plot.diet <- ggplot(data.regression.total.plot.diet, aes(x=regression.weight, fill=rel_behavior.f)) +
     geom_density(alpha=.7) +
     theme_minimal() + labs(alpha=NULL, x="impact perception", fill="carbon footprint of reported behavior", title="diet") +
    theme(legend.position = "none") +
-  scale_fill_manual(values=c( "#127d71" , "#2F8D06","#F6BE00" ,"#DC582A", "#a50000"))
+  scale_fill_manual(values=c( "#127d71" , "#2F8D06","#F6BE00" ,"#DC582A", "#a50000"))+
+    theme(plot.caption = element_text(hjust = 0),
+          plot.title.position = "plot",
+          plot.caption.position =  "plot",
+          plot.title = element_text(size = 25, face = "bold",family = 'Arial', color="black"),
+          axis.title  = element_text(size = 25, family = 'Arial', color="black"),
+          axis.text = element_text(size = 23, family = 'Arial', color="black"),
+          axis.text.y = element_text(size = 23, family = 'Arial', color="black"),
+          axis.text.x = element_text(size = 23, family = 'Arial', color="black"),
+          legend.title = element_text(size = 22, face="plain",family = 'Arial', color="black"),
+          strip.text = element_text(size = 22, face="plain",family = 'Arial', color="black"),
+          legend.text = element_text(size = 22,family = 'Arial', color="black")) 
+
 data.regression.total.plot.commute <- data.regression.total.plot %>% filter(behavior=="commute")
 plot.commute <- ggplot(data.regression.total.plot.commute, aes(x=regression.weight, fill=rel_behavior.f)) +
     geom_density(alpha=.7) +
     theme_minimal() + labs(alpha=NULL, x="impact perception", fill="carbon footprint of reported behavior", title="commute") +
        theme(legend.position = "none") +
-  scale_fill_manual(values=c( "#127d71" , "#2F8D06","#F6BE00" ,"#DC582A", "#a50000"))
+    scale_fill_manual(values=c( "#127d71" , "#2F8D06","#F6BE00" ,"#DC582A", "#a50000"))+
+
+    theme(plot.caption = element_text(hjust = 0),
+          plot.title.position = "plot",
+          plot.caption.position =  "plot",
+          plot.title = element_text(size = 25, face = "bold",family = 'Arial', color="black"),
+          axis.title  = element_text(size = 25, family = 'Arial', color="black"),
+          axis.text = element_text(size = 23, family = 'Arial', color="black"),
+          axis.text.y = element_text(size = 23, family = 'Arial', color="black"),
+          axis.text.x = element_text(size = 23, family = 'Arial', color="black"),
+          legend.title = element_text(size = 22, face="plain",family = 'Arial', color="black"),
+          strip.text = element_text(size = 22, face="plain",family = 'Arial', color="black"),
+          legend.text = element_text(size = 22,family = 'Arial', color="black")) 
 
 plot.diet | plot.commute | plot.flying  
 ```
