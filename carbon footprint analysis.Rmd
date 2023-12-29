@@ -419,7 +419,19 @@ ggplot(data.accuracy.score.excl, aes(x=correlation, fill=rel_cc_concern.mean.f, 
 ggplot(data.accuracy.score.excl, aes(x=correlation, fill=income)) +
     geom_density(alpha=.7) +
     theme_minimal() + labs(alpha=NULL, x="accuracy") +
-    scale_fill_manual(values=c(  "#6ec19d", "#0c8853", "#127d71", "#12547d", "#2e519a"))
+    scale_fill_manual(values=c(  "#6ec19d", "#0c8853", "#127d71", "#12547d", "#2e519a")) +
+    theme(plot.caption = element_text(hjust = 0),
+          plot.title.position = "plot",
+          plot.caption.position =  "plot",
+          plot.title = element_text(size = 25, face = "bold",family = 'Arial', color="black"),
+          axis.title  = element_text(size = 25, family = 'Arial', color="black"),
+          axis.text = element_text(size = 23, family = 'Arial', color="black"),
+          axis.text.y = element_text(size = 23, family = 'Arial', color="black"),
+          axis.text.x = element_text(size = 23, family = 'Arial', color="black"),
+          legend.title = element_text(size = 22, face="plain",family = 'Arial', color="black"),
+          strip.text = element_text(size = 22, face="plain",family = 'Arial', color="black"),
+          legend.text = element_text(size = 22,family = 'Arial', color="black")) 
+
     
 ```
 
@@ -672,8 +684,8 @@ plot_model(complete.model.impact.perc.beh, show.values =TRUE, vline.color = "dar
 #### Overall model
 ```{r}
 
-complete.model.behavior <- lmer(reported.behavior ~ policy.support + regression.weight +
-                            cc_concern.mean+ conservative_liberal  + impact + domain +
+complete.model.behavior <- lmer(reported.behavior ~  regression.weight + 
+                            cc_concern.mean  +
                             gender + age + income + education  +
                          (1|participant.label) + (1 |behavior) ,
                           data=data.regression.total)
@@ -681,29 +693,50 @@ complete.model.behavior <- lmer(reported.behavior ~ policy.support + regression.
 tab_model(complete.model.behavior)
 plot_model(complete.model.behavior, show.values =TRUE, vline.color = "darkgrey")
 plot_model(complete.model.behavior, type="emm",terms=c("regression.weight")) +
-  labs(x="regression weight", y="reported behavior")
+  labs(x="perceived impact", y="reported behavior")
+
+ # also when excludcing negative regression weights it works
+data.regression.total.excl.id <- data.regression.total %>% select(participant.label, regression.weight)  %>% filter(regression.weight<0) %>%  select(participant.label)
+data.regression.total.excl.id <- unique(data.regression.total.excl.id)
+data.regression.total.excl <- data.regression.total[!c(data.regression.total$participant.label %in% data.regression.total.excl.id$participant.label), ] 
+
+complete.model.behavior.excl <- lmer(reported.behavior ~  regression.weight + 
+                            cc_concern.mean  +
+                            gender + age + income + education  +
+                         (1|participant.label) + (1 |behavior) ,
+                          data=data.regression.total.excl)
+
+#tab_model(complete.model.behavior.excl)
 
 ```
-#### interaction with cc concern
+#### no interaction with cc concern
 
 ```{r}
 interaction.model.behavior <- lmer(reported.behavior ~  regression.weight*cc_concern.mean +
-                            gender + age + income + education  +
+                              gender + age + income + education  +
                          (1|participant.label) + (1 |behavior) ,
                           data=data.regression.total)
 
 tab_model(interaction.model.behavior)
+
+interaction.model.behavior.excl <- lmer(reported.behavior ~  regression.weight*cc_concern.mean +
+                              gender + age + income + education  +
+                         (1|participant.label) + (1 |behavior) ,
+                          data=data.regression.total.excl)
+
+#tab_model(interaction.model.behavior.excl)
+
 ```
 
 #### interaction of perceived impact and impactfulness of behavior
+No longer significant when excluding regression weights < 0
 ```{r}
 
-complete.model.behavior.impact <- lmer(reported.behavior ~ policy.support + regression.weight*impact +
-                            cc_concern.mean+ conservative_liberal  +
+complete.model.behavior.impact <- lmer(reported.behavior ~  regression.weight*impact +
+                            cc_concern.mean  +
                             gender + age + income + education  +
                          (1|participant.label) + (1 |behavior) ,
                           data=data.regression.total)
-
 tab_model(complete.model.behavior.impact)
 plot_model(complete.model.behavior.impact, type="emm",terms=c("regression.weight","impact"))
 
@@ -714,7 +747,7 @@ plot_model(complete.model.behavior.impact, type="emm",terms=c("regression.weight
 #### Overall model
 ```{r}
 
-complete.model.policy<- lmer(policy.support ~ regression.weight + reported.behavior +
+complete.model.policy<- lmer(policy.support ~ regression.weight  +
                             cc_concern.mean+ conservative_liberal +
                             gender + age + income + education  +
                          (1|participant.label) + (1|behavior) ,
@@ -723,12 +756,13 @@ complete.model.policy<- lmer(policy.support ~ regression.weight + reported.behav
 tab_model(complete.model.policy)
 ```
 #### interaction with cc concern
+Not significant when excluding regression weights <0
 ```{r}
 interaction.model.policy<- lmer(policy.support ~ regression.weight*cc_concern.mean  +
                              conservative_liberal +
                             gender + age + income + education  +
                          (1|participant.label) + (1|behavior) ,
-                          data=data.regression.total)
+                          data=data.regression.total.excl)
 
 tab_model(interaction.model.policy)
 plot_model(interaction.model.policy, type="pred", terms=c("regression.weight", "cc_concern.mean"))

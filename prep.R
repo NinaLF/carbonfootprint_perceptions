@@ -379,7 +379,6 @@ data.regression.weights <- data.regression.weights %>%
 #save
 write.csv(data.regression.weights, "data/data.regression.weights.csv")
 
-
 ## radiant.multivariate
 model.conjoint <- conjoint(data.perceptions.total, rvar = "rating", by ="participant.label",
          evar = c("flying" , "diet" , "electricity" , "commute" , "regional" , "recycling"))
@@ -411,6 +410,63 @@ write.csv(data.part.worths, "data/data.part.worths.csv")
 
 
 
+## individual regression weight per high versus low impact
+
+data.perceptions.total.long <- data.perceptions.total
+data.perceptions.total.long$diet <-(as.numeric(data.perceptions.total.long$diet)-1)
+data.perceptions.total.long$flying <- (as.numeric(data.perceptions.total.long$flying)-1)
+data.perceptions.total.long$commute <- (as.numeric(data.perceptions.total.long$commute)-1)
+data.perceptions.total.long$regional <- (as.numeric(data.perceptions.total.long$regional)-1)
+data.perceptions.total.long$recycling <- (as.numeric(data.perceptions.total.long$recycling)-1)
+data.perceptions.total.long$electricity <- (as.numeric(data.perceptions.total.long$electricity)-1)
+
+data.perceptions.total.long1 <- data.perceptions.total.long%>% rowwise() %>% 
+  mutate(high.impact= sum(commute, regional, recycling),
+         low.impact = sum(flying, diet,   electricity)  ,
+         household = sum( electricity, recycling), 
+         food =  sum( diet,   regional)  ,
+         transport = sum(flying, commute)  )
+
+model.perceptions.long.impact.i <- lmer(rating ~   high.impact+low.impact+  #household + food + transport +
+                            #            age + gender + income + education +
+                                        (1 + high.impact+low.impact|participant.label) , #+ (1|vignette),
+                                      data=data.perceptions.total.long1)
+
+tab_model(model.perceptions.long.impact.i)
+
+AgentsModelimpact <- coef(model.perceptions.long.impact.i)$participant.label
+Model_impact <- coef(model.perceptions.long.impact.i)
+
+AgentsModelimpact.waves <- cbind(rownames(AgentsModelimpact),AgentsModelimpact)
+colnames(AgentsModelimpact.waves)[colnames(AgentsModelimpact.waves) == "rownames(AgentsModelimpact.waves)"] <- "participant.label"
+AgentsModelimpact.waves <- AgentsModelimpact.waves %>%
+  rename(participant.label = "rownames(AgentsModelimpact)" )
+
+AgentsModelimpact.waves$diff <- round(AgentsModelimpact.waves$high.impact-AgentsModelimpact.waves$low.impact, 2)
+
+data.regression.weights.impact <- merge(AgentsModelimpact.waves, data.id, by=c("participant.label")) 
+write.csv(data.regression.weights.impact, "data/data.regression.weights.impact.csv")
+
+model.impact.high.perception <- lm(high.impact ~ gender + age + income + education +
+                                     total_co2 +cc_concern.mean + conservative_liberal,
+                              data= data.regression.weights.impact)
+
+tab_model(model.impact.high.perception)
+
+model.impact.high.behavior<- lm(total_co2 ~ gender + age + income + education +
+                                  high.impact *cc_concern.mean ,
+                                data= data.regression.weights.impact)
+
+tab_model(model.impact.high.behavior)
+plot_model(model.impact.high.behavior, terms=c("cc_concern.mean", "high.impact"), type="pred")
+
+
+model.impact.low.perception <- lm(low.impact ~ gender + age + income + education +
+                                total_co2 + policy.support.total +
+                                cc_concern.mean + conservative_liberal,
+                              data= data.regression.weights.impact)
+
+tab_model(model.impact.low.perception)
 
 
 ### accuracy
